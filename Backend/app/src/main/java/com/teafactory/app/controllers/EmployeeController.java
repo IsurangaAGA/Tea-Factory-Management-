@@ -18,4 +18,9 @@ public class EmployeeController {
     public List<Employee> getEmployees() {
         return employeeService.getAllEmployees();
     }
+
+    @PostMapping
+    public Employee createEmployee(@RequestBody Employee employee) {
+        return employeeService.addEmployee(employee);
+    }
 }
