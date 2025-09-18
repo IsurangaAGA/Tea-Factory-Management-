@@ -14,29 +14,63 @@ function EmployeeList() {
     }, []);
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h2>Employee List</h2>
-            <table border="1" cellPadding="10" style={{ width: "100%", borderCollapse: "collapse" }}>
+        <div
+            style={{
+                padding: "20px",
+                fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                minHeight: "100vh",
+                backgroundColor: "#e0e0e0",
+            }}
+        >
+            <div
+                style={{
+                    background: "linear-gradient(90deg, #4caf50, #81c784)",
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "28px",
+                    fontWeight: "bold",
+                    padding: "20px 0",
+                    borderRadius: "8px",
+                    marginBottom: "20px",
+                }}
+            >Employee List
+            </div>
+
+            <table
+                style={{
+                    width: "90%",
+                    margin: "0 auto",
+                    borderCollapse: "collapse",
+                    backgroundColor: "white",
+                }}
+            >
                 <thead>
-                <tr style={{ backgroundColor: "#f2f2f2" }}>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Position</th>
+                <tr style={{ backgroundColor: "#f2f2f2", textAlign: "left" }}>
+                    <th style={{ padding: "12px" }}>ID</th>
+                    <th style={{ padding: "12px" }}>Name</th>
+                    <th style={{ padding: "12px" }}>Email</th>
+                    <th style={{ padding: "12px" }}>Position</th>
                 </tr>
                 </thead>
                 <tbody>
                 {employees.length === 0 ? (
                     <tr>
-                        <td colSpan="5" style={{ textAlign: "center" }}>No employees found</td>
+                        <td colSpan="4" style={{ textAlign: "center", padding: "12px" }}>
+                            No employees found
+                        </td>
                     </tr>
                 ) : (
-                    employees.map((emp) => (
-                        <tr key={emp.id}>
-                            <td>{emp.id}</td>
-                            <td>{emp.name}</td>
-                            <td>{emp.email}</td>
-                            <td>{emp.position}</td>
+                    employees.map((emp, index) => (
+                        <tr
+                            key={emp.id}
+                            style={{
+                                backgroundColor: index % 2 === 0 ? "#f9f9f9" : "#fff",
+                            }}
+                        >
+                            <td style={{ padding: "12px" }}>{emp.id}</td>
+                            <td style={{ padding: "12px" }}>{emp.name}</td>
+                            <td style={{ padding: "12px" }}>{emp.email}</td>
+                            <td style={{ padding: "12px" }}>{emp.position}</td>
                         </tr>
                     ))
                 )}
