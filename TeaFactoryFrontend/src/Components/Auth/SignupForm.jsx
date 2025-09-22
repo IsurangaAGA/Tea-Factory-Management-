@@ -6,10 +6,38 @@ function SignupForm() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ username, email, password, role });
+
+    const userData = { username, email, password, role };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("User registered:", result);
+        alert("Registration successful!");
+        // Optionally reset the form
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setRole("");
+      } else {
+        console.error("Registration failed");
+        alert("Registration failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong");
+    }
   };
+
 
   return (
     <div className="form-box register">
