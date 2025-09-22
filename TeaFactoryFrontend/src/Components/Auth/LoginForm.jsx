@@ -5,10 +5,33 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ username, password, role });
+
+    const loginData = { username, password, role };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginData),
+      });
+
+      if (response.ok) {
+        const result = await response.text(); // backend returns plain text
+        console.log(result);
+        alert(result); // show "Login successful"
+      } else {
+        const error = await response.text();
+        console.error(error);
+        alert(error); // show "Invalid credentials"
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong");
+    }
   };
+
 
   return (
     <div className="form-box login">
