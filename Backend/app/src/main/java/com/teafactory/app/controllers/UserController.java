@@ -2,6 +2,7 @@ package com.teafactory.app.controllers;
 
 import com.teafactory.app.model.User;
 import com.teafactory.app.repository.UserRepository;
+import com.teafactory.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +16,19 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService service;
+
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
-        return userRepository.save(user);
+        return service.register(user);
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User user) {
-        User existingUser = userRepository.findByUsername(user.getUsername());
+        User loggedInUser = service.login(user);
 
-        if (existingUser != null &&
-                existingUser.getPassword().equals(user.getPassword()) &&
-                existingUser.getRole().equals(user.getRole())) {
+        if (loggedInUser != null) {
             return ResponseEntity.ok("Login successful");
         }
 
@@ -34,3 +36,4 @@ public class UserController {
     }
 
 }
+
