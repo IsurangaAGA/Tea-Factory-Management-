@@ -5,6 +5,8 @@ const API_URL = "http://localhost:8080/employees";
 
 function EmployeeList() {
     const [employees, setEmployees] = useState([]);
+    const [editingId, setEditingId] = useState(null);
+    const [editData, setEditData] = useState({ name: "", email: "", position: "" });
 
     useEffect(() => {
         axios
@@ -12,6 +14,31 @@ function EmployeeList() {
             .then((res) => setEmployees(res.data))
             .catch((err) => console.error("Error fetching employees:", err));
     }, []);
+
+    const handleEditClick = (emp) => {
+        setEditingId(emp.id);
+        setEditData({ name: emp.name, email: emp.email, position: emp.position });
+    };
+
+    const handleChange = (e) => {
+        setEditData({ ...editData, [e.target.name]: e.target.value });
+    };
+
+    const handleSave = (id) => {
+        axios
+            .put(`${API_URL}/${id}`, editData)
+            .then((res) => {
+                setEmployees(
+                    employees.map((emp) => (emp.id === id ? res.data : emp))
+                );
+                setEditingId(null);
+            })
+            .catch((err) => console.error("Error updating employee:", err));
+    };
+
+    const handleCancel = () => {
+        setEditingId(null);
+    };
 
     return (
         <div
@@ -33,7 +60,8 @@ function EmployeeList() {
                     borderRadius: "8px",
                     marginBottom: "20px",
                 }}
-            >Employee List
+            >
+                Employee List
             </div>
 
             <table
@@ -50,12 +78,13 @@ function EmployeeList() {
                     <th style={{ padding: "12px" }}>Name</th>
                     <th style={{ padding: "12px" }}>Email</th>
                     <th style={{ padding: "12px" }}>Position</th>
+                    <th style={{ padding: "12px" }}>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {employees.length === 0 ? (
                     <tr>
-                        <td colSpan="4" style={{ textAlign: "center", padding: "12px" }}>
+                        <td colSpan="5" style={{ textAlign: "center", padding: "12px" }}>
                             No employees found
                         </td>
                     </tr>
@@ -68,9 +97,93 @@ function EmployeeList() {
                             }}
                         >
                             <td style={{ padding: "12px" }}>{emp.id}</td>
-                            <td style={{ padding: "12px" }}>{emp.name}</td>
-                            <td style={{ padding: "12px" }}>{emp.email}</td>
-                            <td style={{ padding: "12px" }}>{emp.position}</td>
+
+                            <td style={{ padding: "12px" }}>
+                                {editingId === emp.id ? (
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={editData.name}
+                                        onChange={handleChange}
+                                    />
+                                ) : (
+                                    emp.name
+                                )}
+                            </td>
+
+                            <td style={{ padding: "12px" }}>
+                                {editingId === emp.id ? (
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={editData.email}
+                                        onChange={handleChange}
+                                    />
+                                ) : (
+                                    emp.email
+                                )}
+                            </td>
+
+                            <td style={{ padding: "12px" }}>
+                                {editingId === emp.id ? (
+                                    <input
+                                        type="text"
+                                        name="position"
+                                        value={editData.position}
+                                        onChange={handleChange}
+                                    />
+                                ) : (
+                                    emp.position
+                                )}
+                            </td>
+
+                            <td style={{ padding: "12px" }}>
+                                {editingId === emp.id ? (
+                                    <>
+                                        <button
+                                            onClick={() => handleSave(emp.id)}
+                                            style={{
+                                                padding: "6px 12px",
+                                                background: "#4caf50",
+                                                color: "white",
+                                                border: "none",
+                                                borderRadius: "4px",
+                                                cursor: "pointer",
+                                                marginRight: "5px",
+                                            }}
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            onClick={handleCancel}
+                                            style={{
+                                                padding: "6px 12px",
+                                                background: "#f44336",
+                                                color: "white",
+                                                border: "none",
+                                                borderRadius: "4px",
+                                                cursor: "pointer",
+                                            }}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
+                                ) : (
+                                    <button
+                                        onClick={() => handleEditClick(emp)}
+                                        style={{
+                                            padding: "6px 12px",
+                                            background: "#2196f3",
+                                            color: "white",
+                                            border: "none",
+                                            borderRadius: "4px",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        Edit
+                                    </button>
+                                )}
+                            </td>
                         </tr>
                     ))
                 )}
