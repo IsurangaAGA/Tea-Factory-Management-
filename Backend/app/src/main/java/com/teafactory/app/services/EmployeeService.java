@@ -18,4 +18,14 @@ public class EmployeeService {
     public Employee addEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
+    public Employee updateEmployee(Long id, Employee updatedEmployee) {
+        return employeeRepository.findById(id)
+                .map(employee -> {
+                    employee.setName(updatedEmployee.getName());
+                    employee.setEmail(updatedEmployee.getEmail());
+                    employee.setPosition(updatedEmployee.getPosition());
+                    return employeeRepository.save(employee);
+                })
+                .orElseThrow(() -> new RuntimeException("Employee not found with id " + id));
+    }
 }
