@@ -40,6 +40,17 @@ function EmployeeList() {
         setEditingId(null);
     };
 
+    const handleDelete = async (id) => {
+        if (window.confirm("Are you sure you want to delete this employee?")) {
+            try {
+                await axios.delete(`${API_URL}/${id}`);
+                setEmployees(employees.filter((emp) => emp.id !== id));
+            } catch (error) {
+                console.error("Error deleting employee:", error);
+            }
+        }
+    };
+
     return (
         <div
             style={{
@@ -78,7 +89,9 @@ function EmployeeList() {
                     <th style={{ padding: "12px" }}>Name</th>
                     <th style={{ padding: "12px" }}>Email</th>
                     <th style={{ padding: "12px" }}>Position</th>
-                    <th style={{ padding: "12px" }}>Actions</th>
+                    <th style={{ padding: "12px" }}>Delete</th>
+                    <th style={{ padding: "12px" }}>Edit</th>
+                    
                 </tr>
                 </thead>
                 <tbody>
@@ -136,6 +149,22 @@ function EmployeeList() {
                                     emp.position
                                 )}
                             </td>
+                            <td style={{ padding: "12px" }}>
+                                <button
+                                    onClick={() => handleDelete(emp.id)}
+                                    style={{
+                                        padding: "6px 12px",
+                                        background: "#f44336",
+                                        color: "white",
+                                        border: "none",
+                                        borderRadius: "4px",
+                                        cursor: "pointer"
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+
 
                             <td style={{ padding: "12px" }}>
                                 {editingId === emp.id ? (
