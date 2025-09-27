@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:8080/employees";
 
 function EmployeeList() {
+    const navigate = useNavigate();
     const [employees, setEmployees] = useState([]);
     const [editingId, setEditingId] = useState(null);
     const [editData, setEditData] = useState({ name: "", email: "", position: "" });
@@ -60,21 +62,39 @@ function EmployeeList() {
                 backgroundColor: "#e0e0e0",
             }}
         >
+            {/* Gradient bar with title and Add button */}
             <div
                 style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                     background: "linear-gradient(90deg, #4caf50, #81c784)",
                     color: "white",
-                    textAlign: "center",
-                    fontSize: "28px",
-                    fontWeight: "bold",
-                    padding: "20px 0",
+                    padding: "20px",
                     borderRadius: "8px",
                     marginBottom: "20px",
                 }}
             >
-                Employee List
+                <div style={{ fontSize: "28px", fontWeight: "bold" }}>
+                    Employee List
+                </div>
+                <button
+                    onClick={() => navigate("/employees-add")}
+                    style={{
+                        padding: "10px 20px",
+                        backgroundColor: "#064e3b", // same as top strip
+                        color: "white",
+                        border: "none",
+                        borderRadius: "6px",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                    }}
+                >
+                    Add
+                </button>
             </div>
 
+            {/* Employee table */}
             <table
                 style={{
                     width: "90%",
@@ -91,13 +111,12 @@ function EmployeeList() {
                     <th style={{ padding: "12px" }}>Position</th>
                     <th style={{ padding: "12px" }}>Delete</th>
                     <th style={{ padding: "12px" }}>Edit</th>
-                    
                 </tr>
                 </thead>
                 <tbody>
                 {employees.length === 0 ? (
                     <tr>
-                        <td colSpan="5" style={{ textAlign: "center", padding: "12px" }}>
+                        <td colSpan="6" style={{ textAlign: "center", padding: "12px" }}>
                             No employees found
                         </td>
                     </tr>
@@ -110,7 +129,6 @@ function EmployeeList() {
                             }}
                         >
                             <td style={{ padding: "12px" }}>{emp.id}</td>
-
                             <td style={{ padding: "12px" }}>
                                 {editingId === emp.id ? (
                                     <input
@@ -123,7 +141,6 @@ function EmployeeList() {
                                     emp.name
                                 )}
                             </td>
-
                             <td style={{ padding: "12px" }}>
                                 {editingId === emp.id ? (
                                     <input
@@ -136,7 +153,6 @@ function EmployeeList() {
                                     emp.email
                                 )}
                             </td>
-
                             <td style={{ padding: "12px" }}>
                                 {editingId === emp.id ? (
                                     <input
@@ -158,14 +174,12 @@ function EmployeeList() {
                                         color: "white",
                                         border: "none",
                                         borderRadius: "4px",
-                                        cursor: "pointer"
+                                        cursor: "pointer",
                                     }}
                                 >
                                     Delete
                                 </button>
                             </td>
-
-
                             <td style={{ padding: "12px" }}>
                                 {editingId === emp.id ? (
                                     <>
