@@ -1,42 +1,74 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* App.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f8f9fa;
+  line-height: 1.6;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Main app container */
+.App {
+  min-height: 100vh;
+}
+
+/* Main content area - this fixes the TopBar covering issue */
+.main-content {
+  padding-top: 80px; /* Must match TopBar height */
+  min-height: 100vh;
+}
+
+/* Ensure TopBar stays on top */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 80px; /* Fixed height */
+}
+
+/* Remove any existing padding from Home.css that might conflict */
+.home {
+  padding-top: 0 !important; /* Remove if it was causing double spacing */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 70px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .topbar {
+    height: 70px;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Scroll behavior */
+html {
+  scroll-behavior: smooth;
 }
 
-.card {
-  padding: 2em;
+/* Remove default link styles */
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-.read-the-docs {
-  color: #888;
+/* Button base styles */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Input base styles */
+input, textarea, select {
+  font-family: inherit;
+  outline: none;
 }
