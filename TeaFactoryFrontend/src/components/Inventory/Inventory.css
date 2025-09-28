@@ -1,24 +1,25 @@
 .inventory {
   min-height: 100vh;
-  background-color: #f5f5f5;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f8faf0 0%, #f0f4e8 100%);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .inventory-header {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
   padding: 2rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .inventory-header h1 {
   margin: 0 0 0.5rem 0;
-  color: #2c3e50;
+  color: #3E3407;
   font-size: 2.5rem;
+  font-weight: 700;
 }
 
 .inventory-header p {
   margin: 0 0 2rem 0;
-  color: #7f8c8d;
+  color: #567119;
   font-size: 1.1rem;
 }
 
@@ -27,7 +28,7 @@
   padding: 0;
   margin: 0;
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
 }
 
@@ -36,25 +37,26 @@
 }
 
 .sidebar span {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .sidebar .active {
-  background-color: #3498db;
+  background-color: #254A0C;
   color: white;
 }
 
 .sidebar .inactive {
-  color: #7f8c8d;
+  color: #567119;
+  background-color: rgba(163, 165, 63, 0.1);
 }
 
 .sidebar .inactive:hover {
-  color: #3498db;
-  background-color: #ecf0f1;
+  color: #254A0C;
+  background-color: rgba(204, 193, 58, 0.2);
 }
 
 .inventory-main {
@@ -64,13 +66,13 @@
 }
 
 .products-section h2 {
-  color: #2c3e50;
+  color: #3E3407;
   margin-bottom: 0.5rem;
   font-size: 2rem;
 }
 
 .products-section > p {
-  color: #7f8c8d;
+  color: #567119;
   margin-bottom: 2rem;
 }
 
@@ -85,17 +87,18 @@
 
 .search-input {
   padding: 0.75rem 1rem;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px;
+  border: 1px solid #A3A53F;
+  border-radius: 6px;
   width: 300px;
   font-size: 1rem;
   transition: border-color 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  border-color: #254A0C;
+  box-shadow: 0 0 0 2px rgba(37, 74, 12, 0.1);
 }
 
 .filter-export {
@@ -106,42 +109,43 @@
 
 .type-filter {
   padding: 0.75rem;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px;
+  border: 1px solid #A3A53F;
+  border-radius: 6px;
   background: white;
   font-size: 1rem;
+  color: #3E3407;
 }
 
 .export-btn, .refresh-btn {
   padding: 0.75rem 1.5rem;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
 .export-btn {
-  background-color: #27ae60;
+  background-color: #567119;
 }
 
 .export-btn:hover {
-  background-color: #219a52;
+  background-color: #254A0C;
 }
 
 .refresh-btn {
-  background-color: #3498db;
+  background-color: #A3A53F;
 }
 
 .refresh-btn:hover {
-  background-color: #2980b9;
+  background-color: #CCC13A;
 }
 
 .table-container {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(62, 52, 7, 0.1);
   overflow: hidden;
 }
 
@@ -151,7 +155,7 @@
 }
 
 .products-table th {
-  background-color: #34495e;
+  background-color: #254A0C;
   color: white;
   padding: 1rem;
   text-align: left;
@@ -160,11 +164,11 @@
 
 .products-table td {
   padding: 1rem;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .products-table tr:hover {
-  background-color: #f8f9fa;
+  background-color: rgba(163, 165, 63, 0.05);
 }
 
 .type-badge {
@@ -175,13 +179,15 @@
 }
 
 .type-badge.raw-material {
-  background-color: #e8f5e8;
-  color: #27ae60;
+  background-color: rgba(86, 113, 25, 0.1);
+  color: #567119;
+  border: 1px solid #567119;
 }
 
 .type-badge.finished-goods {
-  background-color: #e3f2fd;
-  color: #1976d2;
+  background-color: rgba(163, 165, 63, 0.1);
+  color: #A3A53F;
+  border: 1px solid #A3A53F;
 }
 
 .action-buttons {
@@ -199,36 +205,36 @@
 }
 
 .btn-edit {
-  background-color: #3498db;
+  background-color: #567119;
   color: white;
 }
 
 .btn-edit:hover {
-  background-color: #2980b9;
+  background-color: #254A0C;
 }
 
 .btn-adjust {
-  background-color: #f39c12;
+  background-color: #A3A53F;
   color: white;
 }
 
 .btn-adjust:hover {
-  background-color: #e67e22;
+  background-color: #CCC13A;
 }
 
 .btn-delete {
-  background-color: #e74c3c;
+  background-color: #8B4513;
   color: white;
 }
 
 .btn-delete:hover {
-  background-color: #c0392b;
+  background-color: #654321;
 }
 
 .no-products {
   text-align: center;
   padding: 3rem;
-  color: #7f8c8d;
+  color: #A3A53F;
   font-style: italic;
 }
 
@@ -239,17 +245,17 @@
 
 .add-product-btn {
   padding: 1rem 2rem;
-  background-color: #9b59b6;
+  background-color: #254A0C;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 1.1rem;
   transition: background-color 0.3s ease;
 }
 
 .add-product-btn:hover {
-  background-color: #8e44ad;
+  background-color: #567119;
 }
 
 .loading {
@@ -258,16 +264,16 @@
   align-items: center;
   height: 200px;
   font-size: 1.2rem;
-  color: #7f8c8d;
+  color: #567119;
 }
 
 /* Error Message Styles */
 .error-message {
-  background-color: #fee;
-  border: 1px solid #f5c6cb;
-  color: #721c24;
+  background-color: rgba(139, 69, 19, 0.1);
+  border: 1px solid #8B4513;
+  color: #654321;
   padding: 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
@@ -275,29 +281,16 @@
   gap: 1rem;
 }
 
-.error-close {
+.close-error {
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #721c24;
+  color: #654321;
 }
 
-.error-close:hover {
-  color: #491217;
-}
-
-.retry-btn {
-  padding: 0.5rem 1rem;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.retry-btn:hover {
-  background-color: #2980b9;
+.close-error:hover {
+  color: #8B4513;
 }
 
 /* Responsive Design */

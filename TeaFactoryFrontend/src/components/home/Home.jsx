@@ -9,19 +9,19 @@ const Home = () => {
         <div className="hero-container">
           <div className="hero-content">
             <h1 className="hero-title">
-              Plant Trees.
-              <span className="hero-subtitle">Save Our Planet.</span>
+              From Leaves to Legacy.
+              <span className="hero-subtitle">Quality in Every Cup.</span>
             </h1>
             <p className="hero-description">
-              Join TreeWhiff in our global mission to combat climate change through 
-              reforestation. Every tree planted brings us closer to a greener, 
-              healthier Earth for future generations.
+              Streamline tea production with our Tea Factory Management System. From leaf collection to packaging, 
+              our platform helps you manage inventory, employees, and daily operations efficiently. Improve productivity, 
+              reduce waste, and ensure quality at every stage — for a smarter, sustainable tea industry.
             </p>
             <div className="hero-buttons">
               <button className="btn btn-primary">Get Started</button>
               <button className="btn btn-secondary">Learn More</button>
             </div>
-            <div className="hero-stats">
+            {/* <div className="hero-stats">
               <div className="stat">
                 <div className="stat-number">50K+</div>
                 <div className="stat-label">Trees Planted</div>
@@ -34,7 +34,7 @@ const Home = () => {
                 <div className="stat-number">10K+</div>
                 <div className="stat-label">Volunteers</div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="hero-visual">
             <div className="hero-image-container">
