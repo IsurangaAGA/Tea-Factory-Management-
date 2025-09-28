@@ -1,32 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { inventoryAPI } from '../../api/inventoryAPI';
 import './Inventory.css';
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('All types');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // Fetch products from backend
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      setError('');
-      const data = await inventoryAPI.getProducts();
-      setProducts(data);
-    } catch (err) {
-      setError('Failed to load products. Please try again.');
-      console.error('Error fetching products:', err);
-    } finally {
-      setLoading(false);
+  // Mock data - no API calls
+  const mockProducts = [
+    {
+      id: 1,
+      sku: 'RM-001',
+      name: 'Green Tea Leaves',
+      type: 'Raw material',
+      quantity: 250,
+      reorder: 100,
+      price: 1.20
+    },
+    {
+      id: 2,
+      sku: 'RM-002',
+      name: 'Tea Bags',
+      type: 'Raw material',
+      quantity: 1200,
+      reorder: 500,
+      price: 0.05
+    },
+    {
+      id: 3,
+      sku: 'FG-001',
+      name: 'Packaged Ceylon Tea 25kg',
+      type: 'Finished goods',
+      quantity: 80,
+      reorder: 50,
+      price: 4.50
     }
-  };
+  ];
+
+  // Load mock data on component mount
+  useEffect(() => {
+    setLoading(true);
+    // Simulate API delay
+    setTimeout(() => {
+      setProducts(mockProducts);
+      setLoading(false);
+    }, 500);
+  }, []);
 
   // Filter products based on search and type
   const filteredProducts = products.filter(product => {
@@ -36,62 +56,38 @@ const Inventory = () => {
     return matchesSearch && matchesType;
   });
 
-  const handleDelete = async (productId) => {
+  const handleDelete = (productId) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
-      try {
-        await inventoryAPI.deleteProduct(productId);
-        setProducts(products.filter(product => product.id !== productId));
-        setError('');
-      } catch (err) {
-        setError('Failed to delete product. Please try again.');
-        console.error('Error deleting product:', err);
-      }
+      setProducts(products.filter(product => product.id !== productId));
     }
   };
 
-  const handleAdjust = async (productId) => {
+  const handleAdjust = (productId) => {
     const newQuantity = prompt('Enter new quantity:');
     if (newQuantity && !isNaN(newQuantity)) {
-      try {
-        const updatedProduct = await inventoryAPI.adjustQuantity(productId, {
-          quantity: parseInt(newQuantity)
-        });
-        
-        setProducts(products.map(product => 
-          product.id === productId ? updatedProduct : product
-        ));
-        setError('');
-      } catch (err) {
-        setError('Failed to adjust quantity. Please try again.');
-        console.error('Error adjusting quantity:', err);
-      }
+      setProducts(products.map(product => 
+        product.id === productId 
+          ? { ...product, quantity: parseInt(newQuantity) }
+          : product
+      ));
     }
   };
 
-  const handleEdit = async (productId) => {
+  const handleEdit = (productId) => {
     const product = products.find(p => p.id === productId);
     const newName = prompt('Enter new product name:', product.name);
     const newPrice = prompt('Enter new price:', product.price);
     
     if (newName && newPrice) {
-      try {
-        const updatedProduct = await inventoryAPI.updateProduct(productId, {
-          name: newName,
-          price: parseFloat(newPrice)
-        });
-        
-        setProducts(products.map(product => 
-          product.id === productId ? updatedProduct : product
-        ));
-        setError('');
-      } catch (err) {
-        setError('Failed to update product. Please try again.');
-        console.error('Error updating product:', err);
-      }
+      setProducts(products.map(product => 
+        product.id === productId 
+          ? { ...product, name: newName, price: parseFloat(newPrice) }
+          : product
+      ));
     }
   };
 
-  const handleAddProduct = async () => {
+  const handleAddProduct = () => {
     const sku = prompt('Enter SKU:');
     const name = prompt('Enter product name:');
     const type = prompt('Enter type (Raw material/Finished goods):');
@@ -100,22 +96,17 @@ const Inventory = () => {
     const price = prompt('Enter price:');
     
     if (sku && name && type && quantity && reorder && price) {
-      try {
-        const newProduct = await inventoryAPI.createProduct({
-          sku,
-          name,
-          type,
-          quantity: parseInt(quantity),
-          reorder: parseInt(reorder),
-          price: parseFloat(price)
-        });
-        
-        setProducts([...products, newProduct]);
-        setError('');
-      } catch (err) {
-        setError('Failed to add product. Please try again.');
-        console.error('Error adding product:', err);
-      }
+      const newProduct = {
+        id: Date.now(), // Simple ID generation
+        sku,
+        name,
+        type,
+        quantity: parseInt(quantity),
+        reorder: parseInt(reorder),
+        price: parseFloat(price)
+      };
+      
+      setProducts([...products, newProduct]);
     }
   };
 
@@ -173,13 +164,6 @@ const Inventory = () => {
           <h2>Products</h2>
           <p>Products (Raw materials & Finished goods)</p>
 
-          {error && (
-            <div className="error-message">
-              {error}
-              <button onClick={() => setError('')} className="error-close">×</button>
-            </div>
-          )}
-
           <div className="controls">
             <div className="search-container">
               <input
@@ -206,7 +190,7 @@ const Inventory = () => {
                 Export CSV
               </button>
               
-              <button onClick={fetchProducts} className="refresh-btn">
+              <button onClick={() => window.location.reload()} className="refresh-btn">
                 Refresh
               </button>
             </div>
