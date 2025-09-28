@@ -1,43 +1,41 @@
-import React from 'react';
-import './TopBar.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const TopBar = ({ onEmployeesClick, onInventoryClick }) => {
-  return (
-    <nav className="topbar">
-      <div className="topbar-container">
-        <div className="logo">
-          <span className="logo-icon">🌳</span>
-          <span className="logo-text">TreeWhiff</span>
-        </div>
-        
-        <div className="nav-links">
-          <a href="/" className="nav-link">Home</a>
-          <a href="#about" className="nav-link">About</a>
-          <a href="#projects" className="nav-link">Projects</a>
-          <a href="#impact" className="nav-link">Impact</a>
-          <a href="#contact" className="nav-link">Contact</a>
-        </div>
+function TopBar({ onEmployeesClick }) {
+    const navigate = useNavigate();
+    return (
+        <div
+            style={{
+                width: "100%",
+                maxWidth: "100%",
+                backgroundColor: "#064e3b",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "20px 20px",
+                boxSizing: "border-box",
+                color: "white",
+            }}
+        >
 
-        <div className="topbar-actions">
-          <button className="btn-employees" onClick={onEmployeesClick}>
-            Employees
-          </button>
-          <button className="btn-inventory" onClick={onInventoryClick}>
-            Inventory
-          </button>
-          <button className="btn-login">Login</button>
-          <button className="btn-signup">Sign Up</button>
-        </div>
 
-        {/* Mobile Menu Button */}
-        <div className="mobile-menu-btn">
-          <span></span>
-          <span></span>
-          <span></span>
+            <button
+                onClick={() => navigate("/employees")}
+                style={{
+                    backgroundColor: "white",
+                    color: "#075694",
+                    padding: "8px 16px",
+                    border: "none",
+                    marginLeft: "auto",
+                    borderRadius: "4px",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                }}
+            >
+                Employees
+            </button>
         </div>
-      </div>
-    </nav>
-  );
-};
+    );
+}
 
 export default TopBar;
