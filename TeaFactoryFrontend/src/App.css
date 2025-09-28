@@ -1,0 +1,74 @@
+/* App.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f8f9fa;
+  line-height: 1.6;
+}
+
+/* Main app container */
+.App {
+  min-height: 100vh;
+}
+
+/* Main content area - this fixes the TopBar covering issue */
+.main-content {
+  padding-top: 80px; /* Must match TopBar height */
+  min-height: 100vh;
+}
+
+/* Ensure TopBar stays on top */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 80px; /* Fixed height */
+}
+
+/* Remove any existing padding from Home.css that might conflict */
+.home {
+  padding-top: 0 !important; /* Remove if it was causing double spacing */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 70px;
+  }
+  
+  .topbar {
+    height: 70px;
+  }
+}
+
+/* Scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove default link styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Button base styles */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Input base styles */
+input, textarea, select {
+  font-family: inherit;
+  outline: none;
+}
