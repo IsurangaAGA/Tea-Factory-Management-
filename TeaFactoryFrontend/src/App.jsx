@@ -1,29 +1,24 @@
-// App.jsx 
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
+import { Routes, Route, Link } from "react-router-dom";
+import EmployeeList from "./components/employee/EmployeeList";
+import AddEmployee from "./components/employee/AddEmployee";
+import TopBar from "./components/TopBar.jsx";
 import Inventory from "./components/Inventory/Inventory";
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        {/* Show Inventory page on root path */}
-        <Route path="/" element={<Inventory />} />
+    return (
+        <div>
 
-        {/* Example: Hello React page */}
-        <Route
-          path="/hello"
-          element={
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
-              <h1 className="text-3xl font-bold text-blue-600">Hello, React!</h1>
-            </div>
-          }
-        />
-      </Routes>
-    </Router>
-  );
+            <TopBar onEmployeesClick={() => navigate("/employees")} />
+
+            <Routes>
+
+                <Route path="/employees" element={<EmployeeList />} />
+                <Route path="/employees-add" element={<AddEmployee />} />
+                <Route path="/inventory" element={<Inventory />} />
+
+            </Routes>
+        </div>
+    );
 }
-
 
 export default App;
