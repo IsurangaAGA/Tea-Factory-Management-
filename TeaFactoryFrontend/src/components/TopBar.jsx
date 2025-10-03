@@ -19,21 +19,36 @@ function TopBar({ onEmployeesClick }) {
         >
 
 
-            <button
-                onClick={() => navigate("/employees")}
-                style={{
-                    backgroundColor: "white",
-                    color: "#075694",
-                    padding: "8px 16px",
-                    border: "none",
-                    marginLeft: "auto",
-                    borderRadius: "4px",
-                    fontWeight: "bold",
-                    cursor: "pointer",
-                }}
-            >
-                Employees
-            </button>
+            <div style={{ marginLeft: "auto", display: "flex", gap: "10px" }}>
+                <button
+                    onClick={() => navigate("/employees")}
+                    style={{
+                        backgroundColor: "white",
+                        color: "#075694",
+                        padding: "8px 16px",
+                        border: "none",
+                        borderRadius: "4px",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                    }}
+                >
+                    Employees
+                </button>
+                <button
+                    onClick={() => navigate("/tasks")}
+                    style={{
+                        backgroundColor: "white",
+                        color: "#065f46",
+                        padding: "8px 16px",
+                        border: "none",
+                        borderRadius: "4px",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                    }}
+                >
+                    Tasks
+                </button>
+            </div>
         </div>
     );
 }
