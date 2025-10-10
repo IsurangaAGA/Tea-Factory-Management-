@@ -18,20 +18,17 @@ function LoginForm() {
       });
 
       if (response.ok) {
-        const result = await response.text(); // backend returns plain text
-        console.log(result);
-        alert(result); // show "Login successful"
+        const result = await response.text();
+        alert(result);
       } else {
         const error = await response.text();
-        console.error(error);
-        alert(error); // show "Invalid credentials"
+        alert(error);
       }
     } catch (error) {
-      console.error("Error:", error);
       alert("Something went wrong");
+      console.error(error);
     }
   };
-
 
   return (
     <div className="form-box login">
@@ -67,6 +64,7 @@ function LoginForm() {
           />
           <i className="bx bxs-user"></i>
         </div>
+
         <div className="forgot-link">
           <a href="#">Forgot password?</a>
         </div>
@@ -74,18 +72,16 @@ function LoginForm() {
         <button type="submit" className="btn">Login</button>
 
         <p>or login with social platforms</p>
-
         <div className="social-icons">
-          <a href="#"><i className='bx bxl-google'></i></a>
-          <a href="#"><i className='bx bxl-facebook'></i></a>
-          <a href="#"><i className='bx bxl-github'></i></a>
-          <a href="#"><i className='bx bxl-linkedin'></i></a>
+          <a href="#"><i className="bx bxl-google"></i></a>
+          <a href="#"><i className="bx bxl-facebook"></i></a>
+          <a href="#"><i className="bx bxl-github"></i></a>
+          <a href="#"><i className="bx bxl-linkedin"></i></a>
         </div>
-
-
       </form>
     </div>
   );
 }
 
 export default LoginForm;
+

@@ -18,26 +18,18 @@ function SignupForm() {
         body: JSON.stringify(userData),
       });
 
-
       if (response.ok) {
         const result = await response.json();
-        console.log("User registered:", result);
         alert("Registration successful!");
-        // Optionally reset the form
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setRole("");
+        setUsername(""); setEmail(""); setPassword(""); setRole("");
       } else {
-        console.error("Registration failed");
         alert("Registration failed");
       }
     } catch (error) {
-      console.error("Error:", error);
       alert("Something went wrong");
+      console.error(error);
     }
   };
-
 
   return (
     <div className="form-box register">
@@ -83,15 +75,15 @@ function SignupForm() {
           />
           <i className="bx bxs-user"></i>
         </div>
+
         <button type="submit" className="btn">Register</button>
 
         <p>or register with social platforms</p>
-
         <div className="social-icons">
-                    <a href="#"><i className='bx bxl-google'></i></a>
-                    <a href="#"><i className='bx bxl-facebook'></i></a>
-                    <a href="#"><i className='bx bxl-github'></i></a>
-                    <a href="#"><i className='bx bxl-linkedin'></i></a>
+          <a href="#"><i className="bx bxl-google"></i></a>
+          <a href="#"><i className="bx bxl-facebook"></i></a>
+          <a href="#"><i className="bx bxl-github"></i></a>
+          <a href="#"><i className="bx bxl-linkedin"></i></a>
         </div>
       </form>
     </div>
@@ -99,3 +91,4 @@ function SignupForm() {
 }
 
 export default SignupForm;
+
