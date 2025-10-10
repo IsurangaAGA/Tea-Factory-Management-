@@ -13,15 +13,26 @@
 //
 // export default App;
 
-import React from 'react';
-import MultiStepForm from './components/TeaIntake/MultiStepForm';
+// import React from 'react';
+// import MultiStepForm from './components/TeaIntake/MultiStepForm';
+//
+// function App() {
+//   return (
+//     <div className="App">
+//       <MultiStepForm />
+//     </div>
+//   );
+// }
+
+import TeaLeavesIntake from './components/TeaIntake/TeaLeavesIntake';
 
 function App() {
   return (
     <div className="App">
-      <MultiStepForm />
+      <TeaLeavesIntake />
     </div>
   );
 }
+
 
 export default App;

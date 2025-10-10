@@ -118,13 +118,12 @@ const App = () => {
     if (currentStep < totalSteps) {
       setCurrentStep((prevStep) => prevStep + 1);
     } else {
-      // 👇 This part sends data to your Spring Boot backend
+      // This is the final step: send POST request to backend
       fetch("http://localhost:8080/api/intakes", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
+        credentials: "include" // important for cookies/session
       })
         .then((res) => {
           if (!res.ok) throw new Error("Failed to save intake");
@@ -145,6 +144,7 @@ const App = () => {
         });
     }
   };
+
 
 
   const handlePrevious = () => {
