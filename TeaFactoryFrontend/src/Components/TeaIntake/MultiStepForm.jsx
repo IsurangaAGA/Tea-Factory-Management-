@@ -116,14 +116,36 @@ const App = () => {
     if (!validateStep(currentStep)) return;
 
     if (currentStep < totalSteps) {
-      setCurrentStep(prevStep => prevStep + 1);
+      setCurrentStep((prevStep) => prevStep + 1);
     } else {
-      setModalState({
-        message: 'Intake details successfully submitted! The log has been recorded for factory processing.',
-        type: 'success'
-      });
+      // 👇 This part sends data to your Spring Boot backend
+      fetch("http://localhost:8080/api/intakes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to save intake");
+          return res.json();
+        })
+        .then(() => {
+          setModalState({
+            message:
+              "Intake details successfully submitted! The log has been recorded for factory processing.",
+            type: "success",
+          });
+        })
+        .catch(() => {
+          setModalState({
+            message: "Error saving intake data. Please try again.",
+            type: "error",
+          });
+        });
     }
   };
+
 
   const handlePrevious = () => {
     if (currentStep > 1) {

@@ -13,7 +13,6 @@
 //
 // export default App;
 
-App.js
 import React from 'react';
 import MultiStepForm from './components/TeaIntake/MultiStepForm';
 
