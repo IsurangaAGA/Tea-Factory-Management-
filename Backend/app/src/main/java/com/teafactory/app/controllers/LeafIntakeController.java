@@ -1,10 +1,9 @@
 package com.teafactory.app.controllers;
 
+import com.teafactory.app.model.LeafIntake;
+import com.teafactory.app.service.LeafIntake.ILeafIntakeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.teafactory.app.service.LeafIntakeService;
-import com.teafactory.app.model.LeafIntake;
-
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -12,31 +11,30 @@ import java.util.List;
 @RequestMapping("/api/intakes")
 public class LeafIntakeController {
 
-    @Autowired
-    private LeafIntakeService leafIntakeService;
+    private final ILeafIntakeService leafIntakeService;
 
-    // Save intake
+    @Autowired
+    public LeafIntakeController(ILeafIntakeService leafIntakeService) {
+        this.leafIntakeService = leafIntakeService;
+    }
+
     @PostMapping
     public LeafIntake saveIntake(@RequestBody LeafIntake intake) {
         return leafIntakeService.saveIntake(intake);
     }
 
-    // Get all
     @GetMapping
     public List<LeafIntake> getAllIntakes() {
         return leafIntakeService.getAllIntakes();
     }
 
-    // Get by ID
     @GetMapping("/{id}")
     public LeafIntake getIntakeById(@PathVariable Long id) {
         return leafIntakeService.getIntakeById(id);
     }
 
-    // Delete
     @DeleteMapping("/{id}")
     public void deleteIntake(@PathVariable Long id) {
         leafIntakeService.deleteIntake(id);
     }
 }
-
