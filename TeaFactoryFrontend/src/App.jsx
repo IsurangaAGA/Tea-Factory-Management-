@@ -15,7 +15,7 @@
 
 App.js
 import React from 'react';
-import MultiStepForm from './components/MultiStepForm';
+import MultiStepForm from './components/TeaIntake/MultiStepForm';
 
 function App() {
   return (

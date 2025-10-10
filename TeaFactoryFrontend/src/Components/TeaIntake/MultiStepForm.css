@@ -1,0 +1,465 @@
+/* --- General Layout --- */
+.multi-step-form-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f2f5;
+    padding: 20px;
+    box-sizing: border-box;
+    background-image: url('Tea.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.multi-step-form-container {
+    font-family: 'Inter', sans-serif;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+/* --- Sidebar Progress Indicator --- */
+.progress-indicator-sidebar {
+    width: 300px;
+    background-color: #008000;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: white;
+    flex-shrink: 0;
+    position: relative;
+}
+.progress-indicator-sidebar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(180deg, rgba(0, 128, 0, 0.7) 0%, #006400 100%);
+    z-index: 0;
+}
+.progress-header {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+    letter-spacing: 1px;
+    z-index: 1;
+}
+.step-sidebar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+    cursor: default;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+.step-sidebar.active {
+    opacity: 1;
+    font-weight: 600;
+    transform: scale(1.05);
+}
+.step-sidebar.completed {
+    opacity: 0.8;
+}
+.step-number-sidebar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    transition: all 0.3s ease;
+}
+.step-sidebar.active .step-number-sidebar {
+    background-color: white;
+    color: #008000;
+    border-color: white;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+}
+.step-sidebar.completed .step-number-sidebar {
+    background-color: #00e676;
+    border-color: #00e676;
+    color: white;
+}
+.tick-icon {
+    color: white;
+}
+.step-sidebar.active .tick-icon {
+     color: #008000;
+}
+.step-sidebar.completed .tick-icon {
+     color: white;
+}
+.step-info-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+.step-label {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.7);
+}
+.step-title {
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1.2;
+    color: white;
+}
+.step-sidebar.active .step-title {
+    font-weight: 700;
+}
+
+/* --- Form Content Area --- */
+.form-content-area {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.form-header-banner {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0;
+    text-align: center;
+    padding-bottom: 0;
+    margin-bottom: 20px;
+}
+.form-section-title {
+    font-size: 1.6em;
+    color: #008000;
+    margin-bottom: 5px;
+    text-align: left;
+    font-weight: 700;
+}
+.form-section-subtitle {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+.progress-indicator { display: none; }
+.form-card { padding: 0; }
+
+/* --- Form Inputs & Details --- */
+.form-step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    min-height: 350px;
+}
+.input-row {
+    display: flex;
+    gap: 20px;
+}
+.input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.form-step-content label {
+    font-weight: 600;
+    color: #555;
+    margin-top: 10px;
+}
+.form-step-content input[type="text"],
+.form-step-content input[type="date"],
+.form-step-content input[type="time"],
+.form-step-content input[type="number"],
+.form-step-content textarea,
+.form-step-content select {
+    padding: 12px;
+    border: 1px solid #262121;
+    border-radius: 8px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f9fbfd;
+    color: #333;
+    transition: all 0.3s ease;
+}
+.form-step-content input:focus,
+.form-step-content textarea:focus,
+.form-step-content select:focus {
+    outline: none;
+    border-color: #00e676;
+    box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.2);
+}
+
+/* Step 4: Receiver Selection */
+.receiver-options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+.receiver-option-label {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.receiver-option-label:hover {
+    background-color: #f0fff0;
+    border-color: #00e676;
+}
+.receiver-option-label.selected {
+    background-color: #e6ffe6;
+    border-color: #00e676;
+    box-shadow: 0 0 5px rgba(0, 230, 118, 0.3);
+}
+.receiver-option-label input[type="radio"] {
+    margin-right: 15px;
+    width: 18px;
+    height: 18px;
+    accent-color: #00e676;
+}
+.receiver-info-text {
+    font-size: 0.95em;
+    font-weight: normal;
+    color: #008000;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f0fff0;
+    border-radius: 8px;
+}
+
+/* Step 5: Review Summary */
+.review-summary {
+    background-color: #d9f5d0;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+.review-section-header {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #008000;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 5px;
+    margin: 15px 0 10px 0;
+}
+.review-section-header:first-child {
+    margin-top: 0;
+}
+.review-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px dotted #eee;
+}
+.review-detail:last-child {
+     border-bottom: none;
+}
+.review-detail p {
+    margin: 0;
+    font-size: 0.95em;
+}
+.review-detail strong {
+    font-weight: 600;
+    color: #333;
+}
+.review-detail span {
+    font-weight: 500;
+}
+
+/* --- Navigation Buttons --- */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+.form-navigation button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+.form-navigation .previous-button {
+    background-color: #666;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.form-navigation .previous-button:hover:not(:disabled) {
+    background-color: #444;
+}
+.form-navigation .previous-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    color: #888;
+    opacity: 0.6;
+}
+.form-navigation .next-button {
+    background-color: #00e676;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 8px rgba(0, 230, 118, 0.3);
+}
+.form-navigation .next-button:hover {
+    background-color: #00c765;
+}
+
+/* --- MODAL STYLES --- */
+.status-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+    backdrop-filter: blur(3px);
+}
+.status-modal-content {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
+}
+.status-modal-success {
+    border: 3px solid #00e676;
+    background-color: #f0fff0;
+    color: #008000;
+}
+.status-modal-error {
+    border: 3px solid #ff4d4d;
+    background-color: #fff0f0;
+    color: #cc0000;
+}
+.status-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-weight: 800;
+    font-size: 1.4em;
+}
+.status-modal-icon {
+    margin-right: 10px;
+    width: 28px;
+    height: 28px;
+}
+.status-modal-success .status-modal-icon {
+    color: #00e676;
+}
+.status-modal-error .status-modal-icon {
+    color: #ff4d4d;
+}
+.status-modal-message {
+    margin-bottom: 25px;
+    font-size: 1em;
+    line-height: 1.5;
+}
+.status-modal-close-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    background-color: #00e676;
+    color: white;
+    transition: background-color 0.2s;
+}
+.status-modal-close-btn:hover {
+    background-color: #00c765;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .multi-step-form-container {
+        flex-direction: column;
+        min-height: auto;
+        max-width: 100%;
+    }
+
+    .progress-indicator-sidebar {
+        width: 100%;
+        padding: 20px;
+        flex-direction: row;
+        gap: 10px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        border-radius: 12px 12px 0 0;
+    }
+    .progress-indicator-sidebar::after {
+        display: none;
+    }
+
+    .progress-header {
+        display: none;
+    }
+
+    .step-sidebar {
+        padding: 5px 0;
+        min-width: 120px;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .step-info-sidebar {
+        align-items: center;
+    }
+
+    .form-content-area {
+        padding: 20px;
+    }
+
+    .input-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

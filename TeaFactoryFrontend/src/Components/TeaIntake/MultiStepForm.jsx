@@ -1,5 +1,5 @@
-import React, { useState, useCallback, Fragment } from 'react';
-import './MultiStepForm.css'; // Import the CSS file
+import React, { useState, useCallback } from 'react';
+import './MultiStepForm.css';
 
 // --- Static Data for Step 4 ---
 const REGISTERED_USERS = [
@@ -10,7 +10,16 @@ const REGISTERED_USERS = [
 
 // --- SVG Icons (Replaces Lucide) ---
 const CheckCircleSVG = (props) => (
-    <svg className="status-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+        className={props.className || "status-modal-icon"}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={props.style}
+    >
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/>
     </svg>
 );
@@ -51,18 +60,14 @@ const App = () => {
   const totalSteps = 5;
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    // Step 1: Date and Time
     date: new Date().toISOString().split('T')[0],
     time: new Date().toTimeString().split(' ')[0].substring(0, 5),
-    // Step 2: Supplier Details
     supplierName: '',
     estateName: '',
     vehicleNumber: '',
-    // Step 3: Intake Details
     weight: '0',
     quality: 'Excellent',
     remarks: '',
-    // Step 4: Receiver Details
     receiverId: '',
     receiverName: '',
   });
@@ -113,12 +118,10 @@ const App = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(prevStep => prevStep + 1);
     } else {
-      // Simulate submission
       setModalState({
         message: 'Intake details successfully submitted! The log has been recorded for factory processing.',
         type: 'success'
       });
-      // Optionally reset form here
     }
   };
 
@@ -130,7 +133,6 @@ const App = () => {
 
   const handleModalClose = () => setModalState({ message: '', type: '' });
 
-  // Helper function to get the name for each step
   const getStepName = (stepNum) => {
     switch (stepNum) {
       case 1: return "Date & Time";
@@ -142,15 +144,15 @@ const App = () => {
     }
   }
 
-  // --- Step Content Rendering ---
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
         return (
           <div className="form-step-content">
-            <h3>Step 1: {getStepName(1)}</h3>
-            <div style={{display: 'flex', gap: '20px'}}>
-              <div style={{flex: 1}}>
+            <h3 className="form-section-title">Step 1: {getStepName(1)}</h3>
+            <p className="form-section-subtitle">Record the exact time and date of leaf delivery.</p>
+            <div className="input-row">
+              <div className="input-group">
                 <label>Date</label>
                 <input
                   type="date"
@@ -160,7 +162,7 @@ const App = () => {
                   required
                 />
               </div>
-              <div style={{flex: 1}}>
+              <div className="input-group">
                 <label>Time</label>
                 <input
                   type="time"
@@ -176,7 +178,8 @@ const App = () => {
       case 2:
         return (
           <div className="form-step-content">
-            <h3>Step 2: {getStepName(2)}</h3>
+            <h3 className="form-section-title">Step 2: {getStepName(2)}</h3>
+            <p className="form-section-subtitle">Identify the source and transport vehicle.</p>
             <label>Supplier Name</label>
             <input
               type="text"
@@ -209,7 +212,8 @@ const App = () => {
       case 3:
         return (
           <div className="form-step-content">
-            <h3>Step 3: {getStepName(3)}</h3>
+            <h3 className="form-section-title">Step 3: {getStepName(3)}</h3>
+            <p className="form-section-subtitle">Log the delivered weight and quality assessment.</p>
             <label>Weight (in KG)</label>
             <input
               type="number"
@@ -245,12 +249,12 @@ const App = () => {
       case 4:
         return (
           <div className="form-step-content">
-            <h3>Step 4: {getStepName(4)}</h3>
-            <p style={{fontSize: '0.9em', color: '#666'}}>Select the factory personnel receiving this intake:</p>
+            <h3 className="form-section-title">Step 4: {getStepName(4)}</h3>
+            <p className="form-section-subtitle">Confirm the factory personnel responsible for receiving the batch.</p>
 
-            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+            <div className="receiver-options-container">
               {REGISTERED_USERS.map(user => (
-                <label key={user.id} className="receiver-option-label">
+                <label key={user.id} className={`receiver-option-label ${formData.receiverId === user.id ? 'selected' : ''}`}>
                   <input
                     type="radio"
                     name="receiverId"
@@ -270,7 +274,7 @@ const App = () => {
             </div>
             {formData.receiverName && (
                 <p className="receiver-info-text">
-                    👤 Selected Receiver: {formData.receiverName}
+                    👤 Selected Receiver: **{formData.receiverName}**
                 </p>
             )}
           </div>
@@ -278,8 +282,8 @@ const App = () => {
       case 5:
         return (
           <div className="form-step-content">
-            <h3>Step 5: {getStepName(5)}</h3>
-            <p style={{fontSize: '0.9em', color: '#666'}}>Please review the captured intake details below.</p>
+            <h3 className="form-section-title">Step 5: {getStepName(5)}</h3>
+            <p className="form-section-subtitle">Final review of all intake data before submission.</p>
 
             <div className="review-summary">
                 <div className="review-section-header">🕒 Time & Date</div>
@@ -306,25 +310,28 @@ const App = () => {
     }
   };
 
-  // --- Progress Indicator Rendering ---
   const renderProgressIndicator = () => {
     return (
-      <div className="progress-indicator">
+      <div className="progress-indicator-sidebar">
+        <h2 className="progress-header">INTAKE PROCESS</h2>
         {Array.from({ length: totalSteps }, (_, i) => i + 1).map((stepNum) => {
           const isCurrent = currentStep === stepNum;
           const isCompleted = currentStep > stepNum;
           const stepName = getStepName(stepNum);
 
           return (
-            <Fragment key={stepNum}>
-              <div className={`step ${isCurrent ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}>
-                <div className="step-number">
-                  {isCompleted ? <CheckCircleSVG style={{width: '20px', height: '20px'}} /> : stepNum}
+            <div
+                key={stepNum}
+                className={`step-sidebar ${isCurrent ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
+            >
+                <div className="step-number-sidebar">
+                    {isCompleted ? <CheckCircleSVG className="tick-icon" style={{width: '18px', height: '18px', strokeWidth: '3px'}} /> : stepNum}
                 </div>
-                <div className="step-info">{stepName}</div>
-              </div>
-              {stepNum < totalSteps && <div className={`step-line ${isCompleted ? 'completed-line' : ''}`}></div>}
-            </Fragment>
+                <div className="step-info-sidebar">
+                    <span className="step-label">STEP {stepNum}</span>
+                    <span className="step-title">{stepName}</span>
+                </div>
+            </div>
           );
         })}
       </div>
@@ -333,58 +340,52 @@ const App = () => {
 
   return (
     <div className="multi-step-form-wrapper">
-
       <StatusModal message={modalState.message} type={modalState.type} onClose={handleModalClose} />
 
       <div className="multi-step-form-container">
+        {renderProgressIndicator()}
 
-        <div className="form-header-banner">
-          New Tea Leaf Intake Log
-        </div>
+        <div className="form-content-area">
+          <h1 className="form-header-banner">Tea Leaf Intake</h1>
 
-        <div className="form-card">
-            {renderProgressIndicator()}
+          <form className="form-content" onSubmit={(e) => e.preventDefault()}>
 
-            <form className="form-content" onSubmit={(e) => e.preventDefault()}>
+            <div className="form-content-scroll">
+              {renderStepContent()}
+            </div>
 
-                <div style={{padding: '0 30px', borderBottom: '1px solid #eee', marginBottom: '20px'}}>
-                    {renderStepContent()}
-                </div>
+            <div className="form-navigation">
+                <button
+                    type="button"
+                    className="previous-button"
+                    onClick={handlePrevious}
+                    disabled={currentStep === 1}
+                >
+                    <ChevronLeftSVG />
+                    Previous
+                </button>
 
-                {/* Navigation Buttons */}
-                <div className="form-navigation">
-                    <button
-                        type="button"
-                        className="previous-button"
-                        onClick={handlePrevious}
-                        disabled={currentStep === 1}
-                    >
-                        <ChevronLeftSVG />
-                        Previous
-                    </button>
-
-                    <button
-                        type="submit"
-                        className="next-button"
-                        onClick={handleNext}
-                    >
-                        {currentStep === totalSteps ? (
-                            <>
-                                <CheckCircleSVG style={{width: '18px', height: '18px', color: 'white'}} />
-                                Submit Intake
-                            </>
-                        ) : (
-                            'Next Step'
-                        )}
-                    </button>
-                </div>
-            </form>
+                <button
+                    type="submit"
+                    className="next-button"
+                    onClick={handleNext}
+                >
+                    {currentStep === totalSteps ? (
+                        <>
+                            <CheckCircleSVG style={{width: '18px', height: '18px', color: 'white', strokeWidth: '3px'}} />
+                            Submit Intake
+                        </>
+                    ) : (
+                        'Next Step'
+                    )}
+                </button>
+            </div>
+          </form>
         </div>
       </div>
-
-      <p style={{marginTop: '15px', fontSize: '0.8em', color: '#666'}}>Current Step: {currentStep}/{totalSteps}</p>
     </div>
   );
 };
 
 export default App;
+
