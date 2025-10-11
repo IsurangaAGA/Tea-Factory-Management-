@@ -24,12 +24,25 @@
 //   );
 // }
 
-import TeaLeavesIntake from './components/TeaIntake/TeaLeavesIntake';
+// import TeaLeavesIntake from './components/TeaIntake/TeaLeavesIntake';
+//
+// function App() {
+//   return (
+//     <div className="App">
+//       <TeaLeavesIntake />
+//     </div>
+//   );
+// }
+//
+//
+// export default App;
+
+import Track from './components/Progress/Track';
 
 function App() {
   return (
     <div className="App">
-      <TeaLeavesIntake />
+      <Track />
     </div>
   );
 }
