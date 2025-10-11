@@ -2,9 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import KpiCard from './KpiCard';
-import './Track.css'; // Import the CSS file
+import './Track.css';
 
-// Initial Data Setup
 const initialBatches = [
   { id: 'Batch-T-101', stage: 'Tea Batches' },
   { id: 'Batch-T-102', stage: 'Tea Batches' },
@@ -14,19 +13,18 @@ const initialBatches = [
 ];
 
 const teaStages = [
-  { name: 'Tea Batches', color: '#B0BEC5' }, // Initial Batches column
-  { name: 'Withering', color: '#81C784' },
-  { name: 'Rolling', color: '#FFD54F' },
-  { name: 'Fermentation', color: '#FF8A65' },
-  { name: 'Drying', color: '#4FC3F7' },
-  { name: 'Sorting', color: '#9575CD' },
-  { name: 'Packing', color: '#F06292' },
+  { name: 'Tea Batches', color: '#FF5783' },
+  { name: 'Withering', color: '#8BC34A' },
+  { name: 'Rolling', color: '#00BCD4' },
+  { name: 'Fermentation', color: '#FF7043' },
+  { name: 'Drying', color: '#009688' },
+  { name: 'Sorting', color: '#E91E63' },
+  { name: 'Packing', color: '#673AB7' },
 ];
 
-const App = () => {
+const Track = () => {
   const [batches, setBatches] = useState(initialBatches);
 
-  // Function to move a batch from one stage to another
   const moveBatch = useCallback((batchId, newStage) => {
     setBatches(prevBatches =>
       prevBatches.map(batch =>
@@ -35,41 +33,41 @@ const App = () => {
     );
   }, []);
 
-  // Split stages for the two-row layout: 4 in first, 3 in second
-  const firstRowStages = teaStages.slice(0, 4); // Tea Batches, Withering, Rolling, Fermentation
-  const secondRowStages = teaStages.slice(4); // Drying, Sorting, Packing
+  const sourceStage = teaStages[0];
+  const rightStages = teaStages.slice(1);
+  const rightCol1Stages = [rightStages[0], rightStages[2], rightStages[4]];
+  const rightCol2Stages = [rightStages[1], rightStages[3], rightStages[5]];
+
+  const renderCard = (stage) => (
+    <KpiCard
+      key={stage.name}
+      stage={stage}
+      batches={batches.filter(b => b.stage === stage.name)}
+      moveBatch={moveBatch}
+    />
+  );
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="kpi-dashboard-container">
-        <h1>Tea Production Process Dashboard</h1>
+      <div className="kpi-dashboard-container-staggered">
+        <h1>Tea Production Flow</h1>
 
-        {/* First Row (4 Cards) */}
-        <div className="kpi-row first-row">
-          {firstRowStages.map(stage => (
-            <KpiCard
-              key={stage.name}
-              stage={stage}
-              batches={batches.filter(b => b.stage === stage.name)}
-              moveBatch={moveBatch}
-            />
-          ))}
-        </div>
+        <div className="staggered-layout">
+          <div className="left-column">{renderCard(sourceStage)}</div>
 
-        {/* Second Row (3 Cards) */}
-        <div className="kpi-row second-row">
-          {secondRowStages.map(stage => (
-            <KpiCard
-              key={stage.name}
-              stage={stage}
-              batches={batches.filter(b => b.stage === stage.name)}
-              moveBatch={moveBatch}
-            />
-          ))}
+          <div className="right-columns-wrapper">
+            <div className="right-column col-1">
+              {rightCol1Stages.map(stage => renderCard(stage))}
+            </div>
+            <div className="right-column col-2">
+              {rightCol2Stages.map(stage => renderCard(stage))}
+            </div>
+          </div>
         </div>
       </div>
     </DndProvider>
   );
 };
 
-export default App;
+export default Track;
+

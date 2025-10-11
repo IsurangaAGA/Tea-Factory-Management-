@@ -1,126 +1,314 @@
 /* Overall Dashboard and Layout */
-.kpi-dashboard-container {
+.kpi-dashboard-container-staggered {
   padding: 20px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 h1 {
   text-align: center;
   margin-bottom: 30px;
   color: #333;
+  font-weight: 700;
 }
 
-/* Row Layout */
-.kpi-row {
-  display: grid;
-  gap: 20px; /* Spacing between cards */
-  margin-bottom: 20px;
+/* Base Layout Container (Left Card + Right Staggered Columns) */
+.staggered-layout {
+  display: flex;
+  justify-content: center;
+  gap: 40px; /* Space between the source card and the stage columns */
 }
 
-/* First row: 4 cards */
-.first-row {
-  grid-template-columns: repeat(4, 1fr);
+/* Left Column: Tea Batches Source Card */
+.left-column {
+  width: 300px;
 }
 
-/* Second row: 3 cards */
-.second-row {
-  grid-template-columns: repeat(3, 1fr);
+/* Remove old source card height override */
+.source-card {
+  min-height: auto;
 }
 
-/* KPI Card Styling */
-.kpi-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
-  min-height: 180px; /* Ensure a minimum visible height */
+/* Right Columns Wrapper (Holds the two staggered columns) */
+.right-columns-wrapper {
+  display: flex;
+  gap: 20px; /* Space between the two right columns */
+}
+
+/* Individual Right Columns */
+.right-column {
   display: flex;
   flex-direction: column;
-  color: white; /* Default text color for contrast */
+  gap: 20px; /* Vertical spacing between cards in a column */
+  width: 280px;
 }
 
-/* Card Header */
-.card-header {
+/* Re-introducing staggering: Set margin-top to offset the second column */
+.right-column.col-2 {
+  margin-top: 50px; /* Applied staggering effect */
+}
+
+/* ------------------------------------- */
+/* GENERAL KPI CARD STYLING (Used for 6 process stages) */
+/* ------------------------------------- */
+.kpi-card {
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4),
+              0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  flex-direction: column;
+  color: white;
+  cursor: default;
+  min-height: 170px;
 }
 
-.card-title {
-  margin: 0;
-  font-size: 1.2em;
-  font-weight: 600;
+/* PROCESS CARD (6 Stages) SPECIFIC STYLES */
+
+/* 1. COLORED HEADER VISUAL (Top Section) */
+.kpi-card-header-visual {
+  position: relative;
+  height: 100px;
+  z-index: 2;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Wavy separator using SVG path */
+.wave-separator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 15px;
+}
+
+/* 2. DARK BODY SECTION */
+.kpi-card-body {
+  background-color: #2c2c34;
+  flex-grow: 1;
+  padding: 20px 15px;
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  border-radius: 0 0 12px 12px;
+}
+
+/* 3. CIRCULAR COUNT INDICATOR */
+.circular-indicator-wrapper {
+  position: absolute;
+  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.circular-indicator {
+  width: 70px;
+  height: 70px;
+  background-color: white;
+  border: 5px solid;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6em;
+  font-weight: 800;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 .batch-count {
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 50%;
-  padding: 5px 10px;
-  font-weight: bold;
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-weight: inherit;
 }
 
-/* Batches Container */
+/* Reposition and Restyle Title/Icon */
+.card-title {
+  margin: 0 0 15px 0;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+.icon-placeholder {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+/* ------------------------------------- */
+/* SOURCE CARD (Tea Batches) NEW STYLES */
+/* ------------------------------------- */
+
+.kpi-card.source-card-new {
+  background: linear-gradient(135deg, #FF5783, #FF99A9);
+  min-height: 570px;
+  padding: 0;
+  display: block;
+  box-shadow: 0 10px 30px rgba(255, 87, 131, 0.6);
+}
+
+/* 1. TOP ICON AREA */
+.source-card-icon-area {
+  padding: 20px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.source-card-icon-wrapper {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow:
+    0 6px 10px rgba(0, 0, 0, 0.15),
+    -4px -4px 10px rgba(255, 255, 255, 0.8),
+    4px 4px 10px rgba(0, 0, 0, 0.2) inset;
+}
+
+/* 2. MAIN PINK CONTENT AREA */
+.source-card-body {
+  flex-grow: 1;
+  padding: 20px 30px;
+  padding-bottom: 50px;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+
+.card-title-source {
+  font-size: 1.6em;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.source-card-description {
+  font-size: 0.95em;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  opacity: 1;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* 3. BOTTOM COUNT INDICATOR */
+.source-card-count-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.5em;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.placeholder-text-source {
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+/* COMMON BATCH CONTAINER/BUTTON STYLING */
 .batches-container {
-  flex-grow: 1; /* Allows container to take remaining height */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Spacing between batch buttons */
+  gap: 8px;
   padding: 5px 0;
+  width: 100%;
+  text-align: left;
 }
 
-/* Batch Button Styling (Draggable Item) */
+.batches-container.source-batches-list {
+  padding-top: 15px;
+}
+
+.placeholder-text {
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+/* Batch Button Styling */
 .batch-button {
-  background-color: white;
-  color: #333;
+  background-color: #444;
+  color: #f0f0f0;
   border: none;
   padding: 8px 12px;
   border-radius: 6px;
   cursor: grab;
   text-align: left;
   font-weight: 500;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: background-color 0.2s, box-shadow 0.2s;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 0.9em;
 }
 
-.batch-button:hover {
-  background-color: #f0f0f0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.source-batches-list .batch-button {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.batch-button:active {
-  cursor: grabbing;
-}
-
-/* Placeholder Text for Empty Cards */
-.placeholder-text {
-  color: rgba(255, 255, 255, 0.7);
-  text-align: center;
-  margin-top: 20px;
-  font-style: italic;
+.source-batches-list .batch-button:hover {
+  background-color: white;
 }
 
 /* ------------------ */
 /* Responsive Layout */
 /* ------------------ */
-@media (max-width: 1200px) {
-  .first-row {
-    grid-template-columns: repeat(2, 1fr); /* 2 cards per row on tablets */
+@media (max-width: 992px) {
+  .staggered-layout {
+    flex-direction: column;
+    gap: 20px;
   }
 
-  .second-row {
-    grid-template-columns: repeat(2, 1fr); /* 2 cards per row on tablets (will wrap) */
+  .left-column {
+    width: 100%;
+    order: 1;
   }
-}
 
-@media (max-width: 768px) {
-  .first-row,
-  .second-row {
-    grid-template-columns: 1fr; /* 1 card per row on mobile */
+  .source-card-new {
+    min-height: auto;
+  }
+
+  .source-card-body {
+    padding-bottom: 20px;
+  }
+
+  .source-card-count-indicator {
+    position: relative;
+    margin-top: 15px;
+    bottom: auto;
+  }
+
+  .right-columns-wrapper {
+    flex-direction: column;
+    order: 2;
+  }
+
+  .right-column {
+    width: 100%;
+  }
+
+  .right-column.col-2 {
+    margin-top: 0;
   }
 }
