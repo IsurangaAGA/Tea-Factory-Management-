@@ -350,5 +350,6 @@ const Inventory = () => {
     </div>
   );
 };
+//comment
 
 export default Inventory;
