@@ -21,11 +21,11 @@ const OrderManagement = () => {
           </div>
           <div className="stat-card">
             <h3>Pending Payment</h3>
-            <p className="number">{orders?.filter(o => o.payment_status === 'Pending').length ?? 0}</p>
+            <p className="number">{(orders ?? []).filter(o => o.payment_status === 'Pending').length}</p>
           </div>
           <div className="stat-card">
             <h3>Completed</h3>
-            <p className="number">{orders?.filter(o => o.delivery_status === 'Delivered').length ?? 0}</p>
+            <p className="number">{(orders ?? []).filter(o => o.delivery_status === 'Delivered').length}</p>
           </div>
         </div>
 
