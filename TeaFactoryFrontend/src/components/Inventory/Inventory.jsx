@@ -4,47 +4,58 @@ import './Inventory.css';
 const Inventory = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState('All types');
-  const [loading, setLoading] = useState(true); // Start with true to show loading
+  const [filterType, setFilterType] = useState('');
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [showAddSupplier, setShowAddSupplier] = useState(false);
 
   const API_URL = "http://localhost:8080/inventory";
+  const SUPPLIERS_API_URL = "http://localhost:8080/suppliers";
 
-  // Load products from backend API
+  // Add Product Form State
+  const [productFormData, setProductFormData] = useState({
+    sku: '',
+    name: '',
+    type: 'raw',
+    quantity: 0,
+    reorderLevel: 10,
+    price: 0.00
+  });
+  const [productFormLoading, setProductFormLoading] = useState(false);
+  const [productFormError, setProductFormError] = useState('');
+
+  // Add Supplier Form State
+  const [supplierFormData, setSupplierFormData] = useState({
+    name: '',
+    contact: ''
+  });
+  const [supplierFormLoading, setSupplierFormLoading] = useState(false);
+  const [supplierFormError, setSupplierFormError] = useState('');
+
   useEffect(() => {
-    console.log('Component mounted, fetching products...');
     fetchProducts();
   }, []);
 
-  // Fetch all products from backend
   const fetchProducts = async () => {
     setLoading(true);
     setError('');
     try {
-      console.log('Making API call to:', API_URL);
       const response = await fetch(API_URL);
-      console.log('Response status:', response.status);
-      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
       const data = await response.json();
-      console.log('Data received:', data);
       setProducts(data);
     } catch (err) {
       const errorMsg = `Failed to load inventory: ${err.message}`;
       setError(errorMsg);
-      console.error('Error fetching products:', err);
-      
-      // Fallback to empty array if API fails
       setProducts([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // Create new product
   const createProduct = async (productData) => {
     try {
       const response = await fetch(API_URL, {
@@ -63,7 +74,24 @@ const Inventory = () => {
     }
   };
 
-  // Update product
+  const createSupplier = async (supplierData) => {
+    try {
+      const response = await fetch(SUPPLIERS_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(supplierData),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to create supplier');
+      }
+      return await response.json();
+    } catch (err) {
+      throw new Error('Failed to create supplier: ' + err.message);
+    }
+  };
+
   const updateProduct = async (id, productData) => {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
@@ -82,7 +110,6 @@ const Inventory = () => {
     }
   };
 
-  // Delete product
   const deleteProduct = async (id) => {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
@@ -96,11 +123,20 @@ const Inventory = () => {
     }
   };
 
-  // Filter products based on search and type
+  // Calculate KPIs
+  const totalSKUs = products.length;
+  const totalValue = products.reduce((sum, product) => 
+    sum + (product.quantity * (product.price || 0)), 0
+  ).toFixed(2);
+  const lowStockCount = products.filter(product => 
+    product.quantity <= product.reorderLevel
+  ).length;
+
+  // Filter products
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          product.sku?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = filterType === 'All types' || product.type === filterType;
+    const matchesType = !filterType || product.type === filterType;
     return matchesSearch && matchesType;
   });
 
@@ -111,7 +147,6 @@ const Inventory = () => {
         setProducts(products.filter(product => product.id !== productId));
       } catch (err) {
         setError(err.message);
-        console.error('Error deleting product:', err);
       }
     }
   };
@@ -130,7 +165,6 @@ const Inventory = () => {
         ));
       } catch (err) {
         setError(err.message);
-        console.error('Error adjusting quantity:', err);
       }
     }
   };
@@ -139,61 +173,147 @@ const Inventory = () => {
     const product = products.find(p => p.id === productId);
     const newName = prompt('Enter new product name:', product.name);
     const newPrice = prompt('Enter new price:', product.price);
+    const newReorderLevel = prompt('Enter new reorder level:', product.reorderLevel);
     
-    if (newName && newPrice) {
+    if (newName && newPrice && newReorderLevel) {
       try {
         const updatedProduct = await updateProduct(productId, {
           ...product,
           name: newName,
-          price: parseFloat(newPrice)
+          price: parseFloat(newPrice),
+          reorderLevel: parseInt(newReorderLevel)
         });
         setProducts(products.map(product => 
           product.id === productId ? updatedProduct : product
         ));
       } catch (err) {
         setError(err.message);
-        console.error('Error updating product:', err);
       }
     }
   };
 
-  const handleAddProduct = async () => {
-    const sku = prompt('Enter SKU:');
-    const name = prompt('Enter product name:');
-    const type = prompt('Enter type (Raw material/Finished goods):');
-    const quantity = prompt('Enter quantity:');
-    const reorder = prompt('Enter reorder level:');
-    const price = prompt('Enter price:');
-    
-    if (sku && name && type && quantity && reorder && price) {
-      try {
-        const newProduct = {
-          sku,
-          name,
-          type,
-          quantity: parseInt(quantity),
-          reorderLevel: parseInt(reorder),
-          price: parseFloat(price)
-        };
-        
-        const createdProduct = await createProduct(newProduct);
-        setProducts([...products, createdProduct]);
-      } catch (err) {
-        setError(err.message);
-        console.error('Error adding product:', err);
-      }
+  // Add Product Form Handlers
+  const handleAddProductClick = () => {
+    setShowAddProduct(true);
+    setProductFormData({
+      sku: '',
+      name: '',
+      type: 'raw',
+      quantity: 0,
+      reorderLevel: 10,
+      price: 0.00
+    });
+    setProductFormError('');
+  };
+
+  const handleProductFormInputChange = (e) => {
+    const { name, value } = e.target;
+    setProductFormData(prev => ({
+      ...prev,
+      [name]: name === 'quantity' || name === 'reorderLevel' ? parseInt(value) || 0 :
+              name === 'price' ? parseFloat(value) || 0 : value
+    }));
+  };
+
+  const handleProductFormSubmit = async (e) => {
+    e.preventDefault();
+    setProductFormLoading(true);
+    setProductFormError('');
+
+    // Validation
+    if (!productFormData.sku.trim()) {
+      setProductFormError('SKU is required');
+      setProductFormLoading(false);
+      return;
     }
+    if (!productFormData.name.trim()) {
+      setProductFormError('Product name is required');
+      setProductFormLoading(false);
+      return;
+    }
+    if (productFormData.quantity < 0) {
+      setProductFormError('Quantity cannot be negative');
+      setProductFormLoading(false);
+      return;
+    }
+    if (productFormData.price < 0) {
+      setProductFormError('Price cannot be negative');
+      setProductFormLoading(false);
+      return;
+    }
+
+    try {
+      const createdProduct = await createProduct(productFormData);
+      setProducts([...products, createdProduct]);
+      setShowAddProduct(false);
+      alert('Product created successfully!');
+    } catch (err) {
+      setProductFormError(err.message);
+    } finally {
+      setProductFormLoading(false);
+    }
+  };
+
+  const handleProductFormCancel = () => {
+    setShowAddProduct(false);
+    setProductFormError('');
+  };
+
+  // Add Supplier Form Handlers
+  const handleAddSupplierClick = () => {
+    setShowAddSupplier(true);
+    setSupplierFormData({
+      name: '',
+      contact: ''
+    });
+    setSupplierFormError('');
+  };
+
+  const handleSupplierFormInputChange = (e) => {
+    const { name, value } = e.target;
+    setSupplierFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSupplierFormSubmit = async (e) => {
+    e.preventDefault();
+    setSupplierFormLoading(true);
+    setSupplierFormError('');
+
+    // Validation
+    if (!supplierFormData.name.trim()) {
+      setSupplierFormError('Supplier name is required');
+      setSupplierFormLoading(false);
+      return;
+    }
+
+    try {
+      await createSupplier(supplierFormData);
+      setShowAddSupplier(false);
+      alert('Supplier created successfully!');
+    } catch (err) {
+      setSupplierFormError(err.message);
+    } finally {
+      setSupplierFormLoading(false);
+    }
+  };
+
+  const handleSupplierFormCancel = () => {
+    setShowAddSupplier(false);
+    setSupplierFormError('');
   };
 
   const exportToCSV = () => {
     const csvContent = [
-      ['SKU', 'Name', 'Type', 'Quantity', 'Reorder', 'Price'],
+      ['SKU', 'Name', 'Type', 'Quantity', 'Reorder Level', 'Price'],
       ...filteredProducts.map(product => [
         product.sku,
         product.name,
-        product.type,
+        product.type === 'raw' ? 'Raw material' : 'Finished goods',
         product.quantity,
-        product.reorderLevel || product.reorder,
+        product.reorderLevel,
         `$${product.price?.toFixed(2)}`
       ])
     ].map(row => row.join(',')).join('\n');
@@ -202,7 +322,7 @@ const Inventory = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'inventory.csv';
+    a.download = 'products.csv';
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -218,138 +338,341 @@ const Inventory = () => {
   return (
     <div className="inventory">
       <header className="inventory-header">
-        <h1>Inventory</h1>
-        <p>Manage raw materials via finished goods</p>
-        
-        <nav className="sidebar">
-          <ul>
-            <li><span className="inactive">Dashboard</span></li>
-            <li><span className="active">Products</span></li>
-            <li><span className="inactive">Add Product</span></li>
-            <li><span className="inactive">Stock In / Out</span></li>
-            <li><span className="active">Suppliers / PO</span></li>
-            <li><span className="inactive">Reports & Export</span></li>
-            <li><span className="active">Settings</span></li>
-          </ul>
-        </nav>
+        <h1>Products</h1>
+        <p>Raw materials & Finished goods</p>
       </header>
 
-      <main className="inventory-main">
-        <section className="products-section">
-          <h2>Products</h2>
-          <p>Products (Raw materials & Finished goods)</p>
+      {error && (
+        <div className="error-message">
+          <strong>Error:</strong> {error}
+          <button onClick={() => setError('')} className="close-error">×</button>
+        </div>
+      )}
 
-          {error && (
-            <div className="error-message">
-              <strong>Error:</strong> {error}
-              <br />
-              <small>Check if backend is running on http://localhost:8080</small>
-              <button onClick={() => setError('')} className="close-error">×</button>
-            </div>
-          )}
+      <div className="controls">
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        
+        <div className="filter-export">
+          <select 
+            value={filterType} 
+            onChange={(e) => setFilterType(e.target.value)}
+            className="type-filter"
+          >
+            <option value="">All types</option>
+            <option value="raw">Raw material</option>
+            <option value="finished">Finished goods</option>
+          </select>
+          
+          <button onClick={exportToCSV} className="export-btn">
+            Export CSV
+          </button>
+          
+          <button onClick={fetchProducts} className="refresh-btn">
+            Refresh
+          </button>
 
-          <div className="controls">
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
-              />
-            </div>
-            
-            <div className="filter-export">
-              <select 
-                value={filterType} 
-                onChange={(e) => setFilterType(e.target.value)}
-                className="type-filter"
-              >
-                <option value="All types">All types</option>
-                <option value="Raw material">Raw material</option>
-                <option value="Finished goods">Finished goods</option>
-              </select>
-              
-              <button onClick={exportToCSV} className="export-btn">
-                Export CSV
-              </button>
-              
-              <button onClick={fetchProducts} className="refresh-btn">
-                Refresh
-              </button>
-            </div>
+          <button onClick={handleAddSupplierClick} className="add-supplier-btn">
+            Add Supplier
+          </button>
+
+          <button onClick={handleAddProductClick} className="add-product-btn">
+            Add Product
+          </button>
+        </div>
+      </div>
+
+      <div className="kpi-cards">
+        <div className="kpi-card">
+          <div className="kpi-label">Total SKUs</div>
+          <div className="kpi-value">{totalSKUs}</div>
+          <div className="kpi-description">Raw materials & finished goods</div>
+        </div>
+        
+        <div className="kpi-card">
+          <div className="kpi-label">Total Stock Value</div>
+          <div className="kpi-value">${totalValue}</div>
+          <div className="kpi-description">Estimated value (price × qty)</div>
+        </div>
+        
+        <div className="kpi-card">
+          <div className="kpi-label">Low Stock Count</div>
+          <div className="kpi-value danger">{lowStockCount}</div>
+          <div className="kpi-description">Products at/under reorder level</div>
+        </div>
+      </div>
+
+      <div className="table-container">
+        <table className="products-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Qty</th>
+              <th>Reorder</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredProducts.map(product => (
+              <tr key={product.id}>
+                <td>{product.sku}</td>
+                <td>{product.name}</td>
+                <td>{product.type === 'raw' ? 'Raw material' : 'Finished goods'}</td>
+                <td className={product.quantity <= product.reorderLevel ? 'low-stock' : ''}>
+                  {product.quantity}
+                </td>
+                <td>{product.reorderLevel}</td>
+                <td>${product.price?.toFixed(2)}</td>
+                <td>
+                  <div className="action-buttons">
+                    <button 
+                      onClick={() => handleEdit(product.id)}
+                      className="btn-edit"
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      onClick={() => handleAdjust(product.id)}
+                      className="btn-adjust"
+                    >
+                      Adjust
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(product.id)}
+                      className="btn-delete"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        
+        {filteredProducts.length === 0 && (
+          <div className="no-products">
+            {products.length === 0 ? 'No products available.' : 'No products found matching your criteria.'}
           </div>
+        )}
+      </div>
 
-          <div className="table-container">
-            <table className="products-table">
-              <thead>
-                <tr>
-                  <th>SKU</th>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Qty</th>
-                  <th>Reorder</th>
-                  <th>Price</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts.map(product => (
-                  <tr key={product.id}>
-                    <td>{product.sku}</td>
-                    <td>{product.name}</td>
-                    <td>
-                      <span className={`type-badge ${product.type?.toLowerCase().replace(' ', '-')}`}>
-                        {product.type}
-                      </span>
-                    </td>
-                    <td>{product.quantity}</td>
-                    <td>{product.reorderLevel || product.reorder}</td>
-                    <td>${product.price?.toFixed(2)}</td>
-                    <td>
-                      <div className="action-buttons">
-                        <button 
-                          onClick={() => handleEdit(product.id)}
-                          className="btn-edit"
-                        >
-                          Edit
-                        </button>
-                        <button 
-                          onClick={() => handleAdjust(product.id)}
-                          className="btn-adjust"
-                        >
-                          Adjust
-                        </button>
-                        <button 
-                          onClick={() => handleDelete(product.id)}
-                          className="btn-delete"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* Add Product Modal */}
+      {showAddProduct && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Create Product</h3>
+              <button onClick={handleProductFormCancel} className="close-modal">×</button>
+            </div>
             
-            {filteredProducts.length === 0 && (
-              <div className="no-products">
-                {products.length === 0 ? 'No products available. Make sure your backend is running.' : 'No products found matching your criteria.'}
+            <form onSubmit={handleProductFormSubmit} className="product-form">
+              {productFormError && (
+                <div className="error-message">
+                  <strong>Error:</strong> {productFormError}
+                  <button onClick={() => setProductFormError('')} className="close-error">×</button>
+                </div>
+              )}
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="sku">SKU *</label>
+                  <input
+                    type="text"
+                    id="sku"
+                    name="sku"
+                    value={productFormData.sku}
+                    onChange={handleProductFormInputChange}
+                    required
+                    placeholder="e.g., RM-001 or FG-001"
+                  />
+                  <small>Unique stock keeping unit identifier</small>
+                </div>
               </div>
-            )}
-          </div>
 
-          <div className="add-product-section">
-            <button onClick={handleAddProduct} className="add-product-btn">
-              Add Product
-            </button>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name">Product Name *</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={productFormData.name}
+                    onChange={handleProductFormInputChange}
+                    required
+                    placeholder="e.g., Green Tea Leaves"
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="type">Product Type *</label>
+                  <select
+                    id="type"
+                    name="type"
+                    value={productFormData.type}
+                    onChange={handleProductFormInputChange}
+                    required
+                  >
+                    <option value="raw">Raw Material</option>
+                    <option value="finished">Finished Goods</option>
+                  </select>
+                  <small>
+                    {productFormData.type === 'raw' 
+                      ? 'Raw materials are used in production' 
+                      : 'Finished goods are ready for sale'}
+                  </small>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="quantity">Initial Quantity</label>
+                  <input
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    value={productFormData.quantity}
+                    onChange={handleProductFormInputChange}
+                    min="0"
+                    required
+                  />
+                  <small>Starting stock quantity</small>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="reorderLevel">Reorder Level</label>
+                  <input
+                    type="number"
+                    id="reorderLevel"
+                    name="reorderLevel"
+                    value={productFormData.reorderLevel}
+                    onChange={handleProductFormInputChange}
+                    min="0"
+                    required
+                  />
+                  <small>Alert when stock reaches this level</small>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="price">Unit Price ($)</label>
+                  <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    value={productFormData.price}
+                    onChange={handleProductFormInputChange}
+                    min="0"
+                    step="0.01"
+                    required
+                  />
+                  <small>Price per unit</small>
+                </div>
+              </div>
+
+              <div className="form-actions">
+                <button 
+                  type="submit" 
+                  className="btn-primary"
+                  disabled={productFormLoading}
+                >
+                  {productFormLoading ? 'Creating...' : 'Create Product'}
+                </button>
+                <button 
+                  type="button" 
+                  onClick={handleProductFormCancel}
+                  className="btn-cancel"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
-        </section>
-      </main>
+        </div>
+      )}
+
+      {/* Add Supplier Modal */}
+      {showAddSupplier && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Add Supplier</h3>
+              <button onClick={handleSupplierFormCancel} className="close-modal">×</button>
+            </div>
+            
+            <form onSubmit={handleSupplierFormSubmit} className="product-form">
+              {supplierFormError && (
+                <div className="error-message">
+                  <strong>Error:</strong> {supplierFormError}
+                  <button onClick={() => setSupplierFormError('')} className="close-error">×</button>
+                </div>
+              )}
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="supplier-name">Supplier Name *</label>
+                  <input
+                    type="text"
+                    id="supplier-name"
+                    name="name"
+                    value={supplierFormData.name}
+                    onChange={handleSupplierFormInputChange}
+                    required
+                    placeholder="e.g., Local Tea Supplier"
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="supplier-contact">Contact Information</label>
+                  <input
+                    type="text"
+                    id="supplier-contact"
+                    name="contact"
+                    value={supplierFormData.contact}
+                    onChange={handleSupplierFormInputChange}
+                    placeholder="e.g., phone number or email"
+                  />
+                  <small>Phone number, email, or other contact details</small>
+                </div>
+              </div>
+
+              <div className="form-actions">
+                <button 
+                  type="submit" 
+                  className="btn-primary"
+                  disabled={supplierFormLoading}
+                >
+                  {supplierFormLoading ? 'Creating...' : 'Add Supplier'}
+                </button>
+                <button 
+                  type="button" 
+                  onClick={handleSupplierFormCancel}
+                  className="btn-cancel"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
-//comment
 
 export default Inventory;

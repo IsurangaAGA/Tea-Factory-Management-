@@ -4,6 +4,8 @@ import AddEmployee from "./components/employee/AddEmployee";
 import TopBar from "./components/TopBar.jsx";
 import Inventory from "./components/Inventory/Inventory";
 import Home from "./components/home/Home.jsx";
+import Suppliers from "./components/supplier/Suppliers";
+import PurchaseOrders from "./components/PurchaseOrders/PurchaseOrders";
 import "./App.css";
 
 function App() {
@@ -13,7 +15,9 @@ function App() {
         <div className="App">
             <TopBar 
                 onEmployeesClick={() => navigate("/employees")} 
-                onInventoryClick={() => navigate("/inventory")} 
+                onInventoryClick={() => navigate("/inventory")}
+                onSuppliersClick={() => navigate("/suppliers")}
+                onPurchaseOrdersClick={() => navigate("/purchase-orders")}
             />
             
             {/* Add main-content wrapper with proper spacing */}
@@ -23,6 +27,8 @@ function App() {
                     <Route path="/employees" element={<EmployeeList />} />
                     <Route path="/employees-add" element={<AddEmployee />} />
                     <Route path="/inventory" element={<Inventory />} />
+                    <Route path="/suppliers" element={<Suppliers />} />
+                    <Route path="/purchase-orders" element={<PurchaseOrders />} />
                 </Routes>
             </main>
         </div>
