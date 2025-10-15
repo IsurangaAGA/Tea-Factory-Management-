@@ -1,56 +1,46 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import './TopBar.css';
 
-function TopBar({ onEmployeesClick }) {
-    const navigate = useNavigate();
-    return (
-        <div
-            style={{
-                width: "100%",
-                maxWidth: "100%",
-                backgroundColor: "#064e3b",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "20px 20px",
-                boxSizing: "border-box",
-                color: "white",
-            }}
-        >
-
-
-            <div style={{ marginLeft: "auto", display: "flex", gap: "10px" }}>
-                <button
-                    onClick={() => navigate("/employees")}
-                    style={{
-                        backgroundColor: "white",
-                        color: "#075694",
-                        padding: "8px 16px",
-                        border: "none",
-                        borderRadius: "4px",
-                        fontWeight: "bold",
-                        cursor: "pointer",
-                    }}
-                >
-                    Employees
-                </button>
-                <button
-                    onClick={() => navigate("/tasks")}
-                    style={{
-                        backgroundColor: "white",
-                        color: "#065f46",
-                        padding: "8px 16px",
-                        border: "none",
-                        borderRadius: "4px",
-                        fontWeight: "bold",
-                        cursor: "pointer",
-                    }}
-                >
-                    Tasks
-                </button>
-            </div>
+const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick }) => {
+  return (
+    <nav className="topbar">
+      <div className="topbar-container">
+        <div className="logo">
+          <span className="logo-icon">🌳</span>
+          <span className="logo-text">TreeWhiff</span>
         </div>
-    );
-}
+        
+        <div className="nav-links">
+          <a href="/" className="nav-link">Home</a>
+          <a href="#about" className="nav-link">About</a>
+          <a href="#projects" className="nav-link">Projects</a>
+          <a href="#impact" className="nav-link">Impact</a>
+          <a href="#contact" className="nav-link">Contact</a>
+        </div>
+
+        <div className="topbar-actions">
+          <button className="btn-employees" onClick={onEmployeesClick}>
+            Employees
+          </button>
+          <button className="btn-inventory" onClick={onInventoryClick}>
+            Inventory
+          </button>
+          <button className="btn-tasks" onClick={onTasksClick}>
+            Tasks
+          </button>
+          <button className="btn-login">Login</button>
+          <button className="btn-signup">Sign Up</button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="mobile-menu-btn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+  );
+};
 
 export default TopBar;
