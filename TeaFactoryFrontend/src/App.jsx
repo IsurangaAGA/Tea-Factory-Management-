@@ -1,6 +1,8 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import EmployeeList from "./components/employee/EmployeeList";
 import AddEmployee from "./components/employee/AddEmployee";
+import TaskList from "./components/Tasks/TaskList.jsx";
+import AddTask from "./components/Tasks/AddTask.jsx";
 import TopBar from "./components/TopBar.jsx";
 import Inventory from "./components/Inventory/Inventory";
 import Home from "./components/home/Home.jsx";
@@ -10,17 +12,16 @@ import "./App.css";
 
 function App() {
     const navigate = useNavigate();
-
     return (
         <div className="App">
-            <TopBar 
-                onEmployeesClick={() => navigate("/employees")} 
+            <TopBar
+                onEmployeesClick={() => navigate("/employees")}
                 onInventoryClick={() => navigate("/inventory")}
                 onSuppliersClick={() => navigate("/suppliers")}
                 onPurchaseOrdersClick={() => navigate("/purchase-orders")}
+                onTasksClick={()=>navigate("/tasks")}
             />
-            
-            {/* Add main-content wrapper with proper spacing */}
+
             <main className="main-content">
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -29,6 +30,8 @@ function App() {
                     <Route path="/inventory" element={<Inventory />} />
                     <Route path="/suppliers" element={<Suppliers />} />
                     <Route path="/purchase-orders" element={<PurchaseOrders />} />
+                    <Route path="/tasks" element={<TaskList />} />
+                    <Route path="/tasks-add" element={<AddTask />} />
                 </Routes>
             </main>
         </div>

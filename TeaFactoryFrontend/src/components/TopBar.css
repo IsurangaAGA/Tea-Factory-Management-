@@ -1,342 +1,175 @@
-/* TopBar.css - Modern Version */
 .topbar {
-  background: rgba(62, 52, 7, 0.95);
-  backdrop-filter: blur(20px);
-  padding: 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.08);
-  border-bottom: 1px solid rgba(204, 193, 58, 0.1);
-  height: 70px;
+    background-color: #2d5a27;
+    padding: 0.8rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .topbar-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2rem;
-  height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-.logo:hover {
-  transform: translateY(-1px);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
 }
 
 .logo-icon {
-  font-size: 2.25rem;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    font-size: 1.8rem;
 }
 
 .logo-text {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #CCC13A;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #CCC13A, #E5E95B);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+    font-family: 'Arial', sans-serif;
 }
 
 .nav-links {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.5rem;
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(204, 193, 58, 0.1);
+    display: flex;
+    gap: 2rem;
 }
 
 .nav-link {
-  color: #ECE9B8;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0.75rem 1.25rem;
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-}
-
-.nav-link::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(204, 193, 58, 0.1), transparent);
-  transition: left 0.6s ease;
-}
-
-.nav-link:hover::before {
-  left: 100%;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 0.5rem 0;
 }
 
 .nav-link:hover {
-  color: #CCC13A;
-  background: rgba(204, 193, 58, 0.08);
-  transform: translateY(-1px);
+    color: #a8e6a3;
 }
 
 .topbar-actions {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
-/* Base button styles for Employees and Inventory */
-.btn-employees, .btn-inventory {
-  background: transparent;
-  color: #ECE9B8;
-  border: 1.5px solid rgba(86, 113, 25, 0.3);
-  padding: 0.75rem 1.5rem;
-  border-radius: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 0.9rem;
-  position: relative;
-  overflow: hidden;
+/* Button Styles */
+.btn-employees,
+.btn-inventory,
+.btn-tasks,
+.btn-login,
+.btn-signup {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
-.btn-employees::before, .btn-inventory::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(86, 113, 25, 0.2), transparent);
-  transition: left 0.6s ease;
+.btn-employees {
+    background-color: #4a7c59;
+    color: white;
 }
 
-.btn-employees:hover::before, .btn-inventory:hover::before {
-  left: 100%;
+.btn-employees:hover {
+    background-color: #3a6348;
+    transform: translateY(-2px);
 }
 
-.btn-employees:hover, .btn-inventory:hover {
-  background: rgba(86, 113, 25, 0.3);
-  color: white;
-  transform: translateY(-2px);
-  border-color: rgba(86, 113, 25, 0.5);
-  box-shadow: 0 8px 25px rgba(86, 113, 25, 0.2);
+.btn-inventory {
+    background-color: #8b4513;
+    color: white;
 }
 
-/* Login button */
+.btn-inventory:hover {
+    background-color: #654321;
+    transform: translateY(-2px);
+}
+
+.btn-tasks {
+    background-color: #d4af37;
+    color: white;
+}
+
+.btn-tasks:hover {
+    background-color: #b8941f;
+    transform: translateY(-2px);
+}
+
 .btn-login {
-  background: transparent;
-  color: #ECE9B8;
-  border: 1.5px solid rgba(113, 170, 4, 0.4);
-  padding: 0.75rem 1.5rem;
-  border-radius: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 0.9rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-login::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(113, 170, 4, 0.2), transparent);
-  transition: left 0.6s ease;
-}
-
-.btn-login:hover::before {
-  left: 100%;
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
 }
 
 .btn-login:hover {
-  background: rgba(113, 170, 4, 0.3);
-  color: white;
-  transform: translateY(-2px);
-  border-color: rgba(113, 170, 4, 0.6);
-  box-shadow: 0 8px 25px rgba(113, 170, 4, 0.2);
+    background-color: white;
+    color: #2d5a27;
 }
 
-/* Sign Up button */
 .btn-signup {
-  background: linear-gradient(135deg, #71AA04, #8EB809);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.75rem;
-  border-radius: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px rgba(113, 170, 4, 0.3);
-  position: relative;
-  overflow: hidden;
-  font-size: 0.9rem;
-}
-
-.btn-signup::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.6s ease;
-}
-
-.btn-signup:hover::before {
-  left: 100%;
+    background-color: #ff6b35;
+    color: white;
 }
 
 .btn-signup:hover {
-  background: linear-gradient(135deg, #8EB809, #A3A53F);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(113, 170, 4, 0.4);
+    background-color: #e55a2b;
+    transform: translateY(-2px);
 }
 
+/* Mobile Menu Button */
 .mobile-menu-btn {
-  display: none;
-  flex-direction: column;
-  gap: 4px;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.mobile-menu-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
 }
 
 .mobile-menu-btn span {
-  width: 22px;
-  height: 2px;
-  background: #CCC13A;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 2px;
-}
-
-.mobile-menu-btn:hover span {
-  background: #E5E95B;
-  transform: scaleX(1.1);
-}
-
-/* Active state for navigation */
-.nav-link.active {
-  color: #CCC13A;
-  background: rgba(204, 193, 58, 0.15);
-  font-weight: 600;
-}
-
-/* Focus states for accessibility */
-.nav-link:focus,
-.btn-employees:focus,
-.btn-inventory:focus,
-.btn-login:focus,
-.btn-signup:focus {
-  outline: 2px solid #CCC13A;
-  outline-offset: 2px;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    transition: 0.3s;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .topbar {
-    height: 65px;
-  }
-  
-  .topbar-container {
-    padding: 0 1.5rem;
-  }
+    .topbar-container {
+        padding: 0 1rem;
+    }
 
-  .nav-links {
-    display: none;
-  }
+    .nav-links {
+        display: none;
+    }
 
-  .topbar-actions {
-    display: none;
-  }
+    .topbar-actions {
+        display: none;
+    }
 
-  .mobile-menu-btn {
-    display: flex;
-  }
+    .mobile-menu-btn {
+        display: flex;
+    }
 
-  .logo-text {
-    font-size: 1.3rem;
-  }
-  
-  .logo-icon {
-    font-size: 2rem;
-  }
+    .logo-text {
+        font-size: 1.3rem;
+    }
 }
 
-@media (max-width: 1024px) {
-  .topbar-actions {
-    gap: 0.5rem;
-  }
-  
-  .btn-employees, 
-  .btn-inventory, 
-  .btn-login {
-    padding: 0.65rem 1.25rem;
-    font-size: 0.85rem;
-  }
-  
-  .btn-signup {
-    padding: 0.65rem 1.5rem;
-    font-size: 0.85rem;
-  }
-  
-  .nav-link {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
-}
+@media (max-width: 480px) {
+    .topbar-container {
+        padding: 0 0.5rem;
+    }
 
-/* Animation for page load */
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+    .logo-text {
+        font-size: 1.1rem;
+    }
 
-.topbar {
-  animation: slideDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .topbar {
-    background: rgba(40, 35, 5, 0.95);
-    border-bottom-color: rgba(204, 193, 58, 0.15);
-  }
-  
-  .nav-links {
-    background: rgba(0, 0, 0, 0.2);
-  }
+    .logo-icon {
+        font-size: 1.5rem;
+    }
 }
