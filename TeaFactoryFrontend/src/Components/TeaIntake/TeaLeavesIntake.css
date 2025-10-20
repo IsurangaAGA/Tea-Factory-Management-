@@ -179,44 +179,81 @@ html, body {
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-/* --- New UI: Today's Date Display Styles --- */
-.today-date-display {
-    text-align: center;
-    padding: 15px 0;
-    margin-bottom: 15px; /* Space between this element and the month/year selectors */
-    background: linear-gradient(to bottom, #007bff, #0056b3); /* Calendar top-bar blue gradient */
-    border-radius: 10px; /* Rounded corners */
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* --- New Inline Date/Time Display --- */
+/* REMOVE .today-date-main-card and its children styles */
+
+.today-date-inline-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa; /* Light background for the display area */
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.03);
 }
 
-.today-month {
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    margin-bottom: 5px;
+.date-block {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    color: #333;
+    padding-right: 15px;
+    border-right: 1px solid #eee; /* Separates date from time */
 }
 
-.today-date {
-    font-size: 60px;
+.date-value {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    color: #007bff; /* Primary color */
+}
+
+.month-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6c757d;
+    line-height: 1.5;
+    padding-bottom: 2px;
+}
+
+.time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 15px;
+}
+
+.time-value {
+    font-size: 24px;
     font-weight: 700;
     line-height: 1;
-    margin-bottom: 5px;
+    color: #343a40;
 }
 
-.today-day {
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 1.5px;
+.time-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #999;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+/* Divider line between date display and selectors */
+.calendar-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 0 0 15px 0;
 }
 /* ------------------------------------------- */
+
 
 .calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  gap: 10px; /* Space between select boxes */
+  gap: 10px;
 }
 
 .calendar-header select {
@@ -274,9 +311,217 @@ html, body {
 }
 
 /* Achievement / Analytics Section */
-.achievement-section p {
-  font-size: 14px;
-  margin-bottom: 6px;
+.achievement-section h3 {
+    margin-bottom: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+/* New Title Class for the main section title */
+.analytics-main-title {
+    margin-bottom: 15px; /* Space between main title and first summary */
+}
+
+
+/* --- DAILY SUMMARY Styles --- */
+.daily-summary-section {
+    margin-top: 15px; /* Space after Analytics title */
+    margin-bottom: 25px; /* Separates daily from monthly */
+}
+.summary-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #555;
+}
+.analytics-card-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.analytic-card {
+    flex: 1;
+    background: #f8f9fa; /* Light background */
+    padding: 15px 10px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.analytic-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #007bff; /* Primary blue color */
+    margin-bottom: 5px;
+    line-height: 1;
+}
+
+.analytic-label {
+    font-size: 12px;
+    color: #6c757d; /* Muted gray */
+    font-weight: 500;
+}
+
+/* Color variations for visual distinction */
+.analytic-total-intakes {
+    background-color: #e6f7ff;
+}
+.analytic-total-weight {
+    background-color: #ebfafa;
+}
+.analytic-avg-weight {
+    background-color: #fff8e6;
+}
+.analytic-total-intakes .analytic-value { color: #007bff; }
+.analytic-total-weight .analytic-value { color: #5DD5D5; }
+.analytic-avg-weight .analytic-value { color: #FFB84D; }
+
+/* --- MONTHLY SUMMARY (Graph) Styles --- */
+.monthly-summary-section .monthly-summary-subtitle {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 15px;
+    margin-top: -10px;
+}
+/* Graph Selectors */
+.graph-selector-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.graph-selector-header select {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* New Container for Y-Axis and Plot Area */
+.graph-y-axis-container {
+    display: flex;
+    align-items: flex-start; /* Aligns the Y-axis labels and graph area at the top */
+    gap: 5px;
+}
+
+/* Y-Axis Labels Styling (New) */
+.y-axis-labels {
+    height: 150px; /* Matches height of graph-placeholder-container */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end; /* Align numbers to the right */
+    padding: 0 5px 25px 0; /* Align top/bottom, add right padding */
+    width: 50px; /* Fixed width for labels */
+    font-size: 10px;
+    color: #777;
+    font-weight: 500;
+    position: relative; /* Context for children */
+}
+.y-axis-label {
+    line-height: 1;
+    position: relative;
+    padding-right: 5px;
+}
+.y-axis-label.middle {
+    transform: translateY(50%); /* Adjust mid-point label position */
+}
+.y-axis-label.top {
+    /* Align to the top of the graph area */
+    top: -5px;
+}
+.y-axis-label.bottom {
+    /* Align to the bottom/x-axis of the graph area */
+    bottom: -15px;
+}
+
+
+.graph-placeholder-container {
+    flex-grow: 1; /* Takes up the remaining space */
+    padding: 20px 10px 30px 0; /* Adjusted padding: 0 on left, extra on bottom for X-axis labels */
+    background-color: #fcfcfc;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+/* Container for the non-continuous points (days with intake only) */
+.graph-point-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 100%;
+    padding: 0 5px;
+    border-bottom: 1px solid #ddd; /* X-axis line */
+    position: relative;
+    background: none;
+    gap: 15px; /* Gap between actual intake days */
+}
+
+.graph-point {
+    width: 15px;
+    background: #5DD5D5;
+    position: relative;
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s ease;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    flex-shrink: 0;
+}
+.graph-point::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+    border: 1.5px solid #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+.point-label {
+    position: absolute;
+    bottom: -25px;
+    font-size: 10px;
+    color: #666;
+    white-space: nowrap;
+    visibility: visible;
+}
+
+
+.monthly-total-metric {
+    text-align: center;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #f1f3f5;
+}
+
+.metric-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6c757d;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.metric-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #343a40;
 }
 
 /* Responsive */
@@ -297,6 +542,12 @@ html, body {
     width: 100%;
   }
   .class-card {
-    min-width: 80%;   /* take most of screen width */
+    min-width: 80%;
+  }
+  .today-date-main-card, .analytics-card-container {
+      flex-wrap: wrap;
+  }
+  .today-date-card, .analytic-card {
+      flex-basis: 30%;
   }
 }
