@@ -1,58 +1,167 @@
 .batch-container {
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
+  display: grid; /* Use CSS Grid for the two-column layout */
+  grid-template-columns: 1fr 1fr; /* Two equal-width columns */
   gap: 2rem;
-  max-width: 800px; /* Optional: Makes the list look better centered */
+  max-width: 1200px; /* Increase max-width to accommodate two columns */
   margin: auto;
 }
+
+/* New CSS to control the layout structure within the Grid */
+.batch-container > h1 {
+  grid-column: 1 / -1; /* Make the H1 span both columns */
+  text-align: center; /* Center the main heading */
+}
+
+/* This targets the Available Intakes section */
+.intake-list {
+  grid-column: 1 / 2; /* Place in the first column */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Existing styles for background, padding, etc. remain */
+  background: #fff;
+  padding: 1rem 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.intake-list h2 {
+  padding: 0 1rem; /* Add padding to align with list items */
+}
+
+/* This targets the Existing Batches section */
+.batch-list {
+  grid-column: 2 / 3; /* Place in the second column */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Existing styles for background, padding, etc. remain */
+  background: #fff;
+  padding: 1rem 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.batch-list h2 {
+  padding: 0 1rem; /* Add padding to align with list items */
+}
+
+/* The button needs to be placed at the top and span both columns */
+.create-btn {
+  grid-column: 1 / -1; /* Span both columns */
+  order: 2; /* Place it after the H1 */
+  align-self: center; /* Center the button in the spanned area */
+  /* Other button styles remain */
+  background: #00b894;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 184, 148, 0.4);
+  transition: background-color 0.2s;
+  width: fit-content; /* Adjust width to fit content */
+  justify-self: center; /* Center the button within its grid cell */
+}
+
+.create-btn:hover {
+    background: #009677;
+}
+
+/* --- Keep all other existing CSS styles as they are for the list items, headers, and details. --- */
 
 h1, h2 {
   color: #333;
 }
 
 .intake-list, .batch-list {
-  background: #fff; /* White background for the main list area */
-  padding: 1rem 0; /* Adjust padding */
+  background: #fff;
+  padding: 1rem 0;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* --- New List Item Style --- */
+/* --- List Item Structure --- */
 
 .list-item-wrapper {
-  display: flex;
-  margin-bottom: 15px; /* Spacing between items */
-  padding: 0 1rem; /* Horizontal padding for the wrapper */
+  display: block;
+  margin-bottom: 15px;
+  padding: 0 1rem;
 }
 
-.list-item-time {
-  flex-shrink: 0; /* Prevent time column from shrinking */
-  width: 100px; /* Fixed width for the time/date column */
-  padding-right: 10px;
-  text-align: right;
-  font-size: 0.9em;
-  color: #666;
-}
-
-.list-item-time strong {
-    font-size: 1.1em;
-    color: #333;
-}
+/* --- Main Item Card (Unified Container) --- */
 
 .intake-item, .batch-card {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
   background: #fcfcfc;
   border: 1px solid #eee;
   padding: 0.8rem 1rem;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s;
-  position: relative; /* For the vertical line */
-  margin-left: 20px; /* Space for the line and indicator */
+  position: relative;
+  margin-left: 10px;
+
+  /* --- CORE CHANGE: Enable two-column layout --- */
+  display: flex; /* Use flexbox for the internal layout */
+  justify-content: space-between; /* Space out the left and right columns */
+  align-items: center; /* Vertically align content in the center */
 }
+
+/* --- Internal Left Side (Time/Date) --- */
+.intake-header, .batch-header {
+    /* Takes up less horizontal space (e.g., 40%) */
+    flex: 0 0 40%;
+    padding-right: 15px; /* Add space between columns */
+    border-right: 1px solid #0a0a0a; /* Visual divider */
+}
+
+.intake-header p, .batch-header p {
+    /* Stack time and date vertically */
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    border-bottom: none; /* Remove line from previous version */
+}
+
+.intake-time, .batch-time {
+    font-weight: 700;
+    color: #333;
+    font-size: 1.4em; /* Make time stand out */
+    line-height: 1.2;
+}
+
+.intake-date, .batch-date {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 2px;
+}
+
+
+/* --- Internal Right Side (Supplier/Weight) --- */
+.intake-details, .batch-details {
+    /* Takes up remaining space (e.g., 60%) */
+    flex: 1;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column; /* Stack name and weight */
+    gap: 4px;
+    color: #333;
+}
+
+.intake-details p, .batch-details p {
+    margin: 0;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.intake-details strong, .batch-details strong {
+    font-weight: 700;
+}
+
 
 /* Vertical Divider Line */
 .intake-item::before, .batch-card::before {
@@ -60,14 +169,12 @@ h1, h2 {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -2px; /* Adjust to align with the time/date area */
+  left: -10px;
   width: 4px;
-  background-color: #00b894; /* Default line color (like the green) */
   border-radius: 2px;
 }
 
-/* Color variations for different types (Tai Chi=Blue, Personal Training=Purple, etc.) */
-/* Using blue for intake and a darker shade for batch for visual distinction */
+/* Color codes for the vertical lines */
 .intake-item::before {
   background-color: #0984e3; /* Blue for intakes */
 }
@@ -78,48 +185,7 @@ h1, h2 {
 
 
 /* Styling for Intake Items */
-.intake-item {
-    cursor: pointer;
-}
-
 .intake-item.selected {
   background: #e6fff7;
   border-color: #00b894;
-}
-
-.intake-item p, .batch-card p {
-    margin: 0;
-    line-height: 1.4;
-}
-
-.intake-item strong {
-    color: #333;
-    font-size: 1.1em;
-}
-
-/* Styling for Batch Cards */
-.batch-card {
-    cursor: default;
-}
-.batch-card strong {
-    font-weight: 600;
-}
-
-
-.create-btn {
-  background: #00b894;
-  color: white;
-  padding: 0.7rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  align-self: flex-start;
-  font-size: 1em;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 184, 148, 0.4);
-  transition: background-color 0.2s;
-}
-
-.create-btn:hover {
-    background: #009677;
 }

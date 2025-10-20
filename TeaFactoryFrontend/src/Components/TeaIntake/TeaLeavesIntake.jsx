@@ -10,6 +10,8 @@ import {
   Edit,
   Trash2,
 } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts'; // New Recharts Imports
+
 // Ensure you have a TeaLeavesIntake.css file with the necessary styles
 import "./TeaLeavesIntake.css";
 
@@ -88,6 +90,7 @@ const TeaLeavesIntake = () => {
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
 
   // Graph/Monthly Summary State
+  // graphData will now hold ALL days of the month, with 'date' as the X-axis key
   const [graphData, setGraphData] = useState([]); // Data aggregated by day
   const [graphCurrentMonth, setGraphCurrentMonth] = useState(today.getMonth());
   const [graphCurrentYear, setGraphCurrentYear] = useState(today.getFullYear());
@@ -138,11 +141,7 @@ const TeaLeavesIntake = () => {
 
   // --- Graph Data Aggregation Logic (Aggregates by day) ---
   useEffect(() => {
-    if (intakeData.length === 0) {
-        setGraphData([]);
-        return;
-    }
-
+    // Determine the days of the selected graph month
     const firstDay = new Date(graphCurrentYear, graphCurrentMonth, 1);
     const lastDay = new Date(graphCurrentYear, graphCurrentMonth + 1, 0);
     const daysInGraphMonth = lastDay.getDate();
@@ -151,12 +150,13 @@ const TeaLeavesIntake = () => {
     for (let i = 1; i <= daysInGraphMonth; i++) {
         const d = new Date(graphCurrentYear, graphCurrentMonth, i);
         const key = formatDateLocal(d);
-        // Initializing every day of the month with 0 weight
-        dailySummaryMap[key] = { date: i, totalWeight: 0, key };
+        // Initializing every day of the month with 0 weight, but 'name' is the day number for the XAxis
+        dailySummaryMap[key] = { name: i, totalWeight: 0, dateKey: key };
     }
 
     intakeData.forEach(item => {
         const itemDate = new Date(item.date);
+        // Ensure the data point is within the currently selected graph month/year
         if (itemDate.getFullYear() === graphCurrentYear && itemDate.getMonth() === graphCurrentMonth) {
             const key = item.date;
             if (dailySummaryMap[key]) {
@@ -165,7 +165,7 @@ const TeaLeavesIntake = () => {
         }
     });
 
-    const finalGraphData = Object.values(dailySummaryMap).sort((a, b) => a.date - b.date);
+    const finalGraphData = Object.values(dailySummaryMap).sort((a, b) => a.name - b.name);
     setGraphData(finalGraphData);
   }, [intakeData, graphCurrentMonth, graphCurrentYear]);
   // ---------------------------------------------
@@ -176,20 +176,21 @@ const TeaLeavesIntake = () => {
   const avgWeight = totalIntakes > 0 ? totalWeight / totalIntakes : 0;
   // ------------------------------
 
-  // --- Monthly Graph Data Filter and Calculations ---
-  // Filter only days with intake for rendering
-  const filteredGraphData = graphData.filter(d => d.totalWeight > 0);
+  // --- Monthly Graph Data Calculations ---
 
-  // Recalculate max weight based *only* on the days with intake for better scaling
-  const maxMonthlyWeight = Math.max(...filteredGraphData.map(d => d.totalWeight), 1);
+  // Calculate max weight based on the monthly data for Y-axis scaling
+  const maxMonthlyWeight = Math.max(...graphData.map(d => d.totalWeight), 100); // Minimum of 100 for better scaling
 
-  // Calculate total monthly intake (using the full graphData for accuracy)
+  // Calculate total monthly intake
   const totalMonthlyIntake = graphData.reduce((sum, d) => sum + d.totalWeight, 0);
 
   // Calculate key Y-axis ticks for visual context
   const maxLabel = Math.ceil(maxMonthlyWeight);
   // We'll show 0, Max/2, and Max
-  const midLabel = (maxLabel / 2).toFixed(1);
+  const midLabel = (maxLabel / 2).toFixed(0); // Use 0 decimal for cleaner display
+
+  // Extract all the 'name' (day number) values for custom XAxis ticks and ReferenceLines
+  const xAxisTicks = graphData.map(d => d.name);
   // ------------------------------
 
   // --- Handlers for Scrolling and Deletion ---
@@ -411,40 +412,85 @@ const TeaLeavesIntake = () => {
                 </select>
               </div>
 
-              {/* === GRAPH CONTAINER: Includes Y-Axis and Plot Area === */}
+              {/* === RECHARTS GRAPH CONTAINER === */}
               <div className="graph-y-axis-container">
-                  {/* Y-Axis Labels (New) */}
+                  {/* Y-Axis Labels (Manual for aesthetics) */}
                   <div className="y-axis-labels">
-                    {/* Max Value */}
                     <div className="y-axis-label top">{maxLabel} KG</div>
-                    {/* Mid Value */}
                     <div className="y-axis-label middle">{midLabel} KG</div>
-                    {/* Minimum Value (0, implicitly 1 for the smallest bar) */}
                     <div className="y-axis-label bottom">0 KG</div>
                   </div>
 
-                  {/* Plot Area */}
-                  <div className="graph-placeholder-container">
-                      <div className="graph-point-container">
-                          {filteredGraphData.length > 0 ? (
-                              filteredGraphData.map((item) => (
-                                  <div
-                                      key={item.key}
-                                      className="graph-point intake-day"
-                                      // Scales height from 0% up to 100% of the container height.
-                                      style={{ height: `${(item.totalWeight / maxMonthlyWeight) * 100}%` }}
-                                  >
-                                      {/* Label shows the day number for every plotted point */}
-                                      <span className="point-label">{item.date}</span>
-                                  </div>
-                              ))
-                          ) : (
-                              <p style={{ textAlign: 'center', width: '100%', color: '#999', paddingTop: '50px' }}>No intake data for selected month.</p>
-                          )}
-                      </div>
+                  {/* Recharts Plot Area */}
+                  <div className="recharts-plot-area">
+                      <ResponsiveContainer width="100%" height={150}>
+                        <AreaChart
+                          data={graphData}
+                          margin={{ top: 10, right: 10, left: 0, bottom: 20 }} // Adjusted bottom margin for XAxis
+                        >
+                          {/* Define Gradient for the Area Fill (faded effect) */}
+                          <defs>
+                            <linearGradient id="colorMonthlyWeight" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#5DD5D5" stopOpacity={0.4}/>
+                              <stop offset="95%" stopColor="#5DD5D5" stopOpacity={0.05}/>
+                            </linearGradient>
+                          </defs>
+
+                          {/* Vertical Grid Lines using ReferenceLine */}
+                          {xAxisTicks.map((tick, index) => (
+                            <ReferenceLine
+                              key={index}
+                              x={tick}
+                              stroke="#e0e0e0"
+                              strokeDasharray="3 3"
+                              ifOverflow="extendDomain"
+                            />
+                          ))}
+
+                          {/* Horizontal Grid Lines - Adding one for the mid-point for context */}
+                          <ReferenceLine
+                              y={maxMonthlyWeight / 2}
+                              stroke="#e0e0e0"
+                              strokeDasharray="3 3"
+                              ifOverflow="extendDomain"
+                          />
+
+                          <XAxis
+                            dataKey="name"
+                            axisLine={false}
+                            tickLine={false}
+                            interval={Math.floor(graphData.length / 7)} // Show ~7 ticks for readability
+                            padding={{ left: 5, right: 5 }}
+                            style={{ fontSize: '10px', fill: '#666' }}
+                          />
+
+                          {/* Y-Axis: Hidden, using domain to control max height */}
+                          <YAxis
+                            dataKey="totalWeight"
+                            hide={true}
+                            domain={[0, maxMonthlyWeight]}
+                          />
+
+                          <Tooltip
+                              formatter={(value) => [`${value.toFixed(2)} kg`, 'Intake']}
+                              labelFormatter={(label) => `Day ${label}`}
+                          />
+
+                          {/* The Area Line and Fill */}
+                          <Area
+                            type="monotone" // Creates the smooth curve
+                            dataKey="totalWeight"
+                            stroke="#5DD5D5" // Teal line color
+                            strokeWidth={2}
+                            fill="url(#colorMonthlyWeight)" // Use the defined gradient
+                            dot={{ stroke: '#5DD5D5', strokeWidth: 2, r: 3, fill: 'white' }} // Dots on the line
+                            activeDot={{ r: 5 }}
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
                   </div>
               </div>
-              {/* === END GRAPH CONTAINER === */}
+              {/* === END RECHARTS GRAPH CONTAINER === */}
 
 
               {/* Total Monthly Intake Metric */}

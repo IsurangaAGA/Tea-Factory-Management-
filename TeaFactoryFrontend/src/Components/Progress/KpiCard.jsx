@@ -39,36 +39,42 @@ const KpiCard = ({ stage, batches, moveBatch }) => {
     </svg>
   );
 
-  const isSourceCard = stage.name === 'Tea Batches';
+  // ... (inside the KpiCard component)
 
-  if (isSourceCard) {
-    return (
-      <div ref={drop} className="kpi-card source-card-new" style={cardStyle}>
-        <div className="source-card-icon-area">
-          <div className="source-card-icon-wrapper">
-            <TeaLeafIcon color={stage.color} />
+    const isSourceCard = stage.name === 'Tea Batches';
+
+    if (isSourceCard) {
+      return (
+        <div ref={drop} className="kpi-card source-card-new" style={cardStyle}>
+          <div className="source-card-icon-area">
+            <div className="source-card-icon-wrapper">
+              <TeaLeafIcon color={stage.color} />
+            </div>
+          </div>
+
+          <div className="source-card-body" style={{ backgroundColor: stage.color }}>
+            <h3 className="card-title-source">{stage.name}</h3>
+            <p className="source-card-description">
+              Tea batches ready for processing. Drag and drop batches below into the appropriate process stage.
+            </p>
+            <div className="batches-container source-batches-list">
+              {batches.length > 0 ? (
+                batches.map(batch => (
+                  <Batch
+                    key={batch.id}
+                    id={batch.id}
+                    name={batch.name}
+                  />
+                ))
+              ) : (
+                <p className="placeholder-text-source">No batches ready.</p>
+              )}
+            </div>
+            <div className="source-card-count-indicator">{batches.length}</div>
           </div>
         </div>
-
-        <div className="source-card-body" style={{ backgroundColor: stage.color }}>
-          <h3 className="card-title-source">{stage.name}</h3>
-          <p className="source-card-description">
-            Tea batches ready for processing. Drag and drop batches below into the appropriate process stage.
-          </p>
-          <div className="batches-container source-batches-list">
-            {batches.length > 0 ? (
-              batches.map(batch => (
-                <Batch key={batch.id} id={batch.id} name={batch.id} />
-              ))
-            ) : (
-              <p className="placeholder-text-source">No batches ready.</p>
-            )}
-          </div>
-          <div className="source-card-count-indicator">{batches.length}</div>
-        </div>
-      </div>
-    );
-  }
+      );
+    }
 
   return (
     <div ref={drop} className="kpi-card process-card" style={cardStyle}>
@@ -95,7 +101,7 @@ const KpiCard = ({ stage, batches, moveBatch }) => {
         <div className="batches-container">
           {batches.length > 0 ? (
             batches.map(batch => (
-              <Batch key={batch.id} id={batch.id} name={batch.id} />
+              <Batch key={batch.id} id={batch.id} name={batch.name} />
             ))
           ) : (
             <p className="placeholder-text">Drop batches here</p>

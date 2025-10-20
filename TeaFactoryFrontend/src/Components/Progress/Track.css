@@ -1,15 +1,49 @@
+.tracking-container {
+  padding: 30px 20px;
+  max-width: 1250px;
+  margin: 0 auto;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  background-image: url('img_3.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.tracking-inner-container {
+  padding: 20px 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-image: url('img.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+
 /* Overall Dashboard and Layout */
 .kpi-dashboard-container-staggered {
   padding: 20px;
   font-family: 'Inter', sans-serif;
   max-width: 1200px;
   margin: 0 auto;
+  background-image: url('img_1.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 h1 {
   text-align: center;
   margin-bottom: 30px;
-  color: #333;
+  color: #096e24;
   font-weight: 700;
 }
 
@@ -17,7 +51,7 @@ h1 {
 .staggered-layout {
   display: flex;
   justify-content: center;
-  gap: 40px; /* Space between the source card and the stage columns */
+  gap: 40px;
 }
 
 /* Left Column: Tea Batches Source Card */
@@ -33,25 +67,22 @@ h1 {
 /* Right Columns Wrapper (Holds the two staggered columns) */
 .right-columns-wrapper {
   display: flex;
-  gap: 20px; /* Space between the two right columns */
+  gap: 20px;
 }
 
 /* Individual Right Columns */
 .right-column {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Vertical spacing between cards in a column */
+  gap: 20px;
   width: 280px;
 }
 
 /* Re-introducing staggering: Set margin-top to offset the second column */
 .right-column.col-2 {
-  margin-top: 50px; /* Applied staggering effect */
+  margin-top: 50px;
 }
 
-/* ------------------------------------- */
-/* GENERAL KPI CARD STYLING (Used for 6 process stages) */
-/* ------------------------------------- */
 .kpi-card {
   position: relative;
   border-radius: 12px;
@@ -65,8 +96,6 @@ h1 {
   cursor: default;
   min-height: 170px;
 }
-
-/* PROCESS CARD (6 Stages) SPECIFIC STYLES */
 
 /* 1. COLORED HEADER VISUAL (Top Section) */
 .kpi-card-header-visual {
@@ -146,9 +175,6 @@ h1 {
   height: 40px;
 }
 
-/* ------------------------------------- */
-/* SOURCE CARD (Tea Batches) NEW STYLES */
-/* ------------------------------------- */
 
 .kpi-card.source-card-new {
   background: linear-gradient(135deg, #FF5783, #FF99A9);

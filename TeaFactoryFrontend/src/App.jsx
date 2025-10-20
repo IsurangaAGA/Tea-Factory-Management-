@@ -23,7 +23,7 @@
 //     </div>
 //   );
 // }
-
+//
 // import TeaLeavesIntake from './components/TeaIntake/TeaLeavesIntake';
 //
 // function App() {
@@ -49,3 +49,17 @@ function App() {
 
 
 export default App;
+
+
+// import TeaBatch from './components/TeaBatch/TeaBatch';
+//
+// function App() {
+//   return (
+//     <div className="App">
+//       <TeaBatch />
+//     </div>
+//   );
+// }
+//
+//
+// export default App;

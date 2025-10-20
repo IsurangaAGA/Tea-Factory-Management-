@@ -34,9 +34,16 @@ public class TeaBatchService {
         batch.setIntakeIds(intakeIds);
         batch.setBatchDate(LocalDate.now());
         batch.setTotalWeight(totalWeight);
-        batch.setBatchName("Batch-" + System.currentTimeMillis());
 
-        return batchRepo.save(batch);
+        // First save to get the ID assigned by the database
+        TeaBatch savedBatch = batchRepo.save(batch);
+
+        // Now set the batch name as "Batch-ID"
+        savedBatch.setBatchName("Batch-" + savedBatch.getId());
+
+        // Save again with batchName updated
+        return batchRepo.save(savedBatch);
     }
+
 }
 

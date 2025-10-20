@@ -1,16 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import KpiCard from './KpiCard';
 import './Track.css';
-
-const initialBatches = [
-  { id: 'Batch-T-101', stage: 'Tea Batches' },
-  { id: 'Batch-T-102', stage: 'Tea Batches' },
-  { id: 'Batch-G-103', stage: 'Tea Batches' },
-  { id: 'Batch-G-104', stage: 'Tea Batches' },
-  { id: 'Batch-B-105', stage: 'Tea Batches' },
-];
 
 const teaStages = [
   { name: 'Tea Batches', color: '#FF5783' },
@@ -23,7 +15,28 @@ const teaStages = [
 ];
 
 const Track = () => {
-  const [batches, setBatches] = useState(initialBatches);
+  const [batches, setBatches] = useState([]);
+
+  // Fetch batches and format them for the tracking board
+  useEffect(() => {
+    fetch("http://localhost:8080/api/batches")
+      .then((res) => res.json())
+      .then((data) => {
+        const validStages = teaStages.map(s => s.name);
+
+        const formattedBatches = data.map(batch => ({
+          // Use numeric id for DnD identity and tracking
+          id: batch.id,
+          // Always render display name as "Batch - <id>" for consistency
+          name: `Batch - ${batch.id}`,
+          // Initialize stage. If status is missing/invalid, default to 'Tea Batches'.
+          stage: validStages.includes(batch.status) ? batch.status : 'Tea Batches'
+        }));
+
+        setBatches(formattedBatches);
+      })
+      .catch((err) => console.error("Error fetching batches:", err));
+  }, []);
 
   const moveBatch = useCallback((batchId, newStage) => {
     setBatches(prevBatches =>
@@ -31,6 +44,8 @@ const Track = () => {
         batch.id === batchId ? { ...batch, stage: newStage } : batch
       )
     );
+
+    // Optional: Add logic here to persist the stage change to the backend if needed
   }, []);
 
   const sourceStage = teaStages[0];
@@ -49,18 +64,22 @@ const Track = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="kpi-dashboard-container-staggered">
-        <h1>Tea Production Flow</h1>
+      {/* First container */}
+      <div className="tracking-container">
+        <h1>Tracking Tea Processing Stages</h1>
 
-        <div className="staggered-layout">
-          <div className="left-column">{renderCard(sourceStage)}</div>
+        {/* Second container */}
+        <div className="tracking-inner-container kpi-dashboard-container-staggered">
+          <div className="staggered-layout">
+            <div className="left-column">{renderCard(sourceStage)}</div>
 
-          <div className="right-columns-wrapper">
-            <div className="right-column col-1">
-              {rightCol1Stages.map(stage => renderCard(stage))}
-            </div>
-            <div className="right-column col-2">
-              {rightCol2Stages.map(stage => renderCard(stage))}
+            <div className="right-columns-wrapper">
+              <div className="right-column col-1">
+                {rightCol1Stages.map(stage => renderCard(stage))}
+              </div>
+              <div className="right-column col-2">
+                {rightCol2Stages.map(stage => renderCard(stage))}
+              </div>
             </div>
           </div>
         </div>
@@ -70,4 +89,3 @@ const Track = () => {
 };
 
 export default Track;
-
