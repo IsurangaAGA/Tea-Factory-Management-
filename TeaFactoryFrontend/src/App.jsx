@@ -12,6 +12,11 @@ import "./App.css";
 
 function App() {
     const navigate = useNavigate();
+
+    <div className="App">
+      <Inventory />
+    </div>
+
     return (
         <div className="App">
             <TopBar
