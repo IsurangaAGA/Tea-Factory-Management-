@@ -1,0 +1,125 @@
+.batch-container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px; /* Optional: Makes the list look better centered */
+  margin: auto;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+.intake-list, .batch-list {
+  background: #fff; /* White background for the main list area */
+  padding: 1rem 0; /* Adjust padding */
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* --- New List Item Style --- */
+
+.list-item-wrapper {
+  display: flex;
+  margin-bottom: 15px; /* Spacing between items */
+  padding: 0 1rem; /* Horizontal padding for the wrapper */
+}
+
+.list-item-time {
+  flex-shrink: 0; /* Prevent time column from shrinking */
+  width: 100px; /* Fixed width for the time/date column */
+  padding-right: 10px;
+  text-align: right;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.list-item-time strong {
+    font-size: 1.1em;
+    color: #333;
+}
+
+.intake-item, .batch-card {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fcfcfc;
+  border: 1px solid #eee;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  position: relative; /* For the vertical line */
+  margin-left: 20px; /* Space for the line and indicator */
+}
+
+/* Vertical Divider Line */
+.intake-item::before, .batch-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -2px; /* Adjust to align with the time/date area */
+  width: 4px;
+  background-color: #00b894; /* Default line color (like the green) */
+  border-radius: 2px;
+}
+
+/* Color variations for different types (Tai Chi=Blue, Personal Training=Purple, etc.) */
+/* Using blue for intake and a darker shade for batch for visual distinction */
+.intake-item::before {
+  background-color: #0984e3; /* Blue for intakes */
+}
+
+.batch-card::before {
+  background-color: #6c5ce7; /* Purple for batches */
+}
+
+
+/* Styling for Intake Items */
+.intake-item {
+    cursor: pointer;
+}
+
+.intake-item.selected {
+  background: #e6fff7;
+  border-color: #00b894;
+}
+
+.intake-item p, .batch-card p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.intake-item strong {
+    color: #333;
+    font-size: 1.1em;
+}
+
+/* Styling for Batch Cards */
+.batch-card {
+    cursor: default;
+}
+.batch-card strong {
+    font-weight: 600;
+}
+
+
+.create-btn {
+  background: #00b894;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  align-self: flex-start;
+  font-size: 1em;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 184, 148, 0.4);
+  transition: background-color 0.2s;
+}
+
+.create-btn:hover {
+    background: #009677;
+}
