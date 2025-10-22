@@ -1,0 +1,8 @@
+/* GLOBAL CSS RESET ADDITION (This ensures the whole viewport is used) */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%; /* Ensures 100vh works correctly */
+    overflow-x: hidden; /* Prevents horizontal scrollbars from appearing */
+}
