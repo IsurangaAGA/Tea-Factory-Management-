@@ -24,10 +24,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for API
-                .cors(cors -> {})              // Enable CORS
+                .cors(cors -> {
+                })              // Enable CORS
                 .authorizeHttpRequests(auth -> auth
                         // Allow all requests to API endpoints
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/**", "/employees/**").permitAll()
                         // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
@@ -35,21 +36,6 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable());
 
         return http.build();
-    }
-
-    // Global CORS configuration
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:5173") // frontend origin
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
-            }
-        };
     }
 }
 
