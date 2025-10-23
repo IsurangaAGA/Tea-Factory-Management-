@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import KpiCard from './KpiCard';
+import BatchDetailsForm from './BatchDetailsForm'; // 1. Import the new form component
 import './Track.css';
 
 const teaStages = [
@@ -17,7 +18,11 @@ const teaStages = [
 const Track = () => {
   const [batches, setBatches] = useState([]);
 
-  // Fetch batches and format them for the tracking board
+  // 2. State for the pop-up form
+  const [selectedBatch, setSelectedBatch] = useState(null);
+  const [selectedStage, setSelectedStage] = useState('');
+
+  // Fetch batches and format them for the tracking board (Existing code remains the same)
   useEffect(() => {
     fetch("http://localhost:8080/api/batches")
       .then((res) => res.json())
@@ -48,17 +53,35 @@ const Track = () => {
     // Optional: Add logic here to persist the stage change to the backend if needed
   }, []);
 
+  // 3. Click handler to open the form
+  const handleBatchClick = useCallback((batchId, batchName) => {
+    const batchInfo = batches.find(b => b.id === batchId);
+    if (batchInfo) {
+        setSelectedBatch({ id: batchId, name: batchName });
+        setSelectedStage(batchInfo.stage);
+    }
+  }, [batches]);
+
+  // 4. Handler to close the form
+  const closeBatchForm = useCallback(() => {
+    setSelectedBatch(null);
+    setSelectedStage('');
+  }, []);
+
   const sourceStage = teaStages[0];
   const rightStages = teaStages.slice(1);
   const rightCol1Stages = [rightStages[0], rightStages[2], rightStages[4]];
   const rightCol2Stages = [rightStages[1], rightStages[3], rightStages[5]];
 
+  // 5. Render card now passes the click handler
   const renderCard = (stage) => (
     <KpiCard
       key={stage.name}
       stage={stage}
       batches={batches.filter(b => b.stage === stage.name)}
       moveBatch={moveBatch}
+      // Passed the new handler
+      onBatchClick={handleBatchClick}
     />
   );
 
@@ -84,6 +107,15 @@ const Track = () => {
           </div>
         </div>
       </div>
+
+      {/* 6. Conditionally render the pop-up form */}
+      {selectedBatch && (
+        <BatchDetailsForm
+          batch={selectedBatch}
+          currentStage={selectedStage}
+          onClose={closeBatchForm}
+        />
+      )}
     </DndProvider>
   );
 };

@@ -5,7 +5,8 @@ const ItemTypes = {
   BATCH: 'batch',
 };
 
-const Batch = ({ id, name }) => {
+// Added onClick prop
+const Batch = ({ id, name, onClick }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.BATCH,
     item: { id },
@@ -23,6 +24,8 @@ const Batch = ({ id, name }) => {
       ref={drag}
       className="batch-button"
       style={batchStyle}
+      // Added click handler
+      onClick={() => onClick(id, name)}
     >
       {name}
     </button>

@@ -3,7 +3,8 @@ import { useDrop } from 'react-dnd';
 import { ItemTypes } from './Batch';
 import Batch from './Batch';
 
-const KpiCard = ({ stage, batches, moveBatch }) => {
+// Added onBatchClick prop
+const KpiCard = ({ stage, batches, moveBatch, onBatchClick }) => {
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: ItemTypes.BATCH,
     drop: (item) => {
@@ -39,8 +40,6 @@ const KpiCard = ({ stage, batches, moveBatch }) => {
     </svg>
   );
 
-  // ... (inside the KpiCard component)
-
     const isSourceCard = stage.name === 'Tea Batches';
 
     if (isSourceCard) {
@@ -64,6 +63,8 @@ const KpiCard = ({ stage, batches, moveBatch }) => {
                     key={batch.id}
                     id={batch.id}
                     name={batch.name}
+                    // Pass handler here
+                    onClick={onBatchClick}
                   />
                 ))
               ) : (
@@ -101,7 +102,13 @@ const KpiCard = ({ stage, batches, moveBatch }) => {
         <div className="batches-container">
           {batches.length > 0 ? (
             batches.map(batch => (
-              <Batch key={batch.id} id={batch.id} name={batch.name} />
+              <Batch
+                key={batch.id}
+                id={batch.id}
+                name={batch.name}
+                // Pass handler here
+                onClick={onBatchClick}
+              />
             ))
           ) : (
             <p className="placeholder-text">Drop batches here</p>
