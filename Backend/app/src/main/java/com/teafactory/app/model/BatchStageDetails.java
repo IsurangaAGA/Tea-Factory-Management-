@@ -1,6 +1,7 @@
 package com.teafactory.app.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -22,6 +23,7 @@ public class BatchStageDetails {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_id")
+    @JsonIgnore
     private TeaBatch batch;
 
     // Getters and Setters

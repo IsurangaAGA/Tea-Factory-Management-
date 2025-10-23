@@ -45,8 +45,8 @@ public class TeaBatchService implements ITeaBatchService {
 
     // --- New Stage Methods ---
 
-    public List<BatchStageDetails> getStageDetails(Long batchId) {
-        return stageRepo.findByBatchIdOrderByCreatedAt(batchId);
+    public List<BatchStageDetails> getStageDetails(Long batchId, String stageName) {
+        return stageRepo.findByBatchIdAndStageNameOrderByCreatedAtDesc(batchId, stageName);
     }
 
     @Transactional
@@ -62,8 +62,14 @@ public class TeaBatchService implements ITeaBatchService {
     }
 
     public BatchStageDetails getStageByName(Long batchId, String stageName) {
-        return stageRepo.findByBatchIdAndStageName(batchId, stageName);
+        List<BatchStageDetails> stages = stageRepo.findByBatchIdAndStageNameOrderByCreatedAtDesc(batchId, stageName);
+
+        if (stages.isEmpty()) return null;
+
+        // return the latest one (most recently created)
+        return stages.get(0);
     }
+
 
     public BatchStageDetails getStageById(Long id) {
         return stageRepo.findById(id).orElse(null);

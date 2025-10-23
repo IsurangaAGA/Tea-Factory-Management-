@@ -1,7 +1,6 @@
 package com.teafactory.app.controllers;
 
 import com.teafactory.app.model.BatchStageDetails;
-import com.teafactory.app.model.BatchStageDetailsDTO;
 import com.teafactory.app.model.TeaBatch;
 import com.teafactory.app.service.TeaBatch.ITeaBatchService;
 import com.teafactory.app.service.TeaBatch.TeaBatchService;
@@ -43,59 +42,48 @@ public class TeaBatchController {
     // --- New Stage Endpoints ---
 
     @GetMapping("/{batchId}/stages")
-    public ResponseEntity<List<BatchStageDetailsDTO>> getBatchStages(@PathVariable Long batchId) {
-        List<BatchStageDetails> stages = teaBatchService.getStageDetails(batchId);
-        List<BatchStageDetailsDTO> stageDTOs = stages.stream()
-                .map(BatchStageDetailsDTO::new)
-                .toList();
-        return ResponseEntity.ok(stageDTOs);
+    public ResponseEntity<List<BatchStageDetails>> getBatchStages(@PathVariable Long batchId, String stageName) {
+        List<BatchStageDetails> stages = teaBatchService.getStageDetails(batchId, stageName);
+        return ResponseEntity.ok(stages);
     }
 
     @PostMapping("/{batchId}/stages")
-    public ResponseEntity<BatchStageDetailsDTO> saveStageDetails(
+    public ResponseEntity<BatchStageDetails> saveStageDetails(
             @PathVariable Long batchId,
-            @RequestBody BatchStageDetailsDTO stageDetailsDTO) {
-        BatchStageDetails stageDetails = stageDetailsDTO.toEntity();
+            @RequestBody BatchStageDetails stageDetails) {
         BatchStageDetails saved = teaBatchService.saveStageDetails(batchId, stageDetails);
-        return ResponseEntity.ok(new BatchStageDetailsDTO(saved));
+        return ResponseEntity.ok(saved);
     }
 
     @GetMapping("/{batchId}/stages/{stageName}")
-    public ResponseEntity<BatchStageDetailsDTO> getStageByName(
+    public ResponseEntity<BatchStageDetails> getStageByName(
             @PathVariable Long batchId,
             @PathVariable String stageName) {
 
         BatchStageDetails stage = teaBatchService.getStageByName(batchId, stageName);
         if (stage == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(new BatchStageDetailsDTO(stage));
+        return ResponseEntity.ok(stage);
     }
 
     @PutMapping("/{batchId}/stages/{stageId}")
-    public ResponseEntity<BatchStageDetailsDTO> updateStageDetails(
+    public ResponseEntity<BatchStageDetails> updateStageDetails(
             @PathVariable Long batchId,
             @PathVariable Long stageId,
-            @RequestBody BatchStageDetailsDTO updatedDetailsDTO) {
+            @RequestBody BatchStageDetails updatedDetails) {
 
         BatchStageDetails existing = teaBatchService.getStageById(stageId);
         if (existing == null) {
             return ResponseEntity.notFound().build();
         }
 
-        // Update existing entity with new data
-        existing.setWeight(updatedDetailsDTO.getWeight());
-        existing.setResponsible(updatedDetailsDTO.getResponsible());
-        existing.setStatus(updatedDetailsDTO.getStatus());
-        
-        if (updatedDetailsDTO.getStartTime() != null && !updatedDetailsDTO.getStartTime().isEmpty()) {
-            existing.setStartTime(java.time.LocalDateTime.parse(updatedDetailsDTO.getStartTime()));
-        }
-        
-        if (updatedDetailsDTO.getEndTime() != null && !updatedDetailsDTO.getEndTime().isEmpty()) {
-            existing.setEndTime(java.time.LocalDateTime.parse(updatedDetailsDTO.getEndTime()));
-        }
+        existing.setWeight(updatedDetails.getWeight());
+        existing.setResponsible(updatedDetails.getResponsible());
+        existing.setStatus(updatedDetails.getStatus());
+        existing.setStartTime(updatedDetails.getStartTime());
+        existing.setEndTime(updatedDetails.getEndTime());
 
         BatchStageDetails saved = teaBatchService.saveStageDetails(batchId, existing);
-        return ResponseEntity.ok(new BatchStageDetailsDTO(saved));
+        return ResponseEntity.ok(saved);
     }
 
 
