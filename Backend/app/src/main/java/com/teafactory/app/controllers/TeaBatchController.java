@@ -86,6 +86,14 @@ public class TeaBatchController {
         return ResponseEntity.ok(saved);
     }
 
+    // Get all stages for a batch (used for the popup table)
+    @GetMapping("/{batchId}/stages/all")
+    public ResponseEntity<List<BatchStageDetails>> getAllStagesForBatch(@PathVariable Long batchId) {
+        List<BatchStageDetails> stages = teaBatchService.getAllStagesForBatch(batchId);
+        return ResponseEntity.ok(stages);
+    }
+
+
 
 }
 

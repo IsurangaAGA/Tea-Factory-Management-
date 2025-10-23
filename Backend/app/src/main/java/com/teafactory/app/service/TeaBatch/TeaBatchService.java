@@ -75,5 +75,10 @@ public class TeaBatchService implements ITeaBatchService {
         return stageRepo.findById(id).orElse(null);
     }
 
+    public List<BatchStageDetails> getAllStagesForBatch(Long batchId) {
+        return stageRepo.findByBatchIdOrderByCreatedAtDesc(batchId);
+    }
+
+
 
 }
