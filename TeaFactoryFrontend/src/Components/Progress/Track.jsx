@@ -2,7 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import KpiCard from './KpiCard';
-import BatchDetailsForm from './BatchDetailsForm'; // 1. Import the new form component
+import BatchDetailsForm from './BatchDetailsForm';
+import BatchProgressTracker from './BatchProgressTracker';
 import './Track.css';
 
 const teaStages = [
@@ -15,14 +16,29 @@ const teaStages = [
   { name: 'Packing', color: '#673AB7' },
 ];
 
+// Helper to calculate progress based on stage index
+const calculateProgress = (stageName) => {
+  const processingStages = teaStages.slice(1); // Exclude 'Tea Batches'
+  const stageIndex = processingStages.findIndex(s => s.name === stageName);
+
+  if (stageIndex === -1) {
+    // 'Tea Batches' (Source card) or unlisted stage
+    return 0;
+  }
+
+  // 6 processing stages: Withering (1) -> Rolling (2) -> ... -> Packing (6)
+  // Progress is calculated as (stageIndex + 1) / totalStages * 100
+  return Math.round(((stageIndex + 1) / processingStages.length) * 100);
+};
+
+
 const Track = () => {
   const [batches, setBatches] = useState([]);
-
-  // 2. State for the pop-up form
   const [selectedBatch, setSelectedBatch] = useState(null);
   const [selectedStage, setSelectedStage] = useState('');
+  const [batchProgress, setBatchProgress] = useState({});
 
-  // Fetch batches and format them for the tracking board (Existing code remains the same)
+  // Fetch batches and format them for the tracking board
   useEffect(() => {
     fetch("http://localhost:8080/api/batches")
       .then((res) => res.json())
@@ -30,15 +46,19 @@ const Track = () => {
         const validStages = teaStages.map(s => s.name);
 
         const formattedBatches = data.map(batch => ({
-          // Use numeric id for DnD identity and tracking
           id: batch.id,
-          // Always render display name as "Batch - <id>" for consistency
           name: `Batch - ${batch.id}`,
-          // Initialize stage. If status is missing/invalid, default to 'Tea Batches'.
           stage: validStages.includes(batch.status) ? batch.status : 'Tea Batches'
         }));
 
         setBatches(formattedBatches);
+
+        // Initialize progress state
+        const initialProgress = formattedBatches.reduce((acc, batch) => {
+          acc[batch.id] = calculateProgress(batch.stage);
+          return acc;
+        }, {});
+        setBatchProgress(initialProgress);
       })
       .catch((err) => console.error("Error fetching batches:", err));
   }, []);
@@ -50,10 +70,13 @@ const Track = () => {
       )
     );
 
-    // Optional: Add logic here to persist the stage change to the backend if needed
+    const newProgress = calculateProgress(newStage);
+    setBatchProgress(prevProgress => ({
+        ...prevProgress,
+        [batchId]: newProgress
+    }));
   }, []);
 
-  // 3. Click handler to open the form
   const handleBatchClick = useCallback((batchId, batchName) => {
     const batchInfo = batches.find(b => b.id === batchId);
     if (batchInfo) {
@@ -62,7 +85,6 @@ const Track = () => {
     }
   }, [batches]);
 
-  // 4. Handler to close the form
   const closeBatchForm = useCallback(() => {
     setSelectedBatch(null);
     setSelectedStage('');
@@ -73,26 +95,30 @@ const Track = () => {
   const rightCol1Stages = [rightStages[0], rightStages[2], rightStages[4]];
   const rightCol2Stages = [rightStages[1], rightStages[3], rightStages[5]];
 
-  // 5. Render card now passes the click handler
   const renderCard = (stage) => (
     <KpiCard
       key={stage.name}
       stage={stage}
       batches={batches.filter(b => b.stage === stage.name)}
       moveBatch={moveBatch}
-      // Passed the new handler
       onBatchClick={handleBatchClick}
     />
   );
 
+  const trackerData = batches.map(batch => ({
+    ...batch,
+    progress: batchProgress[batch.id] || 0
+  }));
+
   return (
     <DndProvider backend={HTML5Backend}>
-      {/* First container */}
-      <div className="tracking-container">
-        <h1>Tracking Tea Processing Stages</h1>
+      {/* Independent Topic Section */}
+      <h1 className="tracking-title">Tracking Tea Processing Stages</h1>
 
-        {/* Second container */}
-        <div className="tracking-inner-container kpi-dashboard-container-staggered">
+      {/* Main Content: Side-by-side layout */}
+      <div className="main-content-layout">
+        {/* LEFT: Tea Processing Cards */}
+        <div className="stages-section">
           <div className="staggered-layout">
             <div className="left-column">{renderCard(sourceStage)}</div>
 
@@ -106,9 +132,13 @@ const Track = () => {
             </div>
           </div>
         </div>
+
+        {/* RIGHT: Batch Progress Tracker */}
+        <div className="progress-section">
+          <BatchProgressTracker batches={trackerData} teaStages={teaStages} />
+        </div>
       </div>
 
-      {/* 6. Conditionally render the pop-up form */}
       {selectedBatch && (
         <BatchDetailsForm
           batch={selectedBatch}

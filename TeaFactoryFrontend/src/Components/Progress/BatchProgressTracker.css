@@ -1,0 +1,133 @@
+/* Color Palette Reference:
+    --tea-dark-bg: #281a0e;       // Darkest Brown (like roasted tea/metal)
+    --tea-light-bg: #3d2b1f;      // Medium Brown (section background)
+    --tea-accent-bg: #57412c;     // Lighter Brown (item background/hover)
+    --tea-border: #6b5643;        // Muted Brown/Copper (borders/separators)
+    --tea-highlight: #75a74a;     // Primary Green (tea leaf, main accent)
+    --tea-secondary: #c29d66;     // Gold/Amber (secondary accent, progress)
+    --tea-text-light: #f5f5e6;    // Pale White/Cream (main text)
+    --tea-text-muted: #b4a391;    // Muted/Tan (description text)
+*/
+
+/* Common Section Styles */
+.progress-section {
+    flex: 1;
+    min-height: 200px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    margin: 25px 0;
+}
+
+.section-title {
+    color: #ab0518;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #6b5643;
+}
+
+/* List of Items - no color changes here, only layout */
+.progress-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 15px;
+}
+
+@media (max-width: 768px) {
+    .progress-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Individual Progress Item */
+.progress-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    /* ITEM BG: Lighter Brown */
+    background-color: #24241f; /* Adjusted from #383840 */
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    cursor: default;
+}
+
+.progress-item:hover {
+    /* HOVER BG: Slightly Lighter/Warmer Brown */
+    background-color: #6d543e; /* Adjusted from #45454d */
+}
+
+.progress-icon-wrapper {
+    padding: 8px;
+    border-radius: 50%;
+    /* ICON BG: Subtle Green Tint */
+    background-color: rgba(117, 167, 74, 0.2); /* Adjusted from rgba(103, 58, 183, 0.1) - A subtle green */
+    margin-right: 15px;
+}
+
+.progress-content {
+    flex-grow: 1;
+}
+
+.progress-title {
+    margin: 0;
+    font-size: 1.1rem;
+    /* TEXT: Pale White/Cream */
+    color: #f5f5e6; /* Adjusted from #f0f0f0 */
+    font-weight: 600;
+}
+
+.progress-description {
+    margin: 0;
+    font-size: 0.85rem;
+    /* DESCRIPTION TEXT: Muted Tan/Brown */
+    color: #b4a391; /* Adjusted from #a0a0a0 */
+}
+
+.empty-message {
+    /* EMPTY MESSAGE TEXT: Slightly Darker Tan */
+    color: #9c8a75; /* Adjusted from #777 */
+    text-align: center;
+    padding: 20px;
+}
+
+/* Circular Progress Bar Styles */
+.progress-indicator {
+    width: 50px;
+    height: 50px;
+    margin-left: 15px;
+}
+
+.circular-progress {
+    display: block;
+}
+
+.progress-bg {
+    fill: none;
+    /* PROGRESS BG STROKE: Muted Brown */
+    stroke: #6b5643; /* Adjusted from #4c4c54 */
+}
+
+.progress-bar {
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease-in-out, stroke 0.3s;
+}
+
+.progress-text {
+    font-size: 15px;
+    font-weight: bold;
+    /* TEXT: This is often set inline, but default can be the light text */
+    fill: #f5f5e6; /* Ensures the text is visible over the dark background */
+    transition: fill 0.3s;
+}
+
+/* Separator added to Track.jsx */
+.tracker-separator {
+    border: 0;
+    height: 1px;
+    /* GRADIENT: A linear gradient of copper/browns */
+    background: linear-gradient(to right, #6b5643, #9d8161, #6b5643); /* Adjusted from #3c3c44, #5c5c64, #3c3c44 */
+    margin: 20px 0;
+}
