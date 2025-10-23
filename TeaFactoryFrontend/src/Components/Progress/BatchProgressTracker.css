@@ -1,14 +1,3 @@
-/* Color Palette Reference:
-    --tea-dark-bg: #281a0e;       // Darkest Brown (like roasted tea/metal)
-    --tea-light-bg: #3d2b1f;      // Medium Brown (section background)
-    --tea-accent-bg: #57412c;     // Lighter Brown (item background/hover)
-    --tea-border: #6b5643;        // Muted Brown/Copper (borders/separators)
-    --tea-highlight: #75a74a;     // Primary Green (tea leaf, main accent)
-    --tea-secondary: #c29d66;     // Gold/Amber (secondary accent, progress)
-    --tea-text-light: #f5f5e6;    // Pale White/Cream (main text)
-    --tea-text-muted: #b4a391;    // Muted/Tan (description text)
-*/
-
 /* Common Section Styles */
 .progress-section {
     flex: 1;
