@@ -1,0 +1,99 @@
+/* Variables for easy theme adjustments */
+:root {
+  --sidebar-width: 280px;
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --hover-bg: #f5f5f5;
+  --active-bg: #e0f7fa; /* A light teal/cyan color for active state */
+  --active-border-right: 3px solid #00bcd4; /* Teal color line */
+  --header-bg: #00bcd4;
+  --header-text-color: #333333;
+}
+
+/* Base container for the sidebar */
+.sidebar-container {
+  width: var(--sidebar-width);
+  height: 100vh;
+  background-color: var(--bg-color);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  color: var(--text-color);
+  font-family: sans-serif;
+  padding: 10px 0;
+}
+
+/* Header styling */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px 25px 20px;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--header-text-color);
+}
+
+.header-icon {
+  font-size: 1.8em;
+  color: #00bcd4; /* Icon color */
+  margin-right: 10px;
+}
+
+/* Main menu area */
+.sidebar-menu {
+  flex-grow: 1; /* Takes up remaining space */
+}
+
+/* Section heading (e.g., Tea Intake, Tea Batches) */
+.section-heading {
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #666666;
+  padding: 10px 20px 5px 20px;
+  margin-top: 15px;
+  text-transform: uppercase;
+}
+
+.section-heading svg {
+    margin-right: 8px;
+    font-size: 1.1em;
+}
+
+/* Individual menu item/link */
+.menu-item {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 10px 20px;
+  margin: 5px 0;
+  transition: background-color 0.1s ease, border-right 0.1s ease;
+  cursor: pointer;
+  border-right: 3px solid transparent; /* Keeps layout consistent */
+}
+
+/* Hover effect */
+.menu-item:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Active link styling */
+.menu-item.active {
+  background-color: var(--active-bg);
+  color: var(--text-color);
+  font-weight: 600;
+  border-right: var(--active-border-right);
+}
+
+/* Placeholder to simulate the left-side icon alignment/indentation for sub-items */
+.item-icon-placeholder {
+    width: 22px; /* Roughly the width of the main icons */
+    margin-right: 10px;
+}
+
+/* Text for the menu items */
+.item-text {
+  font-size: 1em;
+}
