@@ -1,0 +1,596 @@
+/* Reset & base */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background: #F8F9FA;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* --- Dashboard Structure --- */
+
+/* Dashboard Container - Full Screen */
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh; /* full height */
+  width: 100vw;       /* full width */
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Main Content (Left) */
+.main-content {
+  flex: 3;             /* 75% width */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;        /* allow overflow handling */
+}
+
+/* Sidebar (Right) */
+.sidebar {
+  flex: 1;  /* 25% width */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 300px;
+}
+
+
+/* --- General Card & Header Styles --- */
+
+/* Hero Section */
+.study-banner {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  width: 100%;
+}
+.study-banner h1 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.subtitle {
+  color: #999;
+  font-size: 16px;
+}
+
+/* Mission Section */
+.mission-section {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.mission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.mission-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* Calendar & Analytics Widgets */
+.calendar-widget, .achievement-section {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+
+/* --- Intake Card Scroll & Styling --- */
+
+/* Scrollable Card Container */
+.classes-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.classes-scroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+  width: 100%;
+}
+.classes-scroll::-webkit-scrollbar {
+  display: none;
+}
+.nav-btn {
+  background: white;
+  border: 1px solid #E0E0E0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Tea Intake Card */
+.class-card {
+  min-width: 300px;
+  max-width: 100%;
+  flex: 1 0 auto;  /* allow card to grow */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.video-badge {
+  background: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #5DD5D5;
+}
+.class-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.class-subtitle {
+  font-size: 14px;
+  color: #666;
+}
+.class-description {
+  font-size: 13px;
+  color: #777;
+}
+.class-description svg {
+    margin-right: 5px;
+}
+.card-footer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+}
+.icon-btn {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 4px 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.icon-btn:hover { background: #f1f1f1; }
+.icon-btn.delete:hover { background: #ffdddd; }
+
+
+/* --- Real-Time Clock & Calendar Styles --- */
+
+/* New Inline Date/Time Display */
+.today-date-inline-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa; /* Light background for the display area */
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.03);
+}
+
+.date-block {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    color: #333;
+    padding-right: 15px;
+    border-right: 1px solid #eee; /* Separates date from time */
+}
+
+.date-value {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    color: #007bff; /* Primary color */
+}
+
+.month-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6c757d;
+    line-height: 1.5;
+    padding-bottom: 2px;
+}
+
+.time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 15px;
+}
+
+.time-value {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: #343a40;
+}
+
+.time-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #999;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+/* Divider line between date display and selectors */
+.calendar-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 0 0 15px 0;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.calendar-header select {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    text-align: center;
+}
+
+.calendar-date {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.1s;
+    user-select: none;
+}
+
+.calendar-date:not(.active):not(.empty):hover {
+    background-color: #F0F0F0;
+}
+
+.calendar-date.empty {
+    /* Styles for the empty cells at the start of the month */
+    visibility: hidden;
+    cursor: default;
+}
+
+.calendar-date.active {
+    /* Highlight color for the selected date */
+    background: #5DD5D5;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(93, 213, 213, 0.4);
+}
+
+
+/* --- Analytics & Summary Styles --- */
+
+/* Achievement / Analytics Section */
+.achievement-section h3 {
+    margin-bottom: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+/* New Title Class for the main section title */
+.analytics-main-title {
+    margin-bottom: 15px; /* Space between main title and first summary */
+}
+
+
+/* --- DAILY SUMMARY Styles --- */
+.daily-summary-section {
+    margin-top: 15px; /* Space after Analytics title */
+    margin-bottom: 25px; /* Separates daily from monthly */
+}
+.summary-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #555;
+}
+.analytics-card-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.analytic-card {
+    flex: 1;
+    background: #f8f9fa; /* Light background */
+    padding: 15px 10px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.analytic-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #007bff; /* Primary blue color */
+    margin-bottom: 5px;
+    line-height: 1;
+}
+
+.analytic-label {
+    font-size: 12px;
+    color: #6c757d; /* Muted gray */
+    font-weight: 500;
+}
+
+/* Color variations for visual distinction */
+.analytic-total-intakes {
+    background-color: #e6f7ff;
+}
+.analytic-total-weight {
+    background-color: #ebfafa;
+}
+.analytic-avg-weight {
+    background-color: #fff8e6;
+}
+.analytic-total-intakes .analytic-value { color: #007bff; }
+.analytic-total-weight .analytic-value { color: #5DD5D5; }
+.analytic-avg-weight .analytic-value { color: #FFB84D; }
+
+/* --- MONTHLY SUMMARY (Graph) Styles --- */
+.monthly-summary-section .monthly-summary-subtitle {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 15px;
+    margin-top: -10px;
+}
+/* Graph Selectors */
+.graph-selector-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.graph-selector-header select {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* New Container for Y-Axis and Plot Area (For Recharts and manual bar chart) */
+.graph-y-axis-container {
+    display: flex;
+    align-items: flex-start; /* Aligns the Y-axis labels and graph area at the top */
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+/* Y-Axis Labels Styling (Manual for visual alignment) */
+.y-axis-labels {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 5px 15px 0; /* Adjusted padding for Recharts alignment */
+    width: 60px; /* Increased fixed width for "XXX KG" labels */
+    font-size: 10px;
+    color: #777;
+    font-weight: 500;
+    position: relative;
+}
+.y-axis-label {
+    line-height: 1;
+    position: relative;
+    padding-right: 5px;
+}
+.y-axis-label.middle {
+    transform: translateY(50%); /* Adjust mid-point label position */
+}
+.y-axis-label.top {
+    top: -5px; /* Align to the top of the graph area */
+}
+.y-axis-label.bottom {
+    bottom: -5px; /* Align to the bottom/x-axis of the graph area */
+}
+
+/* --- Recharts Plot Area Container --- */
+.recharts-plot-area {
+    flex-grow: 1;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    background-color: #fcfcfc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+    overflow: hidden; /* Ensures the graph stays within bounds */
+}
+
+/* --- Original Bar Chart Styles (Kept in case Recharts fails or is removed) --- */
+.graph-placeholder-container {
+    /* Styles for the old custom bar chart structure */
+    flex-grow: 1;
+    padding: 20px 10px 30px 0; /* Adjusted padding: 0 on left, extra on bottom for X-axis labels */
+    background-color: #fcfcfc;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 150px;
+    margin-bottom: 20px; /* Note: The Recharts container removes this margin, but it's kept here */
+}
+.graph-point-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 100%;
+    padding: 0 5px;
+    border-bottom: 1px solid #ddd; /* X-axis line */
+    position: relative;
+    background: none;
+    gap: 15px; /* Gap between actual intake days */
+}
+
+.graph-point {
+    width: 15px;
+    background: #5DD5D5;
+    position: relative;
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s ease;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    flex-shrink: 0;
+}
+.graph-point::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+    border: 1.5px solid #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+.point-label {
+    position: absolute;
+    bottom: -25px;
+    font-size: 10px;
+    color: #666;
+    white-space: nowrap;
+    visibility: visible;
+}
+/* ------------------------------------------------------------- */
+
+
+/* Monthly Total Metric */
+.monthly-total-metric {
+    text-align: center;
+    padding: 15px; /* Used by first block */
+    border-top: 1px solid #eee; /* Used by first block */
+    border-radius: 12px; /* Used by second block */
+    background-color: #f1f3f5; /* Used by second block */
+}
+/* Reverts to first block's styling for cleaner integration */
+.monthly-summary-section .monthly-total-metric {
+    background-color: transparent;
+    border-radius: 0;
+    padding: 15px 0;
+    border-top: 1px solid #eee;
+}
+
+.metric-label {
+    font-size: 10px; /* Smaller font from first block */
+    font-weight: 600; /* Heavier weight from first block */
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.metric-value {
+    font-size: 32px;
+    font-weight: 900; /* Heavier weight from first block */
+    color: #5DD5D5; /* Teal color from first block */
+    line-height: 1.1;
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 1400px) {
+  .main-content { flex: 2; }
+  .sidebar { flex: 1; min-width: 250px; }
+}
+@media (max-width: 1024px) {
+  .dashboard-container {
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+  .sidebar {
+    width: 100%;
+  }
+  .main-content {
+    width: 100%;
+  }
+  .class-card {
+    min-width: 80%;
+  }
+  .today-date-main-card, .analytics-card-container {
+      flex-wrap: wrap;
+  }
+  .today-date-card, .analytic-card {
+      /* Adjusted to fit 3 in a row on smaller screens */
+      flex-basis: 30%;
+  }
+  /* Fix for missing selector from second block */
+  .analytic-card {
+      /* Added flex-basis style to the correct selector */
+      flex-basis: calc(33.333% - 7px);
+      min-width: 100px;
+  }
+  .y-axis-labels {
+      width: 45px;
+  }
+}
