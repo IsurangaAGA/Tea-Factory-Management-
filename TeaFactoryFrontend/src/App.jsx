@@ -79,6 +79,7 @@ import Inventory from "./components/Inventory/Inventory";
 import Home from "./components/home/Home.jsx";
 import Suppliers from "./components/supplier/Suppliers";
 import PurchaseOrders from "./components/PurchaseOrders/PurchaseOrders";
+import TeaLeavesIntake from "./components/TeaIntake/TeaLeavesIntake";
 import "./App.css";
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
                 onSuppliersClick={() => navigate("/suppliers")}
                 onPurchaseOrdersClick={() => navigate("/purchase-orders")}
                 onTasksClick={() => navigate("/tasks")}
+                onTeaProductionClick={() => navigate("/tea-intake-dashboard")}
             />
 
             <main className="main-content">
@@ -104,6 +106,7 @@ function App() {
                     <Route path="/purchase-orders" element={<PurchaseOrders />} />
                     <Route path="/tasks" element={<TaskList />} />
                     <Route path="/tasks-add" element={<AddTask />} />
+                    <Route path="/tea-intake-dashboard" element={<TeaLeavesIntake />} />
                 </Routes>
             </main>
         </div>

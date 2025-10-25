@@ -1,7 +1,7 @@
 import React from 'react';
 import './TopBar.css';
 
-const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick }) => {
+const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick, onTeaProductionClick }) => {
     return (
         <nav className="topbar">
             <div className="topbar-container">
@@ -27,6 +27,9 @@ const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick }) => {
                     </button>
                     <button className="btn-tasks" onClick={onTasksClick}>
                         Tasks
+                    </button>
+                    <button className="btn-tea-production" onClick={onTeaProductionClick}>
+                        Tea Production
                     </button>
                     <button className="btn-login">Login</button>
                     <button className="btn-signup">Sign Up</button>
