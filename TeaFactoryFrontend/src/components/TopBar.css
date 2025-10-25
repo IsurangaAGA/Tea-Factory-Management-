@@ -8,12 +8,18 @@
 }
 
 .topbar-container {
-    max-width: 1200px;
+    max-width: 1700px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
+}
+
+.topbar-actions {
+    display: flex;
+    gap: 1.2rem; /* increased slightly */
+    align-items: center;
 }
 
 .logo {
@@ -61,6 +67,7 @@
 .btn-inventory,
 .btn-tasks,
 .btn-login,
+.btn-tea-production,
 .btn-signup {
     padding: 0.6rem 1.2rem;
     border: none;
@@ -97,6 +104,16 @@
 }
 
 .btn-tasks:hover {
+    background-color: #b8941f;
+    transform: translateY(-2px);
+}
+
+.btn-tea-production {
+    background-color: #3e9c2d;
+    color: white;
+}
+
+.btn-tea-production:hover {
     background-color: #b8941f;
     transform: translateY(-2px);
 }
