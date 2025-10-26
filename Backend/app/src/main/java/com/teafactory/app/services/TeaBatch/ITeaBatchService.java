@@ -1,5 +1,5 @@
 package com.teafactory.app.services.TeaBatch;
-import com.teafactory.app.model.TeaBatch;
+import com.teafactory.app.entities.TeaBatch;
 import java.util.List;
 
 public interface ITeaBatchService {

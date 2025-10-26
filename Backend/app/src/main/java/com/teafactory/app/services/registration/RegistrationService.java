@@ -1,7 +1,7 @@
 package com.teafactory.app.services.registration;
 
 import com.teafactory.app.exception.UserAlreadyExistsException;
-import com.teafactory.app.model.User;
+import com.teafactory.app.entities.User;
 import com.teafactory.app.repositories.UserRepository;
 import com.teafactory.app.validator.UserValidator;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,6 +1,6 @@
 package com.teafactory.app.validator;
 
-import com.teafactory.app.model.User;
+import com.teafactory.app.entities.User;
 import com.teafactory.app.exception.ValidationException;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.teafactory.app.repositories;
 
-import com.teafactory.app.model.BatchStageDetails;
+import com.teafactory.app.entities.BatchStageDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

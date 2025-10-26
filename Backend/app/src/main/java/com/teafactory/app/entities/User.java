@@ -1,4 +1,4 @@
-package com.teafactory.app.model;
+package com.teafactory.app.entities;
 
 import jakarta.persistence.*;
 

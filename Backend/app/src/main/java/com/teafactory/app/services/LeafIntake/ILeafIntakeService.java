@@ -1,6 +1,6 @@
 package com.teafactory.app.services.LeafIntake;
 
-import com.teafactory.app.model.LeafIntake;
+import com.teafactory.app.entities.LeafIntake;
 import java.util.List;
 
 public interface ILeafIntakeService {

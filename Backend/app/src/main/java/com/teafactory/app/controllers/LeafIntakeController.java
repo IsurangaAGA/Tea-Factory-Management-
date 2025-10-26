@@ -1,6 +1,6 @@
 package com.teafactory.app.controllers;
 
-import com.teafactory.app.model.LeafIntake;
+import com.teafactory.app.entities.LeafIntake;
 import com.teafactory.app.services.LeafIntake.ILeafIntakeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

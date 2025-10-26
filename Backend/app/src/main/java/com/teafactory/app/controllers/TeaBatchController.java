@@ -1,7 +1,7 @@
 package com.teafactory.app.controllers;
 
-import com.teafactory.app.model.BatchStageDetails;
-import com.teafactory.app.model.TeaBatch;
+import com.teafactory.app.entities.BatchStageDetails;
+import com.teafactory.app.entities.TeaBatch;
 import com.teafactory.app.services.TeaBatch.ITeaBatchService;
 import com.teafactory.app.services.TeaBatch.TeaBatchService;
 import org.springframework.http.ResponseEntity;

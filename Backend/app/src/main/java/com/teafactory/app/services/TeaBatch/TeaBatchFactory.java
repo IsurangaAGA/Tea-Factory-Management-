@@ -1,7 +1,7 @@
 package com.teafactory.app.services.TeaBatch;
 
-import com.teafactory.app.model.TeaBatch;
-import com.teafactory.app.model.LeafIntake;
+import com.teafactory.app.entities.TeaBatch;
+import com.teafactory.app.entities.LeafIntake;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;

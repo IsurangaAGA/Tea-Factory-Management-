@@ -1,6 +1,6 @@
 package com.teafactory.app.controllers;
 
-import com.teafactory.app.model.User;
+import com.teafactory.app.entities.User;
 import com.teafactory.app.exception.*;
 import com.teafactory.app.services.login.ILoginService;
 import com.teafactory.app.services.registration.IRegistrationService;

@@ -1,7 +1,7 @@
 package com.teafactory.app.services.TeaBatch;
 
-import com.teafactory.app.model.BatchStageDetails;
-import com.teafactory.app.model.TeaBatch;
+import com.teafactory.app.entities.BatchStageDetails;
+import com.teafactory.app.entities.TeaBatch;
 import com.teafactory.app.repositories.BatchStageDetailsRepository;
 import com.teafactory.app.repositories.LeafIntakeRepository;
 import com.teafactory.app.repositories.TeaBatchRepository;

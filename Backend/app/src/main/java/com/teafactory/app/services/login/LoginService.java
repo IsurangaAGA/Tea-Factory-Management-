@@ -1,7 +1,7 @@
 package com.teafactory.app.services.login;
 
 import com.teafactory.app.exception.InvalidCredentialsException;
-import com.teafactory.app.model.User;
+import com.teafactory.app.entities.User;
 import com.teafactory.app.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
