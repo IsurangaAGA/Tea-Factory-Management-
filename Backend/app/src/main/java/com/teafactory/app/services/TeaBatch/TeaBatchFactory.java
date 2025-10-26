@@ -14,6 +14,12 @@ public class TeaBatchFactory {
         batch.setIntakeIds(intakeIds);
         batch.setBatchDate(LocalDate.now());
         batch.setStatus("Pending");
+
+        double totalWeight = intakes.stream()
+                .mapToDouble(LeafIntake::getWeight)
+                .sum();
+        batch.setTotalWeight(totalWeight);
+
         return batch;
     }
 }
