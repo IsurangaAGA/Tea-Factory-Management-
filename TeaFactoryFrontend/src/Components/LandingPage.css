@@ -1,0 +1,97 @@
+
+.landing-container {
+  position: relative; /* Allows content-overlay to be positioned relative to this */
+  width: 100vw; /* Viewport Width */
+  height: 100vh; /* Viewport Height */
+  overflow: hidden; /* Ensures video doesn't cause scrollbars */
+}
+
+
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the element covers the entire container */
+  z-index: 1; /* Puts the background *behind* the content */
+  filter: brightness(0.6); /* Dims the background so the text is easier to read */
+}
+
+/* Content Overlay: The text and button in front of the background */
+.content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* Puts the content *in front* of the background */
+
+  /* Centering the content using Flexbox */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff; /* White text for contrast */
+  text-align: center;
+  padding: 20px;
+}
+
+/* Factory Name (H1) */
+.factory-name {
+  font-size: 4.5rem; /* Large, prominent text */
+  font-family: 'Georgia', serif; /* A classic, slightly elegant font */
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Shadow for readability */
+  letter-spacing: 3px;
+}
+
+/* Subtitle/Description (P) */
+.subtitle {
+    font-size: 1.5rem;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+
+/* Start Button */
+.start-button {
+  background-color: #38761d; /* Deep tea-leaf green */
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  letter-spacing: 1px;
+}
+
+.start-button:hover {
+  background-color: #5b993f; /* Lighter green on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.start-button:active {
+  transform: translateY(0); /* Press effect */
+}
+
+
+/* Responsive Design (Optional but Recommended) */
+@media (max-width: 768px) {
+  .factory-name {
+    font-size: 3rem;
+  }
+  .subtitle {
+    font-size: 1.2rem;
+  }
+  .start-button {
+    padding: 10px 30px;
+    font-size: 1.2rem;
+  }
+}

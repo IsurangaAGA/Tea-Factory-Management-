@@ -1,5 +1,5 @@
 /* Reset & base */
-html, body {
+.tea-intake-dashboard html, body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -8,7 +8,7 @@ html, body {
   background: #F8F9FA;
 }
 
-* {
+.tea-intake-dashboard * {
   box-sizing: border-box;
 }
 

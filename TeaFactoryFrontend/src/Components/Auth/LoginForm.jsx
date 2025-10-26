@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-function LoginForm() {
+
+function LoginForm({ onLoginSuccess }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
@@ -20,6 +21,8 @@ function LoginForm() {
       if (response.ok) {
         const result = await response.text();
         alert(result);
+      } if (onLoginSuccess) {
+                  onLoginSuccess();
       } else {
         const error = await response.text();
         alert(error);

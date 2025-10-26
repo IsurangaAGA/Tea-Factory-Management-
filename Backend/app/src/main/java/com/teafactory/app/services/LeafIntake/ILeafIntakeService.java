@@ -1,4 +1,4 @@
-package com.teafactory.app.service.LeafIntake;
+package com.teafactory.app.services.LeafIntake;
 
 import com.teafactory.app.model.LeafIntake;
 import java.util.List;

@@ -1,7 +1,7 @@
 import React from 'react';
 import './TopBar.css';
 
-const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick }) => {
+const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick, onTeaProductionClick, onLoginClick }) => {
     return (
         <nav className="topbar">
             <div className="topbar-container">
@@ -11,7 +11,7 @@ const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick }) => {
                 </div>
 
                 <div className="nav-links">
-                    <a href="/" className="nav-link">Home</a>
+                    <a href="/home" className="nav-link">Home</a>
                     <a href="#about" className="nav-link">About</a>
                     <a href="#projects" className="nav-link">Projects</a>
                     <a href="#impact" className="nav-link">Impact</a>
@@ -28,10 +28,10 @@ const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick }) => {
                     <button className="btn-tasks" onClick={onTasksClick}>
                         Tasks
                     </button>
-                    <button className="btn-login">Login</button>
-                    <button className="btn-signup">Sign Up</button>
+                    <button className="btn-tea-production" onClick={onTeaProductionClick}>
+                        Tea Production
+                    </button>
                 </div>
-
                 {/* Mobile Menu Button */}
                 <div className="mobile-menu-btn">
                     <span></span>

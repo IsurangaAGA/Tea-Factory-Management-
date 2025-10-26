@@ -1,5 +1,5 @@
 /* Home.css - Modern CSS with Variables, Grid, and Contemporary Design */
-:root {
+.home :root {
   --primary-green: #1a5632;
   --secondary-green: #2e7d32;
   --light-green: #4caf50;
@@ -14,7 +14,7 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-* {
+.home * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

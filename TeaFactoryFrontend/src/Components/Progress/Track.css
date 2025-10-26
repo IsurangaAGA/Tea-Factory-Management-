@@ -1,51 +1,68 @@
-.tracking-container {
-  padding: 30px 20px;
-  max-width: 1250px;
-  margin: 0 auto;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  background-image: url('img_3.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
-.tracking-inner-container {
-  padding: 20px 20px;
-  border-radius: 15px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+.tracking-title {
+  text-align: center;
+  margin: 40px 0 50px 0;
+  color: #096e24;
+  font-weight: 700;
+  font-size: 2.5em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0 20px; /* Ensure title doesn't touch screen edges */
+  box-sizing: border-box;
+}
+
+.main-content-layout {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
+  gap: 40px;
+  /* MODIFIED: Changed padding to only left/right to ensure it doesn't push sections to the edge */
+  padding: 0 40px 0 40px; /* Adjusted to keep padding */
+  margin: 0;
+  width: 100%; /* Use full width */
+  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.stages-section {
+  min-width: 0;
+  max-width: 70%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   background-image: url('img.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  box-sizing: border-box;
 }
 
+/* --- New Independent Layout Styles (END) --- */
+/* ... (The rest of the CSS remains the same) ... */
 
-/* Overall Dashboard and Layout */
+/* --- New Independent Layout Styles (END) --- */
+
+/* REMOVED: tracking-inner-container is no longer in use, so its conflicting styles are ignored */
+
+/* MODIFIED: Removed layout constraints from the staggered container as it is now inside a flex column */
 .kpi-dashboard-container-staggered {
-  padding: 20px;
+  padding: 0; /* Remove internal padding */
   font-family: 'Inter', sans-serif;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%; /* Ensure it uses the space given by its parent (.layout-stages-left) */
+  margin: 0;
+  /* Removed layout and background styles that conflict with new structure */
   background-image: url('img_1.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #096e24;
-  font-weight: 700;
-}
+/* h1 styles moved to .tracking-title above */
 
 /* Base Layout Container (Left Card + Right Staggered Columns) */
 .staggered-layout {
@@ -83,6 +100,8 @@ h1 {
   margin-top: 50px;
 }
 
+/* ... (Remaining KPI card styles unchanged) ... */
+
 .kpi-card {
   position: relative;
   border-radius: 12px;
@@ -116,7 +135,7 @@ h1 {
 
 /* 2. DARK BODY SECTION */
 .kpi-card-body {
-  background-color: #2c2c34;
+  background-color: #deddb8;
   flex-grow: 1;
   padding: 20px 15px;
   padding-top: 60px;
@@ -300,41 +319,114 @@ h1 {
 /* ------------------ */
 /* Responsive Layout */
 /* ------------------ */
-@media (max-width: 992px) {
-  .staggered-layout {
-    flex-direction: column;
-    gap: 20px;
-  }
 
-  .left-column {
-    width: 100%;
-    order: 1;
-  }
+/* Large screens - maintain side-by-side layout */
+@media (max-width: 1400px) {
+    .main-content-layout {
+        padding: 0 30px;
+        gap: 30px;
+    }
 
-  .source-card-new {
-    min-height: auto;
-  }
+    .stages-section,
+    .progress-section {
+        padding: 30px;
+    }
+}
 
-  .source-card-body {
-    padding-bottom: 20px;
-  }
+/* Medium screens - adjust proportions */
+@media (max-width: 1200px) {
+    .main-content-layout {
+        padding: 0 25px;
+        gap: 25px;
+    }
 
-  .source-card-count-indicator {
-    position: relative;
-    margin-top: 15px;
-    bottom: auto;
-  }
+    .stages-section {
+        flex: 2.2;
+        max-width: calc(65% - 12.5px);
+    }
 
-  .right-columns-wrapper {
-    flex-direction: column;
-    order: 2;
-  }
+    .progress-section {
+        flex: 1.8;
+        max-width: calc(35% - 12.5px);
+        min-width: 280px;
+    }
+}
 
-  .right-column {
-    width: 100%;
-  }
+/* Small screens - switch to vertical layout */
+@media (max-width: 1024px) {
+    .tracking-title {
+        margin: 30px 0 40px 0;
+        font-size: 2.2em;
+    }
 
-  .right-column.col-2 {
-    margin-top: 0;
-  }
+    .main-content-layout {
+        flex-direction: column;
+        gap: 25px;
+        padding: 0 20px;
+    }
+
+    .stages-section,
+    .progress-section {
+        flex: none;
+        width: 100%;
+        min-width: unset;
+        max-width: none;
+        padding: 25px;
+    }
+
+    /* Keep existing staggering break point */
+    .staggered-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .left-column {
+        width: 100%;
+        order: 1;
+    }
+
+    .source-card-new {
+        min-height: auto;
+    }
+
+    .source-card-body {
+        padding-bottom: 20px;
+    }
+
+    .source-card-count-indicator {
+        position: relative;
+        margin-top: 15px;
+        bottom: auto;
+    }
+
+    .right-columns-wrapper {
+        flex-direction: column;
+        order: 2;
+    }
+
+    .right-column {
+        width: 100%;
+    }
+
+    .right-column.col-2 {
+        margin-top: 0;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 768px) {
+    .tracking-title {
+        font-size: 2em;
+        margin: 20px 0 30px 0;
+    }
+
+    .main-content-layout {
+        padding: 0 15px;
+        gap: 20px;
+    }
+
+    .stages-section,
+    .progress-section {
+        padding: 20px;
+    }
 }

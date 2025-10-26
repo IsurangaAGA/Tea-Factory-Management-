@@ -2,8 +2,8 @@ package com.teafactory.app.controllers;
 
 import com.teafactory.app.model.User;
 import com.teafactory.app.exception.*;
-import com.teafactory.app.service.login.ILoginService;
-import com.teafactory.app.service.registration.IRegistrationService;
+import com.teafactory.app.services.login.ILoginService;
+import com.teafactory.app.services.registration.IRegistrationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

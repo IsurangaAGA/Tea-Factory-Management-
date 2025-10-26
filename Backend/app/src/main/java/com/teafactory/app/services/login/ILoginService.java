@@ -1,4 +1,4 @@
-package com.teafactory.app.service.login;
+package com.teafactory.app.services.login;
 
 import com.teafactory.app.model.User;
 
