@@ -73,7 +73,7 @@
 
 /* --- Keep all other existing CSS styles as they are for the list items, headers, and details. --- */
 
-h1, h2 {
+.batch-container h1, h2 {
   color: #333;
 }
 
