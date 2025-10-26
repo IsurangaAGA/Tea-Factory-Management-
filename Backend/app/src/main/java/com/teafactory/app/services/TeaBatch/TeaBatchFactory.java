@@ -1,4 +1,4 @@
-package com.teafactory.app.service.TeaBatch;
+package com.teafactory.app.services.TeaBatch;
 
 import com.teafactory.app.model.TeaBatch;
 import com.teafactory.app.model.LeafIntake;

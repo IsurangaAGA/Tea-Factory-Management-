@@ -1,4 +1,4 @@
-package com.teafactory.app.repository;
+package com.teafactory.app.repositories;
 
 import com.teafactory.app.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

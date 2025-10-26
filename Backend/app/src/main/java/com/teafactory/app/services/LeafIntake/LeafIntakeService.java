@@ -1,7 +1,7 @@
-package com.teafactory.app.service.LeafIntake;
+package com.teafactory.app.services.LeafIntake;
 
 import com.teafactory.app.model.LeafIntake;
-import com.teafactory.app.repository.LeafIntakeRepository;
+import com.teafactory.app.repositories.LeafIntakeRepository;
 import com.teafactory.app.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

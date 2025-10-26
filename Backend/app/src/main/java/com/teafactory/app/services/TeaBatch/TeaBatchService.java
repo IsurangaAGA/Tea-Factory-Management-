@@ -1,10 +1,10 @@
-package com.teafactory.app.service.TeaBatch;
+package com.teafactory.app.services.TeaBatch;
 
 import com.teafactory.app.model.BatchStageDetails;
 import com.teafactory.app.model.TeaBatch;
-import com.teafactory.app.repository.BatchStageDetailsRepository;
-import com.teafactory.app.repository.LeafIntakeRepository;
-import com.teafactory.app.repository.TeaBatchRepository;
+import com.teafactory.app.repositories.BatchStageDetailsRepository;
+import com.teafactory.app.repositories.LeafIntakeRepository;
+import com.teafactory.app.repositories.TeaBatchRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
