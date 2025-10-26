@@ -1,10 +1,10 @@
-* {
+.inventory * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-:root {
+.inventory :root {
   --primary-color: #3b82f6;
   --secondary-color: #6366f1;
   --success-color: #10b981;
@@ -32,7 +32,7 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
 }
 
-body {
+.inventory body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--light-color);
   color: var(--dark-color);

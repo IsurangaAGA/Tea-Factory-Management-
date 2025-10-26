@@ -1,3 +1,4 @@
+/* Reset & Base */
 .auth-page * {
   margin: 0;
   padding: 0;
@@ -5,6 +6,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* Background */
 .auth-background {
   position: fixed;
   top: 0;
@@ -39,14 +41,16 @@
 }
 
 /* Form Box */
+/* Form Box Container */
 .auth-page .form-box {
   position: absolute;
   right: 0;
   width: 50%;
   height: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 40px;
   text-align: center;
   color: #333;
@@ -54,6 +58,20 @@
   z-index: 1;
   transition: all 0.6s ease-in-out;
 }
+
+/* Buttons inside Form Box */
+.auth-page .form-box .btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+  height: 3em;
+  margin-top: 15px;
+  text-align: center;
+}
+
+
+
 
 .auth-page .container.active .form-box.login {
   transform: translateX(-100%);
@@ -79,8 +97,7 @@
   transition-delay: 0.6s;
 }
 
-/* Typography, Inputs, Links, Buttons, Social Icons are UNCHANGED */
-
+/* Typography, Inputs, Links, Buttons, Social Icons */
 .auth-page form {
   width: 100%;
 }
@@ -94,10 +111,12 @@
   font-size: 14.5px;
   margin: 15px 0;
 }
+
 .auth-page .input-box {
   position: relative;
   margin: 30px 0;
 }
+
 .auth-page .input-box input {
   width: 100%;
   padding: 1em 2em;
@@ -109,10 +128,12 @@
   font-weight: 500;
   color: #333;
 }
+
 .auth-page .input-box input::placeholder {
   color: #888;
   font-weight: 400;
 }
+
 .auth-page .input-box i {
   position: absolute;
   right: 20px;
@@ -121,14 +142,17 @@
   font-size: 20px;
   color: #888;
 }
+
 .auth-page .forgot-link {
   margin: -15px 0 15px;
 }
+
 .auth-page .forgot-link a {
   font-size: 14.5px;
   color: #333;
   text-decoration: none;
 }
+
 .auth-page .btn {
   width: 100%;
   height: 3em;
@@ -141,17 +165,25 @@
   background: #075604;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
 .auth-page .toggle-panel .btn {
   width: 160px;
   height: 46px;
   background: transparent;
   border: 2px solid #fff;
   box-shadow: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
 }
+
+/* Social Icons */
 .auth-page .social-icons {
   display: flex;
   justify-content: center;
 }
+
 .auth-page .social-icons a {
   display: inline-flex;
   margin: 0 8px;
@@ -162,12 +194,14 @@
   border-radius: 8px;
   text-decoration: none;
 }
+
 /* Toggle Box & Panels */
 .auth-page .toggle-box {
   position: absolute;
   width: 100%;
   height: 100%;
 }
+
 .auth-page .toggle-box::before {
   content: '';
   position: absolute;
@@ -179,36 +213,80 @@
   z-index: 2;
   transition: 1.8s ease-in-out;
 }
+
 .auth-page .container.active .toggle-box::before {
   left: 50%;
 }
+
+/* Panels */
 .auth-page .toggle-panel {
   position: absolute;
   width: 50%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* vertical centering */
+  align-items: center;     /* horizontal centering */
+  text-align: center;
   color: #fff;
   z-index: 2;
   transition: .6s ease-in-out;
 }
+
 .auth-page .toggle-panel.toggle-left {
   left: 0;
   transition-delay: 0.6s;
 }
+
 .auth-page .container.active .toggle-panel.toggle-left {
   left: -50%;
 }
+
 .auth-page .toggle-panel.toggle-right {
   right: -50%;
   transition-delay: 0.6s;
 }
+
 .auth-page .container.active .toggle-panel.toggle-right {
   right: 0;
   transition-delay: 1.2s;
 }
+
+.auth-page .toggle-panel h1 {
+  margin-bottom: 10px;
+}
+
 .auth-page .toggle-panel p {
   margin-bottom: 20px;
 }
+
+.auth-page .toggle-panel .btn {
+  text-align: center;
+}
+
+/* AuthContainer page-specific overrides */
+.auth-page .toggle-panel {
+  display: flex !important;          /* ensure flex is applied */
+  flex-direction: column !important; /* vertical stacking */
+  justify-content: center !important; /* vertical centering */
+  align-items: center !important;     /* horizontal centering */
+  text-align: center !important;
+  padding: 0 20px;                   /* optional, prevent edge clipping */
+}
+
+.auth-page .toggle-panel h1,
+.auth-page .toggle-panel p {
+  margin: 0 0 15px 0 !important;      /* spacing above button */
+}
+
+.auth-page .toggle-panel .btn {
+  margin-top: 10px !important;        /* gap between text and button */
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 160px !important;
+  height: 46px !important;
+  text-align: center !important;
+}
+
+/* AuthContainer page-specific overrides for form buttons */

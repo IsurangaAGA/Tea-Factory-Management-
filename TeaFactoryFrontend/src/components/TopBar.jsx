@@ -31,10 +31,7 @@ const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick, onTeaProduct
                     <button className="btn-tea-production" onClick={onTeaProductionClick}>
                         Tea Production
                     </button>
-                    <button className="btn-login"onClick={onLoginClick}>Login</button>
-                    <button className="btn-signup">Sign Up</button>
                 </div>
-
                 {/* Mobile Menu Button */}
                 <div className="mobile-menu-btn">
                     <span></span>
