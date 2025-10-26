@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import "./Auth.css";
 
 function AuthContainer() {
+
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate(); // inside AuthContainer
+      const handleLoginSuccess = () => {
+          navigate("/home"); // redirect to /home after login
+      };
 
   return (
     <React.Fragment>
@@ -12,7 +19,7 @@ function AuthContainer() {
 
       <div className={`auth-page`}>
         <div className={`container ${!isLogin ? "active" : ""}`}>
-          <LoginForm />
+          <LoginForm onLoginSuccess={handleLoginSuccess} />
           <SignupForm />
 
           <div className="toggle-box">
