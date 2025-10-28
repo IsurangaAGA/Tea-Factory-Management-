@@ -8,6 +8,7 @@ import Inventory from "./components/Inventory/Inventory";
 import Home from "./components/home/Home.jsx";
 import Suppliers from "./components/supplier/Suppliers";
 import PurchaseOrders from "./components/PurchaseOrders/PurchaseOrders";
+import Footer from './components/Footer';
 import "./App.css";
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/tasks-add" element={<AddTask />} />
                 </Routes>
             </main>
+            <Footer />
         </div>
     );
 }

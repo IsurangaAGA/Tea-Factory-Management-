@@ -6,15 +6,19 @@ const TopBar = ({ onEmployeesClick, onInventoryClick, onTasksClick }) => {
         <nav className="topbar">
             <div className="topbar-container">
                 <div className="logo">
-                    <span className="logo-icon">🌳</span>
+                    <img 
+                        src="/images/logo.png" 
+                        alt="TreeWhiff Logo" 
+                        className="logo-icon"
+                    />
                     <span className="logo-text">TreeWhiff</span>
                 </div>
 
                 <div className="nav-links">
                     <a href="/" className="nav-link">Home</a>
                     <a href="#about" className="nav-link">About</a>
-                    <a href="#projects" className="nav-link">Projects</a>
-                    <a href="#impact" className="nav-link">Impact</a>
+                    <a href="#features" className="nav-link">Features</a>
+                    <a href="#gallery" className="nav-link">Gallery</a>
                     <a href="#contact" className="nav-link">Contact</a>
                 </div>
 

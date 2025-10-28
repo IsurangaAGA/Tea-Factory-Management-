@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import InventoryNav from './InventoryNav';
 import Dashboard from './Dashboard';
 import Products from './Products';
@@ -24,7 +24,7 @@ const Inventory = () => {
   const [stockHistory, setStockHistory] = useState([]);
 
   const [user] = useState({
-    name: 'Alex',
+    name: 'yasith',
     avatar: '👨‍💼'
   });
 
@@ -222,8 +222,8 @@ const Inventory = () => {
       <header className="inventory-header">
         <div className="header-left">
           <div className="logo">
-            <span className="logo-icon">📦</span>
-            <h1>InventoryPro</h1>
+            <span className="logo-icon"></span>
+            <h1>Inventory</h1>
           </div>
         </div>
 
@@ -242,13 +242,13 @@ const Inventory = () => {
           </div>
           <div className="stat-item">
             <span className="stat-label">Stock Value</span>
-            <span className="stat-value">${stats.totalStockValue.toLocaleString()}</span>
+            <span className="stat-value">Rs 1050</span>
           </div>
         </div>
-
+{/* {stats.totalStockValue.toLocaleString()} */}
         <div className="header-user">
           <div className="user-info">
-            <span className="user-greeting">Hi, {user.name}</span>
+            <span className="user-greeting"> {user.name}</span>
             <span className="user-role">Admin</span>
           </div>
           <div className="user-avatar">{user.avatar}</div>

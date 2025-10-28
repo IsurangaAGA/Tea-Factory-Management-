@@ -4,22 +4,7 @@ import './Home.css';
 const Home = () => {
   return (
     <div className="home">
-      {/* Header with Logo */}
-      <header className="home-header">
-        <div className="container">
-          <div className="logo-container">
-            <img 
-              src="/images/logo.png" 
-              alt="Tea Factory Logo" 
-              className="home-logo"
-            />
-            <div className="logo-text">
-              <h1>Tea Factory</h1>
-              <p>Management System</p>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Header with Logo */} 
 
       {/* Hero Section */}
       <section className="hero">
@@ -84,6 +69,44 @@ const Home = () => {
         </div>
       </section>
 
+      {/* About Section */}
+      <section id="about" className="about">
+        <div className="container">
+          <div className="about-content">
+            <div className="about-text">
+              <div className="section-header">
+                <h2 className="section-title">About Our System</h2>
+                <p className="section-subtitle">Revolutionizing tea factory management since 2024</p>
+              </div>
+              <div className="about-details">
+                <p>
+                  Our Tea Factory Management System is designed to streamline every aspect of tea production, 
+                  from leaf collection to final packaging. We understand the unique challenges faced by tea 
+                  producers and have created a comprehensive solution that addresses them all.
+                </p>
+                <div className="about-stats">
+                  <div className="stat">
+                    <h3>50+</h3>
+                    <p>Factories Using Our System</p>
+                  </div>
+                  <div className="stat">
+                    <h3>99.9%</h3>
+                    <p>System Uptime</p>
+                  </div>
+                  <div className="stat">
+                    <h3>24/7</h3>
+                    <p>Customer Support</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="about-image">
+              <img src="/images/about-tea.jpg" alt="Tea production process" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Gallery Section */}
       <section className="gallery">
         <div className="container">
@@ -112,6 +135,65 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Contact Section */}
+      <section id="contact" className="contact">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Get In Touch</h2>
+            <p className="section-subtitle">We'd love to hear from you about your tea factory needs</p>
+          </div>
+          <div className="contact-content">
+            <div className="contact-info">
+              <div className="contact-item">
+                <div className="contact-icon">📍</div>
+                <div className="contact-details">
+                  <h4>Visit Us</h4>
+                  <p>123 Tea Garden Road<br />Kandy, Sri Lanka</p>
+                </div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-icon">📞</div>
+                <div className="contact-details">
+                  <h4>Call Us</h4>
+                  <p>+94 77 123 4567<br />+94 81 234 5678</p>
+                </div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-icon">✉️</div>
+                <div className="contact-details">
+                  <h4>Email Us</h4>
+                  <p>info@teafactory.com<br />support@teafactory.com</p>
+                </div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-icon">🕒</div>
+                <div className="contact-details">
+                  <h4>Business Hours</h4>
+                  <p>Monday - Friday: 8:00 - 18:00<br />Saturday: 8:00 - 14:00</p>
+                </div>
+              </div>
+            </div>
+            <div className="contact-form">
+              <form className="form">
+                <div className="form-group">
+                  <input type="text" placeholder="Your Name" required />
+                </div>
+                <div className="form-group">
+                  <input type="email" placeholder="Your Email" required />
+                </div>
+                <div className="form-group">
+                  <input type="text" placeholder="Subject" required />
+                </div>
+                <div className="form-group">
+                  <textarea placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" className="btn btn-primary btn-large">Send Message</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="cta">
         <div className="container">
@@ -130,43 +212,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="home-footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-logo">
-              <img 
-                src="/images/logo.png" 
-                alt="Tea Factory Logo" 
-                className="footer-logo-img"
-              />
-              <div className="footer-text">
-                <h3>Tea Factory Management System</h3>
-                <p>Quality in Every Cup</p>
-              </div>
-            </div>
-            <div className="footer-links">
-              <div className="footer-column">
-                <h4>Modules</h4>
-                <a href="/inventory">Inventory</a>
-                <a href="/suppliers">Suppliers</a>
-                <a href="/items">Items Master</a>
-                <a href="/purchase-orders">Purchase Orders</a>
-              </div>
-              <div className="footer-column">
-                <h4>Support</h4>
-                <a href="/help">Help Center</a>
-                <a href="/contact">Contact Us</a>
-                <a href="/docs">Documentation</a>
-              </div>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>&copy; 2024 Tea Factory Management System. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

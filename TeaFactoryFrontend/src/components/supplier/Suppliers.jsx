@@ -9,13 +9,18 @@ const Suppliers = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState(null);
 
-  const API_URL = "http://localhost:8080/suppliers";
+  // ✅ matches backend controller base path
+  const API_URL = "http://localhost:8080/api/suppliers";
 
   const [formData, setFormData] = useState({
     name: '',
-    contact: ''
+    email: '',
+    phone: '',
+    address: '',
+    status: 'Active'
   });
 
+  // 🔹 Fetch all suppliers on mount
   useEffect(() => {
     fetchSuppliers();
   }, []);
@@ -24,89 +29,49 @@ const Suppliers = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
+      const res = await fetch(`${API_URL}/`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
       setSuppliers(data);
     } catch (err) {
-      setError(`Failed to load suppliers: ${err.message}`);
-      setSuppliers([]);
+      setError('Failed to load suppliers: ' + err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const createSupplier = async (supplierData) => {
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(supplierData),
-      });
-      if (!response.ok) throw new Error('Failed to create supplier');
-      return await response.json();
-    } catch (err) {
-      throw new Error('Failed to create supplier: ' + err.message);
-    }
-  };
-
-  const updateSupplier = async (id, supplierData) => {
-    try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(supplierData),
-      });
-      if (!response.ok) throw new Error('Failed to update supplier');
-      return await response.json();
-    } catch (err) {
-      throw new Error('Failed to update supplier: ' + err.message);
-    }
-  };
-
-  const deleteSupplier = async (id) => {
-    try {
-      const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-      if (!response.ok) throw new Error('Failed to delete supplier');
-    } catch (err) {
-      throw new Error('Failed to delete supplier: ' + err.message);
-    }
-  };
-
-  const filteredSuppliers = suppliers.filter(supplier =>
-    supplier.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    supplier.contact?.includes(searchTerm)
-  );
-
-  const handleDelete = async (supplierId) => {
-    if (window.confirm('Are you sure you want to delete this supplier?')) {
-      try {
-        await deleteSupplier(supplierId);
-        setSuppliers(suppliers.filter(supplier => supplier.id !== supplierId));
-      } catch (err) {
-        setError(err.message);
-      }
-    }
-  };
-
-  const handleEdit = (supplier) => {
-    setEditingSupplier(supplier);
-    setFormData({
-      name: supplier.name || '',
-      contact: supplier.contact || ''
+  // 🔹 Create new supplier
+  const createSupplier = async (supplier) => {
+    const res = await fetch(`${API_URL}/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(supplier),
     });
-    setShowForm(true);
+    if (!res.ok) throw new Error('Failed to create supplier');
+    return await res.json();
   };
 
-  const handleAddNew = () => {
-    setEditingSupplier(null);
-    setFormData({ name: '', contact: '' });
-    setShowForm(true);
+  // 🔹 Update existing supplier
+  const updateSupplier = async (id, supplier) => {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(supplier),
+    });
+    if (!res.ok) throw new Error('Failed to update supplier');
+    return await res.json();
   };
 
+  // 🔹 Delete supplier
+  const deleteSupplier = async (id) => {
+    const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete supplier');
+  };
+
+  // 🔹 Handle form submit (Create/Update)
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.name.trim()) {
       alert('Supplier name is required');
       return;
@@ -114,36 +79,84 @@ const Suppliers = () => {
 
     try {
       if (editingSupplier) {
-        const updatedSupplier = await updateSupplier(editingSupplier.id, formData);
-        setSuppliers(suppliers.map(supplier => 
-          supplier.id === editingSupplier.id ? updatedSupplier : supplier
-        ));
+        const updated = await updateSupplier(editingSupplier.id, formData);
+        setSuppliers(suppliers.map(s => (s.id === editingSupplier.id ? updated : s)));
       } else {
-        const newSupplier = await createSupplier(formData);
-        setSuppliers([...suppliers, newSupplier]);
+        const created = await createSupplier(formData);
+        setSuppliers([...suppliers, created]);
       }
-      
       setShowForm(false);
       setEditingSupplier(null);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        status: 'Active'
+      });
     } catch (err) {
       setError(err.message);
     }
   };
 
+  // 🔹 Handle delete
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this supplier?')) {
+      try {
+        await deleteSupplier(id);
+        setSuppliers(suppliers.filter(s => s.id !== id));
+      } catch (err) {
+        setError(err.message);
+      }
+    }
+  };
+
+  // 🔹 Handle edit
+  const handleEdit = (supplier) => {
+    setEditingSupplier(supplier);
+    setFormData({
+      name: supplier.name,
+      email: supplier.email,
+      phone: supplier.phone,
+      address: supplier.address,
+      status: supplier.status
+    });
+    setShowForm(true);
+  };
+
+  // 🔹 Add new
+  const handleAddNew = () => {
+    setEditingSupplier(null);
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      status: 'Active'
+    });
+    setShowForm(true);
+  };
+
+  // 🔹 Input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  if (loading) {
-    return <div className="suppliers"><div className="loading">Loading Suppliers...</div></div>;
-  }
+  // 🔹 Filter
+  const filteredSuppliers = suppliers.filter(s =>
+    s.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.phone?.includes(searchTerm)
+  );
+
+  if (loading) return <div className="suppliers"><div className="loading">Loading Suppliers...</div></div>;
 
   return (
     <div className="suppliers">
       <header className="suppliers-header">
         <h1>Suppliers</h1>
-        <p>Manage your suppliers and purchase orders</p>
+        <p>Manage all registered suppliers in the system</p>
       </header>
 
       {error && (
@@ -153,59 +166,58 @@ const Suppliers = () => {
         </div>
       )}
 
+      {/* --- Controls --- */}
       <div className="controls">
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search suppliers..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
-          />
-        </div>
-        
-        <div className="filter-export">
-          <button onClick={handleAddNew} className="add-supplier-btn">
-            Add Supplier
-          </button>
-        </div>
+        <input
+          type="text"
+          placeholder="Search suppliers..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+        <button onClick={handleAddNew} className="btn-add">
+          ➕ Add Supplier
+        </button>
       </div>
 
+      {/* --- Table --- */}
       <div className="table-container">
         <table className="suppliers-table">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Name</th>
-              <th>Contact</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredSuppliers.map(supplier => (
               <tr key={supplier.id}>
+                <td>{supplier.id}</td>
                 <td>{supplier.name}</td>
-                <td>{supplier.contact}</td>
+                <td>{supplier.email}</td>
+                <td>{supplier.phone}</td>
+                <td>{supplier.address}</td>
+                <td>
+                  <span className={`status-badge ${supplier.status === 'Active' ? 'active' : 'inactive'}`}>
+                    {supplier.status}
+                  </span>
+                </td>
                 <td>
                   <div className="action-buttons">
-                    <button 
-                      onClick={() => handleEdit(supplier)}
-                      className="btn-edit"
-                    >
-                      Edit
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(supplier.id)}
-                      className="btn-delete"
-                    >
-                      Delete
-                    </button>
+                    <button onClick={() => handleEdit(supplier)} className="btn-edit">✏️ Edit</button>
+                    <button onClick={() => handleDelete(supplier.id)} className="btn-delete">🗑️ Delete</button>
                   </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        
+
         {filteredSuppliers.length === 0 && (
           <div className="no-suppliers">
             {suppliers.length === 0 ? 'No suppliers available.' : 'No suppliers found.'}
@@ -213,6 +225,7 @@ const Suppliers = () => {
         )}
       </div>
 
+      {/* --- Modal Form --- */}
       {showForm && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -228,26 +241,54 @@ const Suppliers = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
-                <label>Contact</label>
+                <label>Email</label>
                 <input
-                  type="text"
-                  name="contact"
-                  value={formData.contact}
+                  type="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleInputChange}
                 />
               </div>
-              
+
+              <div className="form-group">
+                <label>Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Status</label>
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                >
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+              </div>
+
               <div className="form-actions">
                 <button type="submit" className="btn-primary">
                   {editingSupplier ? 'Update Supplier' : 'Add Supplier'}
                 </button>
-                <button 
-                  type="button" 
-                  onClick={() => setShowForm(false)}
-                  className="btn-cancel"
-                >
+                <button type="button" className="btn-cancel" onClick={() => setShowForm(false)}>
                   Cancel
                 </button>
               </div>
