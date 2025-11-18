@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const OrderForm = ({ onSubmit }) => {
+const OrderForm = ({ onSubmit, isSubmitting }) => {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -62,8 +62,9 @@ const OrderForm = ({ onSubmit }) => {
         <button
           type="submit"
           className="place-order-btn"
+          disabled={isSubmitting}
         >
-          Place Order
+          {isSubmitting ? 'Submitting...' : 'Place Order'}
         </button>
       </form>
     </div>

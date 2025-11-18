@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../shop/ProductCard';
 import Cart from '../shop/Cart';
-import { products } from '../data/products';
+import { products as staticProducts } from '../data/products';
+import {
+  getProducts
+} from '../../services/api';
 
 const ShopPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [products, setProducts] = useState(staticProducts);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Load cart from localStorage
   useEffect(() => {
@@ -17,6 +23,46 @@ const ShopPage = () => {
   useEffect(() => {
     localStorage.setItem('teaFactoryCart', JSON.stringify(cartItems));
   }, [cartItems]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const response = await getProducts();
+        if (isMounted && Array.isArray(response.data)) {
+          // Map Spring Boot Product fields to frontend format
+          const mappedProducts = response.data.map(product => ({
+            id: product.id,
+            name: product.name,
+            description: product.description || '',
+            price: typeof product.price === 'number' ? product.price : parseFloat(product.price),
+            image: product.imageUrl || product.image || '/images/p.jpg',
+            stock: product.stockQty || 0
+          }));
+          setProducts(mappedProducts.length ? mappedProducts : staticProducts);
+          setError(null);
+        }
+      } catch (err) {
+        console.error('Failed to load products', err);
+        if (isMounted) {
+          setError('Unable to load products from the server. Showing demo catalog.');
+          setProducts(staticProducts);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchProducts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const addToCart = (product) => {
     const existingItem = cartItems.find(item => item.id === product.id);
@@ -97,6 +143,8 @@ const ShopPage = () => {
       {/* Products Section */}
       <div className="products-section">
         <div className="container">
+          {loading && <p>Loading products...</p>}
+          {error && <p className="error-text">{error}</p>}
           <div className="products-grid">
             {products.map(product => (
               <ProductCard key={product.id} product={product} onAddToCart={addToCart} />

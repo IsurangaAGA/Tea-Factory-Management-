@@ -5,7 +5,7 @@ const ProductCard = ({ product, onAddToCart }) => {
     <div className="product-card">
       <div className="product-image-container">
         <img 
-          src={product.image} 
+          src={product.image || product.imageUrl || '/images/p.jpg'} 
           alt={product.name}
           className="product-image"
         />

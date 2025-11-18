@@ -1,0 +1,20 @@
+{
+  "env": {
+    "commonjs": true,
+    "es2022": true,
+    "node": true
+  },
+  "extends": [
+    "standard"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    "semi": [
+      "error",
+      "never"
+    ]
+  }
+}
+
