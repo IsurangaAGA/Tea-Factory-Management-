@@ -64,7 +64,7 @@
 //
 // export default App;
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 
 // Existing components
 import TopBar from "./components/TopBar.jsx";
@@ -81,11 +81,13 @@ import PurchaseOrders from "./components/PurchaseOrders/PurchaseOrders";
 import Navigation from "./Components/shop/Navigation";
 import ShopPage from "./Components/pages/ShopPage";
 import OrderManagement from "./Components/pages/OrderManagement";
+import AuthContainer from "./components/Auth/AuthContainer";
 
 import "./App.css";
 
 function AppContent() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Cart state
   const [cartItemCount, setCartItemCount] = useState(0);
@@ -107,19 +109,23 @@ function AppContent() {
     return () => window.removeEventListener("storage", updateCartCount);
   }, []);
 
+  const isHomePage = location.pathname === '/';
+
   return (
     <div className="App">
-      {/* TopBar for admin side */}
-      <TopBar
-        onEmployeesClick={() => navigate("/employees")}
-        onInventoryClick={() => navigate("/inventory")}
-        onSuppliersClick={() => navigate("/suppliers")}
-        onPurchaseOrdersClick={() => navigate("/purchase-orders")}
-        onTasksClick={() => navigate("/tasks")}
-      />
+      {/* TopBar for admin side - hidden on home page */}
+      {!isHomePage && (
+        <TopBar
+          onEmployeesClick={() => navigate("/employees")}
+          onInventoryClick={() => navigate("/inventory")}
+          onSuppliersClick={() => navigate("/suppliers")}
+          onPurchaseOrdersClick={() => navigate("/purchase-orders")}
+          onTasksClick={() => navigate("/tasks")}
+        />
+      )}
 
-      {/* Navigation for shop side */}
-      <Navigation cartItemCount={cartItemCount} />
+      {/* Navigation for shop side - hidden on home page */}
+      {!isHomePage && <Navigation cartItemCount={cartItemCount} />}
 
       <main className="main-content">
         <Routes>
@@ -136,6 +142,9 @@ function AppContent() {
           {/* Shop routes */}
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/orders" element={<OrderManagement />} />
+
+          {/* Auth routes */}
+          <Route path="/auth" element={<AuthContainer />} />
 
           {/* Redirect example */}
           <Route path="/shop-home" element={<Navigate to="/shop" replace />} />

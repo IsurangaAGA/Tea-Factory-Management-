@@ -9,21 +9,47 @@ const Home = () => {
     navigate('/shop');
   };
 
+  const handleAboutClick = () => {
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleContactClick = () => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleLoginClick = () => {
+    navigate('/auth');
+  };
+
+  const handleSignUpClick = () => {
+    navigate('/auth');
+  };
+
   return (
     <div className="home">
-      {/* Header with Logo */}
+      {/* Header with Logo and Navigation */}
       <header className="home-header">
         <div className="container">
-          <div className="logo-container">
-            <img 
-              src="/images/logo.png" 
-              alt="Tea Factory Logo" 
-              className="home-logo"
-            />
-            <div className="logo-text">
-              <h1>Tea Factory</h1>
-              <p>Management System</p>
+          <div className="header-content">
+            <div className="logo-container">
+              <div className="logo-icon-large">🍃</div>
+              <div className="logo-text">
+                <h1>TreeWhiff Tea Factory</h1>
+                <p>Management System</p>
+              </div>
             </div>
+            <nav className="home-nav">
+              <button className="nav-btn" onClick={handleAboutClick}>About</button>
+              <button className="nav-btn" onClick={handleContactClick}>Contact</button>
+              <button className="nav-btn nav-btn-outline" onClick={handleLoginClick}>Login</button>
+              <button className="nav-btn nav-btn-primary" onClick={handleSignUpClick}>Sign Up</button>
+            </nav>
           </div>
         </div>
       </header>
@@ -50,13 +76,22 @@ const Home = () => {
             </div>
           </div>
           <div className="hero-visual">
-            <div className="hero-image-container">
-              <img 
-                src="/images/hero-tree.jpg" 
-                alt="Tea plantation"
-                className="hero-image"
-              />
-              <div className="image-overlay"></div>
+            <div className="hero-gradient-card">
+              <div className="gradient-pattern"></div>
+              <div className="hero-stats">
+                <div className="stat-item">
+                  <div className="stat-number">100+</div>
+                  <div className="stat-label">Products</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-number">50+</div>
+                  <div className="stat-label">Suppliers</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-number">24/7</div>
+                  <div className="stat-label">Support</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -100,29 +135,74 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="gallery">
+      {/* About Section */}
+      <section id="about" className="about">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">About TreeWhiff Tea Factory</h2>
+            <p className="section-subtitle">Excellence in tea production and management</p>
+          </div>
+          <div className="about-content">
+            <div className="about-text">
+              <h3>Our Story</h3>
+              <p>
+                TreeWhiff Tea Factory is a leading name in the tea industry, dedicated to producing 
+                premium quality teas while maintaining sustainable practices. Our comprehensive 
+                management system ensures efficiency, quality, and transparency at every stage 
+                of production.
+              </p>
+              <h3>Our Mission</h3>
+              <p>
+                To revolutionize tea factory operations through innovative technology, ensuring 
+                quality products reach customers while maintaining the highest standards of 
+                environmental responsibility and operational excellence.
+              </p>
+            </div>
+            <div className="about-stats">
+              <div className="about-stat">
+                <div className="about-stat-number">15+</div>
+                <div className="about-stat-label">Years of Experience</div>
+              </div>
+              <div className="about-stat">
+                <div className="about-stat-number">500+</div>
+                <div className="about-stat-label">Happy Customers</div>
+              </div>
+              <div className="about-stat">
+                <div className="about-stat-number">1000+</div>
+                <div className="about-stat-label">Products Delivered</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section className="process">
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">Our Tea Production Process</h2>
             <p className="section-subtitle">From leaf to cup - quality at every stage</p>
           </div>
-          <div className="gallery-grid">
-            <div className="gallery-item">
-              <img src="/images/gallery-1.jpg" alt="Tea leaf collection" />
-              <div className="gallery-caption">Leaf Collection</div>
+          <div className="process-grid">
+            <div className="process-item">
+              <div className="process-icon">🍃</div>
+              <h3>Leaf Collection</h3>
+              <p>Carefully handpicked tea leaves from premium gardens</p>
             </div>
-            <div className="gallery-item">
-              <img src="/images/gallery-2.jpg" alt="Tea processing" />
-              <div className="gallery-caption">Processing</div>
+            <div className="process-item">
+              <div className="process-icon">⚙️</div>
+              <h3>Processing</h3>
+              <p>State-of-the-art processing techniques for optimal flavor</p>
             </div>
-            <div className="gallery-item">
-              <img src="/images/gallery-3.jpg" alt="Quality control" />
-              <div className="gallery-caption">Quality Control</div>
+            <div className="process-item">
+              <div className="process-icon">✅</div>
+              <h3>Quality Control</h3>
+              <p>Rigorous testing ensures consistent quality standards</p>
             </div>
-            <div className="gallery-item">
-              <img src="/images/gallery-4.jpg" alt="Packaging" />
-              <div className="gallery-caption">Packaging</div>
+            <div className="process-item">
+              <div className="process-icon">📦</div>
+              <h3>Packaging</h3>
+              <p>Eco-friendly packaging preserving freshness and aroma</p>
             </div>
           </div>
         </div>
@@ -140,8 +220,61 @@ const Home = () => {
                 <button className="btn btn-secondary btn-large">Request Demo</button>
               </div>
             </div>
-            <div className="cta-image">
-              <img src="/images/cta-bg.png" alt="Tea factory management" />
+            <div className="cta-visual">
+              <div className="cta-card">
+                <div className="cta-icon">🚀</div>
+                <h3>Get Started Today</h3>
+                <p>Transform your tea factory operations with our comprehensive management platform</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="contact">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Get in Touch</h2>
+            <p className="section-subtitle">We'd love to hear from you</p>
+          </div>
+          <div className="contact-content">
+            <div className="contact-info">
+              <div className="contact-item">
+                <div className="contact-icon">📍</div>
+                <div className="contact-details">
+                  <h3>Address</h3>
+                  <p>123 Tea Garden Road<br />Colombo, Sri Lanka</p>
+                </div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-icon">📞</div>
+                <div className="contact-details">
+                  <h3>Phone</h3>
+                  <p>+94 11 234 5678</p>
+                </div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-icon">✉️</div>
+                <div className="contact-details">
+                  <h3>Email</h3>
+                  <p>info@treewhiff.com</p>
+                </div>
+              </div>
+            </div>
+            <div className="contact-form-container">
+              <form className="contact-form">
+                <div className="form-group">
+                  <input type="text" placeholder="Your Name" required />
+                </div>
+                <div className="form-group">
+                  <input type="email" placeholder="Your Email" required />
+                </div>
+                <div className="form-group">
+                  <textarea placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" className="btn btn-primary btn-large">Send Message</button>
+              </form>
             </div>
           </div>
         </div>
@@ -152,13 +285,9 @@ const Home = () => {
         <div className="container">
           <div className="footer-content">
             <div className="footer-logo">
-              <img 
-                src="/images/logo.png" 
-                alt="Tea Factory Logo" 
-                className="footer-logo-img"
-              />
+              <div className="footer-logo-icon">🍃</div>
               <div className="footer-text">
-                <h3>Tea Factory Management System</h3>
+                <h3>TreeWhiff Tea Factory</h3>
                 <p>Quality in Every Cup</p>
               </div>
             </div>
