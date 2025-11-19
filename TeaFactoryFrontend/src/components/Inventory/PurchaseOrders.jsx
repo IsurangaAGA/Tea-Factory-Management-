@@ -3,15 +3,14 @@ import React, { useState, useEffect } from "react";
 const PurchaseOrders = () => {
   const [purchaseOrders, setPurchaseOrders] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
-  const [items, setItems] = useState([]); // ItemMaster list
-
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
 
   const API_PO = "http://localhost:8080/api/purchase-orders/";
   const API_SUPPLIERS = "http://localhost:8080/api/suppliers/";
-  const API_ITEM_MASTER = "http://localhost:8080/api/item-master/"; // FIXED: with trailing slash
+  const API_ITEM_MASTER = "http://localhost:8080/api/item-master/";
 
   const [formData, setFormData] = useState({
     supplierId: "",
@@ -20,14 +19,12 @@ const PurchaseOrders = () => {
     items: [{ itemId: "", quantity: 1 }],
   });
 
-  // Load initial data
+  // ---------------- LOAD DATA ---------------- //
   useEffect(() => {
     loadPOs();
     loadSuppliers();
     loadItemMaster();
   }, []);
-
-  // ---------------- LOAD DATA ---------------- //
 
   const loadPOs = async () => {
     try {
@@ -68,20 +65,13 @@ const PurchaseOrders = () => {
     try {
       const res = await fetch(API_ITEM_MASTER);
       const data = await res.json();
-
-      if (!Array.isArray(data)) {
-        console.error("ItemMaster API returned non-array:", data);
-        setItems([]);
-      } else {
-        setItems(data);
-      }
+      setItems(Array.isArray(data) ? data : []);
     } catch (e) {
       console.error("Error loading item master:", e);
     }
   };
 
-  // ---------------- FORM ITEM CHANGES ---------------- //
-
+  // ---------------- HANDLERS ---------------- //
   const handleItemChange = (index, field, value) => {
     const updated = [...formData.items];
     updated[index][field] = value;
@@ -104,7 +94,6 @@ const PurchaseOrders = () => {
   };
 
   // ---------------- CREATE PO ---------------- //
-
   const createPO = async (e) => {
     e.preventDefault();
 
@@ -130,8 +119,8 @@ const PurchaseOrders = () => {
       });
 
       if (!res.ok) {
-        const errorTxt = await res.text();
-        alert("Failed to create purchase order:\n\n" + errorTxt);
+        const txt = await res.text();
+        alert("Failed to create purchase order:\n\n" + txt);
         return;
       }
 
@@ -142,36 +131,119 @@ const PurchaseOrders = () => {
       alert("Purchase Order Created Successfully!");
     } catch (err) {
       console.error(err);
-      alert("Frontend error: Check console.");
     }
   };
 
-  // ---------------- DELETE PO ---------------- //
-
   const deletePO = async (id) => {
     if (!window.confirm("Delete this PO?")) return;
-
     await fetch(API_PO + id, { method: "DELETE" });
-
     setPurchaseOrders(purchaseOrders.filter((p) => p.id !== id));
   };
 
   // ---------------- UI ---------------- //
-
   if (loading) return <h3>Loading...</h3>;
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="po-container">
+
+      {/* Embedded CSS */}
+      <style>
+        {`
+          .po-container {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+          }
+
+          h1, h2 {
+            color: #333;
+          }
+
+          .po-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+          }
+
+          .po-table th {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+          }
+
+          .po-table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+          }
+
+          .btn {
+            padding: 8px 14px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+
+          .btn:hover {
+            background: #0056b3;
+          }
+
+          .btn-danger {
+            background: #dc3545;
+          }
+
+          .btn-danger:hover {
+            background: #b52b37;
+          }
+
+          .form-box {
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+            border-radius: 8px;
+            width: 400px;
+          }
+
+          .form-box label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+          }
+
+          .form-box select,
+          .form-box input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+          }
+
+          .item-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+          }
+
+          .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+          }
+        `}
+      </style>
+
       <h1>Purchase Orders</h1>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <button onClick={() => setShowForm(true)} style={{ marginBottom: 15 }}>
+      <button className="btn" onClick={() => setShowForm(true)}>
         ➕ Create Purchase Order
       </button>
 
       {/* TABLE */}
-      <table width="100%" border="1" cellPadding="8">
+      <table className="po-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -192,7 +264,9 @@ const PurchaseOrders = () => {
               <td>{po.status}</td>
               <td>{po.items?.length || 0}</td>
               <td>
-                <button onClick={() => deletePO(po.id)}>🗑</button>
+                <button className="btn btn-danger" onClick={() => deletePO(po.id)}>
+                  🗑
+                </button>
               </td>
             </tr>
           ))}
@@ -201,11 +275,11 @@ const PurchaseOrders = () => {
 
       {/* --- CREATE PO FORM --- */}
       {showForm && (
-        <div style={{ marginTop: 25 }}>
+        <div className="form-box">
           <h2>Create Purchase Order</h2>
 
           <form onSubmit={createPO}>
-            <label>Supplier:</label>
+            <label>Supplier</label>
             <select
               value={formData.supplierId}
               onChange={(e) =>
@@ -224,10 +298,7 @@ const PurchaseOrders = () => {
             <h3>Items</h3>
 
             {formData.items.map((item, index) => (
-              <div
-                key={index}
-                style={{ display: "flex", gap: 10, marginBottom: 10 }}
-              >
+              <div key={index} className="item-row">
                 <select
                   value={item.itemId}
                   onChange={(e) =>
@@ -253,22 +324,31 @@ const PurchaseOrders = () => {
                 />
 
                 {formData.items.length > 1 && (
-                  <button type="button" onClick={() => removeItem(index)}>
+                  <button
+                    type="button"
+                    className="btn-small btn-danger"
+                    onClick={() => removeItem(index)}
+                  >
                     ❌
                   </button>
                 )}
               </div>
             ))}
 
-            <button type="button" onClick={addItem}>
+            <button type="button" className="btn" onClick={addItem}>
               ➕ Add Item
             </button>
 
             <br />
             <br />
 
-            <button type="submit">Create</button>
-            <button type="button" onClick={() => setShowForm(false)}>
+            <button type="submit" className="btn">Create</button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => setShowForm(false)}
+              style={{ marginLeft: 10 }}
+            >
               Cancel
             </button>
           </form>
