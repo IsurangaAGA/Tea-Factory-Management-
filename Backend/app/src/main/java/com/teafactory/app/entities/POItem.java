@@ -1,6 +1,7 @@
 package com.teafactory.app.entities;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "po_items")
@@ -17,6 +18,7 @@ public class POItem {
     @JoinColumn(name = "item_master_id")
     private ItemMaster item;
 
+    @JsonIgnore       // ⬅️ FIX: prevent circular JSON recursion
     @ManyToOne
     @JoinColumn(name = "po_id")
     private PurchaseOrder purchaseOrder;

@@ -6,7 +6,8 @@ const InventoryNav = ({ activeSection, setActiveSection }) => {
     { id: 'dashboard', icon: '📊', label: 'Dashboard' },
     { id: 'products', icon: '📦', label: 'Products' },
     { id: 'stock', icon: '🔄', label: 'Stock In/Out' },
-    { id: 'suppliers', icon: '🧾', label: 'Suppliers / PO' },
+    { id: 'purchase-orders', icon: '📋', label: 'Purchase Orders' },
+    { id: 'suppliers', icon: '🧾', label: 'Suppliers' },
     { id: 'reports', icon: '📈', label: 'Reports & Export' },
     { id: 'settings', icon: '⚙️', label: 'Settings' }
   ];

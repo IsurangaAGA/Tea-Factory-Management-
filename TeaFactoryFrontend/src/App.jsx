@@ -6,8 +6,6 @@ import AddTask from "./components/Tasks/AddTask.jsx";
 import TopBar from "./components/TopBar.jsx";
 import Inventory from "./components/Inventory/Inventory";
 import Home from "./components/home/Home.jsx";
-import Suppliers from "./components/supplier/Suppliers";
-import PurchaseOrders from "./components/PurchaseOrders/PurchaseOrders";
 import Footer from './components/Footer';
 import "./App.css";
 
@@ -23,8 +21,6 @@ function App() {
             <TopBar
                 onEmployeesClick={() => navigate("/employees")}
                 onInventoryClick={() => navigate("/inventory")}
-                onSuppliersClick={() => navigate("/suppliers")}
-                onPurchaseOrdersClick={() => navigate("/purchase-orders")}
                 onTasksClick={()=>navigate("/tasks")}
             />
 
@@ -34,8 +30,6 @@ function App() {
                     <Route path="/employees" element={<EmployeeList />} />
                     <Route path="/employees-add" element={<AddEmployee />} />
                     <Route path="/inventory" element={<Inventory />} />
-                    <Route path="/suppliers" element={<Suppliers />} />
-                    <Route path="/purchase-orders" element={<PurchaseOrders />} />
                     <Route path="/tasks" element={<TaskList />} />
                     <Route path="/tasks-add" element={<AddTask />} />
                 </Routes>

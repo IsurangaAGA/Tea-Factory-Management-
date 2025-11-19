@@ -5,30 +5,30 @@ const Reports = () => {
   
   const reportData = {
     summary: {
-      title: 'Stock Summary Report',
+      title: 'Tea Stock Summary Report',
       data: [
-        { category: 'Electronics', totalProducts: 156, totalValue: 125430, lowStock: 12 },
-        { category: 'Accessories', totalProducts: 89, totalValue: 45670, lowStock: 5 },
-        { category: 'Computers', totalProducts: 45, totalValue: 98760, lowStock: 3 },
-        { category: 'Mobile', totalProducts: 78, totalValue: 112340, lowStock: 8 }
+        { category: 'Black Tea', totalProducts: 156, totalValue: 1250000, lowStock: 12 },
+        { category: 'Green Tea', totalProducts: 89, totalValue: 980000, lowStock: 5 },
+        { category: 'White Tea', totalProducts: 45, totalValue: 750000, lowStock: 3 },
+        { category: 'Oolong Tea', totalProducts: 78, totalValue: 890000, lowStock: 8 }
       ]
     },
     lowStock: {
       title: 'Low Stock Alert Report',
       data: [
-        { product: 'AirPods Pro', currentStock: 5, minStock: 10, supplier: 'Apple Inc' },
-        { product: 'iPhone Charger', currentStock: 8, minStock: 15, supplier: 'Apple Inc' },
-        { product: 'Samsung Case', currentStock: 3, minStock: 10, supplier: 'Samsung' },
-        { product: 'MacBook Adapter', currentStock: 7, minStock: 12, supplier: 'Apple Inc' }
+        { product: 'Ceylon Tea Bags (50g)', currentStock: 5, minStock: 10, supplier: 'Local Packaging Co' },
+        { product: 'Green Tea Loose Leaf (100g)', currentStock: 8, minStock: 15, supplier: 'Highland Estates' },
+        { product: 'Cinnamon Sticks (250g)', currentStock: 3, minStock: 10, supplier: 'Spice Traders Ltd' },
+        { product: 'Cardamom Pods (100g)', currentStock: 7, minStock: 12, supplier: 'Ceylon Spices' }
       ]
     },
     movement: {
-      title: 'Stock Movement Report',
+      title: 'Tea Stock Movement Report',
       data: [
-        { product: 'iPhone 14 Pro', in: 50, out: 25, net: 25, date: 'Jan 2024' },
-        { product: 'MacBook Air', in: 20, out: 15, net: 5, date: 'Jan 2024' },
-        { product: 'AirPods Pro', in: 100, out: 95, net: 5, date: 'Jan 2024' },
-        { product: 'iPad Pro', in: 30, out: 18, net: 12, date: 'Jan 2024' }
+        { product: 'Black Tea Loose Leaf', in: 50, out: 25, net: 25, date: 'Nov 2025' },
+        { product: 'Green Tea Bags', in: 20, out: 15, net: 5, date: 'Nov 2025' },
+        { product: 'White Tea Premium', in: 100, out: 95, net: 5, date: 'Nov 2025' },
+        { product: 'Oolong Tea Special', in: 30, out: 18, net: 12, date: 'Nov 2025' }
       ]
     }
   };
@@ -39,7 +39,7 @@ const Reports = () => {
     <div className="reports-page">
       <div className="page-header">
         <h1>Reports & Analytics</h1>
-        <p>Generate insights and export inventory data</p>
+        <p>Generate insights and export tea inventory data</p>
       </div>
 
       <div className="grid grid-cols-4 gap-6">
@@ -53,8 +53,8 @@ const Reports = () => {
             >
               <span className="option-icon">📊</span>
               <span className="option-text">
-                <strong>Stock Summary</strong>
-                <small>Overview of inventory</small>
+                <strong>Tea Stock Summary</strong>
+                <small>Overview of tea inventory</small>
               </span>
             </button>
             
@@ -107,7 +107,7 @@ const Reports = () => {
                 <table className="table">
                   <thead>
                     <tr>
-                      <th>Category</th>
+                      <th>Tea Category</th>
                       <th>Total Products</th>
                       <th>Total Value</th>
                       <th>Low Stock Items</th>
@@ -121,7 +121,7 @@ const Reports = () => {
                           <strong>{item.category}</strong>
                         </td>
                         <td>{item.totalProducts}</td>
-                        <td>${item.totalValue.toLocaleString()}</td>
+                        <td>Rs {item.totalValue.toLocaleString()}</td>
                         <td>
                           <span className={item.lowStock > 0 ? 'text-warning' : 'text-success'}>
                             {item.lowStock}
@@ -228,10 +228,23 @@ const Reports = () => {
         .reports-page {
           max-width: 1400px;
           margin: 0 auto;
+          animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .page-header {
           margin-bottom: 2rem;
+          position: relative;
         }
 
         .page-header h1 {
@@ -239,11 +252,57 @@ const Reports = () => {
           font-weight: 700;
           color: var(--dark-color);
           margin-bottom: 0.5rem;
+          background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
 
         .page-header p {
           color: var(--gray-color);
           font-size: 1.125rem;
+        }
+
+        .card {
+          background: white;
+          border-radius: 16px;
+          padding: 1.5rem;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 20px rgba(0, 0, 0, 0.05);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 12px rgba(0, 0, 0, 0.08), 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .report-content {
+          animation: fadeIn 0.5s ease-in;
+        }
+
+        .form-group {
+          margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+          display: block;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          color: var(--dark-color);
+        }
+
+        .form-input, .form-select {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          font-size: 1rem;
+        }
+
+        .form-input:focus, .form-select:focus {
+          outline: none;
+          border-color: #3b82f6;
         }
 
         .card-title {
@@ -265,26 +324,67 @@ const Reports = () => {
           align-items: center;
           gap: 0.75rem;
           padding: 1rem;
-          border: 2px solid var(--border-color);
-          border-radius: 8px;
-          background: transparent;
+          border: 2px solid #e5e7eb;
+          border-radius: 12px;
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           text-align: left;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .report-option::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+          transition: left 0.5s;
+        }
+
+        .report-option:hover::before {
+          left: 100%;
         }
 
         .report-option:hover {
-          border-color: var(--primary-color);
-          background: rgba(59, 130, 246, 0.05);
+          border-color: #3b82f6;
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+          transform: translateX(4px);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
         }
 
         .report-option.active {
-          border-color: var(--primary-color);
-          background: rgba(59, 130, 246, 0.1);
+          border-color: #3b82f6;
+          background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+          color: white;
+          transform: scale(1.02);
+          box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .report-option.active .option-text strong,
+        .report-option.active .option-text small {
+          color: white;
         }
 
         .option-icon {
           font-size: 1.5rem;
+          transition: transform 0.3s ease;
+        }
+
+        .report-option:hover .option-icon {
+          transform: scale(1.2) rotate(5deg);
+        }
+
+        .report-option.active .option-icon {
+          animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
         }
 
         .option-text {
@@ -317,6 +417,72 @@ const Reports = () => {
           gap: 0.5rem;
         }
 
+        .btn {
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border: none;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .btn::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.3);
+          transform: translate(-50%, -50%);
+          transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+          width: 300px;
+          height: 300px;
+        }
+
+        .btn-outline {
+          background: white;
+          border: 2px solid #e5e7eb;
+          color: var(--dark-color);
+        }
+
+        .btn-outline:hover {
+          background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+          border-color: #3b82f6;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+          color: white;
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+          background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-success {
+          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+          color: white;
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+          background: linear-gradient(135deg, #059669 0%, #047857 100%);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
         .report-header {
           display: flex;
           justify-content: space-between;
@@ -343,16 +509,36 @@ const Reports = () => {
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.05em;
+          display: inline-block;
+          transition: all 0.3s ease;
+          animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateX(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .status-badge:hover {
+          transform: scale(1.1);
         }
 
         .status-badge.success {
-          background: rgba(16, 185, 129, 0.1);
-          color: var(--success-color);
+          background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.1) 100%);
+          color: #059669;
+          border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .status-badge.warning {
-          background: rgba(245, 158, 11, 0.1);
-          color: var(--warning-color);
+          background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.1) 100%);
+          color: #d97706;
+          border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
         .urgency-badge {
@@ -362,22 +548,44 @@ const Reports = () => {
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.05em;
+          display: inline-block;
+          transition: all 0.3s ease;
+          animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.8;
+          }
+        }
+
+        .urgency-badge:hover {
+          transform: scale(1.1);
+          animation: none;
         }
 
         .urgency-badge.high {
-          background: rgba(239, 68, 68, 0.1);
-          color: var(--danger-color);
+          background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.1) 100%);
+          color: #dc2626;
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
         }
 
         .urgency-badge.medium {
-          background: rgba(245, 158, 11, 0.1);
-          color: var(--warning-color);
+          background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.1) 100%);
+          color: #d97706;
+          border: 1px solid rgba(245, 158, 11, 0.3);
         }
 
         .report-summary {
           margin-top: 2rem;
           padding-top: 1.5rem;
-          border-top: 1px solid var(--border-color);
+          border-top: 2px solid transparent;
+          background: linear-gradient(white, white) padding-box,
+                      linear-gradient(135deg, #3b82f6, #8b5cf6) border-box;
         }
 
         .summary-stats {
@@ -388,21 +596,41 @@ const Reports = () => {
         .stat {
           display: flex;
           flex-direction: column;
+          padding: 1rem;
+          border-radius: 12px;
+          background: linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
+          transition: all 0.3s ease;
+        }
+
+        .stat:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
         }
 
         .stat-label {
           font-size: 0.875rem;
           color: var(--gray-color);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         .stat-value {
-          font-size: 1.125rem;
+          font-size: 1.5rem;
           font-weight: 700;
-          color: var(--dark-color);
+          background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
 
         .col-span-3 {
           grid-column: span 3;
+        }
+
+        .report-actions {
+          display: flex;
+          gap: 0.75rem;
         }
 
         @media (max-width: 1024px) {

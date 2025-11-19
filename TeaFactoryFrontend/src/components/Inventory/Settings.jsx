@@ -3,25 +3,25 @@ import React, { useState } from 'react';
 const Settings = ({ darkMode, setDarkMode }) => {
   const [activeTab, setActiveTab] = useState('general');
   const [companyInfo, setCompanyInfo] = useState({
-    name: 'InventoryPro Inc',
-    email: 'contact@inventorypro.com',
-    phone: '+1 (555) 123-4567',
-    address: '123 Business Ave, Suite 100\nNew York, NY 10001',
-    logo: '🏢'
+    name: 'Ceylon Tea Estates Ltd',
+    email: 'info@ceylontea.com',
+    phone: '+94 (11) 234-5678',
+    address: 'Tea Estate Road, Nuwara Eliya\nCentral Province, Sri Lanka',
+    logo: '🍵'
   });
 
   const [preferences, setPreferences] = useState({
     lowStockThreshold: 10,
-    currency: 'USD',
-    dateFormat: 'MM/DD/YYYY',
-    timezone: 'America/New_York'
+    currency: 'LKR',
+    dateFormat: 'DD/MM/YYYY',
+    timezone: 'Asia/Colombo'
   });
 
   return (
     <div className="settings-page">
       <div className="page-header">
         <h1>Settings</h1>
-        <p>Configure your inventory management preferences</p>
+        <p>Configure your tea factory inventory preferences</p>
       </div>
 
       <div className="grid grid-cols-4 gap-6">
@@ -33,7 +33,7 @@ const Settings = ({ darkMode, setDarkMode }) => {
               className={`nav-item ${activeTab === 'general' ? 'active' : ''}`}
               onClick={() => setActiveTab('general')}
             >
-              🏢 Company Info
+              🍵 Factory Info
             </button>
             <button 
               className={`nav-item ${activeTab === 'preferences' ? 'active' : ''}`}
@@ -61,12 +61,12 @@ const Settings = ({ darkMode, setDarkMode }) => {
           {/* General Settings */}
           {activeTab === 'general' && (
             <div className="tab-content">
-              <h2>Company Information</h2>
-              <p className="tab-description">Update your company details and contact information</p>
+              <h2>Factory Information</h2>
+              <p className="tab-description">Update your tea factory details and contact information</p>
               
               <div className="settings-form">
                 <div className="form-group">
-                  <label className="form-label">Company Logo</label>
+                  <label className="form-label">Factory Logo</label>
                   <div className="logo-upload">
                     <div className="logo-preview">
                       <span className="logo-icon">{companyInfo.logo}</span>
@@ -80,7 +80,7 @@ const Settings = ({ darkMode, setDarkMode }) => {
 
                 <div className="grid grid-cols-2 gap-6">
                   <div className="form-group">
-                    <label className="form-label">Company Name</label>
+                    <label className="form-label">Factory Name</label>
                     <input 
                       type="text" 
                       className="form-input"
@@ -109,10 +109,10 @@ const Settings = ({ darkMode, setDarkMode }) => {
                   <div className="form-group">
                     <label className="form-label">Currency</label>
                     <select className="form-select" value={preferences.currency}>
+                      <option value="LKR">LKR (Rs)</option>
                       <option value="USD">USD ($)</option>
                       <option value="EUR">EUR (€)</option>
                       <option value="GBP">GBP (£)</option>
-                      <option value="JPY">JPY (¥)</option>
                     </select>
                   </div>
                   <div className="form-group col-span-2">
@@ -138,7 +138,7 @@ const Settings = ({ darkMode, setDarkMode }) => {
           {activeTab === 'preferences' && (
             <div className="tab-content">
               <h2>Inventory Preferences</h2>
-              <p className="tab-description">Configure how your inventory system behaves</p>
+              <p className="tab-description">Configure how your tea inventory system behaves</p>
               
               <div className="settings-form">
                 <div className="grid grid-cols-2 gap-6">
@@ -159,10 +159,10 @@ const Settings = ({ darkMode, setDarkMode }) => {
                       value={preferences.currency}
                       onChange={(e) => setPreferences({...preferences, currency: e.target.value})}
                     >
+                      <option value="LKR">Sri Lankan Rupee (Rs)</option>
                       <option value="USD">US Dollar ($)</option>
                       <option value="EUR">Euro (€)</option>
                       <option value="GBP">British Pound (£)</option>
-                      <option value="JPY">Japanese Yen (¥)</option>
                     </select>
                   </div>
                   <div className="form-group">
@@ -172,8 +172,8 @@ const Settings = ({ darkMode, setDarkMode }) => {
                       value={preferences.dateFormat}
                       onChange={(e) => setPreferences({...preferences, dateFormat: e.target.value})}
                     >
-                      <option value="MM/DD/YYYY">MM/DD/YYYY</option>
                       <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                      <option value="MM/DD/YYYY">MM/DD/YYYY</option>
                       <option value="YYYY-MM-DD">YYYY-MM-DD</option>
                     </select>
                   </div>
@@ -184,10 +184,10 @@ const Settings = ({ darkMode, setDarkMode }) => {
                       value={preferences.timezone}
                       onChange={(e) => setPreferences({...preferences, timezone: e.target.value})}
                     >
-                      <option value="America/New_York">Eastern Time</option>
-                      <option value="America/Chicago">Central Time</option>
-                      <option value="America/Denver">Mountain Time</option>
-                      <option value="America/Los_Angeles">Pacific Time</option>
+                      <option value="Asia/Colombo">Sri Lanka Time</option>
+                      <option value="Asia/Kolkata">India Time</option>
+                      <option value="Asia/Dubai">Dubai Time</option>
+                      <option value="Europe/London">London Time</option>
                     </select>
                   </div>
                 </div>
@@ -263,7 +263,7 @@ const Settings = ({ darkMode, setDarkMode }) => {
                   <div className="notification-item">
                     <div className="notification-info">
                       <h4>Low Stock Alerts</h4>
-                      <p>Get notified when products are running low</p>
+                      <p>Get notified when tea products are running low</p>
                     </div>
                     <label className="switch">
                       <input type="checkbox" defaultChecked />
@@ -274,7 +274,7 @@ const Settings = ({ darkMode, setDarkMode }) => {
                   <div className="notification-item">
                     <div className="notification-info">
                       <h4>Out of Stock Alerts</h4>
-                      <p>Receive alerts when products are out of stock</p>
+                      <p>Receive alerts when tea products are out of stock</p>
                     </div>
                     <label className="switch">
                       <input type="checkbox" defaultChecked />
@@ -296,7 +296,7 @@ const Settings = ({ darkMode, setDarkMode }) => {
                   <div className="notification-item">
                     <div className="notification-info">
                       <h4>Weekly Reports</h4>
-                      <p>Automated weekly inventory reports</p>
+                      <p>Automated weekly tea inventory reports</p>
                     </div>
                     <label className="switch">
                       <input type="checkbox" />
@@ -336,6 +336,13 @@ const Settings = ({ darkMode, setDarkMode }) => {
           font-size: 1.125rem;
         }
 
+        .card {
+          background: white;
+          border-radius: 12px;
+          padding: 1.5rem;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
         .card-title {
           font-size: 1.125rem;
           font-weight: 700;
@@ -368,7 +375,7 @@ const Settings = ({ darkMode, setDarkMode }) => {
         }
 
         .nav-item.active {
-          background: var(--primary-color);
+          background: #3b82f6;
           color: white;
         }
 
@@ -388,6 +395,30 @@ const Settings = ({ darkMode, setDarkMode }) => {
           max-width: 600px;
         }
 
+        .form-group {
+          margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+          display: block;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          color: var(--dark-color);
+        }
+
+        .form-input, .form-select, .form-textarea {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          font-size: 1rem;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+          outline: none;
+          border-color: #3b82f6;
+        }
+
         .logo-upload {
           display: flex;
           align-items: center;
@@ -397,7 +428,7 @@ const Settings = ({ darkMode, setDarkMode }) => {
         .logo-preview {
           width: 80px;
           height: 80px;
-          border: 2px dashed var(--border-color);
+          border: 2px dashed #e5e7eb;
           border-radius: 12px;
           display: flex;
           align-items: center;
@@ -409,6 +440,34 @@ const Settings = ({ darkMode, setDarkMode }) => {
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
+        }
+
+        .btn {
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: none;
+        }
+
+        .btn-outline {
+          background: white;
+          border: 1px solid #e5e7eb;
+          color: var(--dark-color);
+        }
+
+        .btn-outline:hover {
+          background: #f9fafb;
+        }
+
+        .btn-primary {
+          background: #3b82f6;
+          color: white;
+        }
+
+        .btn-primary:hover {
+          background: #2563eb;
         }
 
         .form-help {
@@ -423,7 +482,20 @@ const Settings = ({ darkMode, setDarkMode }) => {
           justify-content: flex-end;
           margin-top: 2rem;
           padding-top: 1.5rem;
-          border-top: 1px solid var(--border-color);
+          border-top: 1px solid #e5e7eb;
+        }
+
+        .grid {
+          display: grid;
+          gap: 1.5rem;
+        }
+
+        .grid-cols-2 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-cols-4 {
+          grid-template-columns: repeat(4, 1fr);
         }
 
         .appearance-options {
@@ -446,14 +518,14 @@ const Settings = ({ darkMode, setDarkMode }) => {
         }
 
         .theme-card {
-          border: 2px solid var(--border-color);
+          border: 2px solid #e5e7eb;
           border-radius: 12px;
           padding: 1rem;
           transition: all 0.3s ease;
         }
 
         .theme-label input:checked + .theme-card {
-          border-color: var(--primary-color);
+          border-color: #3b82f6;
           background: rgba(59, 130, 246, 0.05);
         }
 
@@ -509,7 +581,7 @@ const Settings = ({ darkMode, setDarkMode }) => {
           justify-content: space-between;
           align-items: center;
           padding: 1.5rem;
-          border: 1px solid var(--border-color);
+          border: 1px solid #e5e7eb;
           border-radius: 8px;
         }
 
@@ -563,11 +635,15 @@ const Settings = ({ darkMode, setDarkMode }) => {
         }
 
         input:checked + .slider {
-          background-color: var(--primary-color);
+          background-color: #3b82f6;
         }
 
         input:checked + .slider:before {
           transform: translateX(26px);
+        }
+
+        .col-span-2 {
+          grid-column: span 2;
         }
 
         .col-span-3 {
